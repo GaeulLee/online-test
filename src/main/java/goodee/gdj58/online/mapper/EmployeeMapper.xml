@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="goodee.gdj58.online.mapper.EmployeeMapper"> <!-- dao(interface)의 이름 : mybatis가 xml파일과 합치게 됨-->
+	
+	<!-- 로그인 -->
+	<select id="login"
+			parameterType="goodee.gdj58.online.vo.Employee"
+			resultType="goodee.gdj58.online.vo.Employee">
+		SELECT
+			emp_id empId
+			, emp_name empName
+		FROM employee
+		WHERE emp_id = #{empId} AND emp_pw = PASSWORD(#{empPw})
+	</select>
+	
+	<!-- 사원 삭제 -->
+	<delete id="deleteEmployee" parameterType="Integer">
+		DELETE FROM employee
+		WHERE emp_no = #{empNo}
+	</delete>
+	
+	<!-- 사원 입력 -->
+	<insert id="insertEmployee" parameterType="goodee.gdj58.online.vo.Employee">
+		INSERT INTO employee(
+			emp_id
+			, emp_pw
+			, emp_name
+		) VALUES (
+			#{empId}
+			, PASSWORD(#{empPw})
+			, #{empName}
+		)
+	</insert>
+	
+	<!-- 전체 사원 수 -->
+	<select id="selectEmpCnt" resultType="Integer">
+		<!-- resultType="int" 기본값이기 때문에 적지 않아도 됨 -->
+		SELECT COUNT(*) cnt FROM employee
+	</select>
+	
+	<!-- 사원 목록 출력 -->
+	<select id="selectEmployeeList"
+			resultType="goodee.gdj58.online.vo.Employee"
+			parameterType="java.util.Map"><!-- map -->
+		<!-- id="메서드 이름" parameterType="" 없으면 지우면 됨 resultType엔 반환할 타입 명시 -->
+		SELECT
+			emp_no empNo
+			<!-- rs.getInt("emp_no")
+			  -> new Employee().setEmp_no() -> null(쿼리문의 컬럼명을 그대로 메서드명에 대입하게 세팅되어있음)
+			  -> 알리어스 쓰자 -->
+			, emp_id empId
+			, emp_pw empPw
+			, emp_name empName
+		FROM employee
+		ORDER BY emp_no DESC
+		LIMIT #{beginRow}, #{rowPerPage}
+		<!-- LIMIT ?, ? -->
+	</select>
+	
+</mapper>
