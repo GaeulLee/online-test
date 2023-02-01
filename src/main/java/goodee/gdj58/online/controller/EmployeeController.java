@@ -12,12 +12,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import goodee.gdj58.online.service.EmployeeService;
+import goodee.gdj58.online.service.IdService;
 import goodee.gdj58.online.vo.Employee;
 
 @Controller 
 public class EmployeeController {
-	@Autowired 
-	EmployeeService employeeService;
+	@Autowired EmployeeService employeeService;
+	@Autowired IdService idService;
 	
 	/*
 	 ************************* 로그인 전에 사용가능 
@@ -51,6 +52,44 @@ public class EmployeeController {
 	/*
 	 ***************************** 로그인 후에 사용가능 
 	 */
+	
+	// modify pw
+	@GetMapping("/employee/modifyEmpPw")
+	public String modifyEmpPw(HttpSession session) {
+		
+		// 로그인 유효성 검사
+		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
+		if(loginEmp == null) {
+			return "redirect:/employee/loginEmp";
+		}
+		
+		return "employee/modifyEmpPw";
+	}
+	@PostMapping("/employee/modifyEmpPw")
+	public String modifyEmpPw(HttpSession session
+						, @RequestParam(value="oldPw", required=true) String oldPw
+						, @RequestParam(value="newPw", required=true) String newPw) {
+						// required=true -> null이 들어오지 못하게(기본값임) false면 null 가능
+		// 로그인 유효성 검사
+		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
+		if(loginEmp == null) {
+			return "redirect:/employee/loginEmp";
+		}
+		
+		// System.out.println("oldPw: "+oldPw);
+		// System.out.println("newPw: "+newPw);
+		// System.out.println("empNo: "+loginEmp.getEmpNo());
+		
+		// 서비스 호출
+		int row = employeeService.updateEmployeePw(loginEmp.getEmpNo(), oldPw, newPw);
+		if(row == 0) {
+			System.out.println("비밀변호 변경 실패");
+		} else {
+			System.out.println("비밀변호 변경 성공");
+		}
+		
+		return "redirect:/employee/empList";
+	}
 	
 	// 로그아웃
 	@GetMapping("/employee/logout")
@@ -91,21 +130,29 @@ public class EmployeeController {
 		
 		return "employee/addEmp";
 	}
-	
 	@PostMapping("/employee/addEmp")
 	public String addEmp(HttpSession session, Employee employee) { // 매개변수를 받아올 것임 -> 같은 맵핑주소(맵핑방식이 다름)와 같은 메서드(매개변수를 받음) 이름을 써도 된다
 		
 		// 로그인 유효성 검사
 		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
 		if(loginEmp == null) {
-			return "redirect:/employee/loginEmp";
+			return "redirect:/employee/addEmp";
 		}
 		
+		// id check
+		String idCheck = idService.getIdCheck(employee.getEmpId());
+		if(idCheck != null) {
+			System.out.println("사원가입 실패 : 중복된 아이디");
+			return "redirect:/employee/addEmp";
+		}
+		System.out.println("중복된 아이디 없음, 사원가입 진행");
+		
+		// add emp
 		int row = employeeService.addEmployee(employee);
 		if(row == 0) {
-			System.out.println("입력 실패");
+			System.out.println("사원가입 실패");
 		}
-		System.out.println("입력 성공");
+		System.out.println("사원가입 성공");
 		
 		return "redirect:/employee/empList"; // 리다이렉트 하기 위함 CM -> C
 		// 스프링 내에서 redirect:로 시작하면 리다이렉트 되게끔 되어있음(employee/addEmp는 기존 포워딩 방식)
