@@ -13,11 +13,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import goodee.gdj58.online.service.EmployeeService;
 import goodee.gdj58.online.service.IdService;
+import goodee.gdj58.online.service.StudentService;
+import goodee.gdj58.online.service.TeacherService;
 import goodee.gdj58.online.vo.Employee;
+import goodee.gdj58.online.vo.Student;
+import goodee.gdj58.online.vo.Teacher;
 
 @Controller 
 public class EmployeeController {
 	@Autowired EmployeeService employeeService;
+	@Autowired StudentService studentService;
+	@Autowired TeacherService teacherService;
 	@Autowired IdService idService;
 	
 	/*
@@ -37,12 +43,13 @@ public class EmployeeController {
 		return "employee/loginEmp";
 	}
 	@PostMapping("/employee/loginEmp")
-	public String loginEmp(HttpSession session, Employee employee) {
+	public String loginEmp(HttpSession session, Model model, Employee employee) {
 		
 		Employee resultEmp = employeeService.login(employee);
 		if(resultEmp == null) {
 			System.out.println("로그인 실패 : 일치하는 사원 정보 없음");
-			return "redirect:/employee/loginEmp";
+			model.addAttribute("errMsg", "로그인에 실패하였습니다.");
+			return "employee/loginEmp";
 		} else {
 			System.out.println("로그인 성공");
 			session.setAttribute("loginEmp", resultEmp);
@@ -55,7 +62,7 @@ public class EmployeeController {
 	 ***************************** 로그인 후에 사용가능 
 	 */
 	
-	// modify pw
+	// 관리자(사원) 비밀변호 변경
 	@GetMapping("/employee/modifyEmpPw")
 	public String modifyEmpPw(HttpSession session) {
 		
@@ -69,7 +76,7 @@ public class EmployeeController {
 		return "employee/modifyEmpPw";
 	}
 	@PostMapping("/employee/modifyEmpPw")
-	public String modifyEmpPw(HttpSession session
+	public String modifyEmpPw(HttpSession session, Model model
 						, @RequestParam(value="oldPw", required=true) String oldPw
 						, @RequestParam(value="newPw", required=true) String newPw) {
 						// required=true -> null이 들어오지 못하게(기본값임) false면 null 가능
@@ -87,6 +94,8 @@ public class EmployeeController {
 		int row = employeeService.updateEmployeePw(loginEmp.getEmpNo(), oldPw, newPw);
 		if(row == 0) {
 			System.out.println("비밀변호 변경 실패");
+			model.addAttribute("errMsg", "비밀번호 변경에 실패하였습니다.");
+			return "employee/modifyEmpPw";
 		} else {
 			System.out.println("비밀변호 변경 성공");
 		}
@@ -100,6 +109,208 @@ public class EmployeeController {
 		session.invalidate();
 		System.out.println("로그아웃 성공");
 		return "redirect:/employee/loginEmp";
+	}
+	
+	// 강사 관리
+	// 1) 강사 등록
+	@GetMapping("/teacher/addTeacher")
+	public String addTeacher(HttpSession session) {
+		
+		// 로그인 유효성 검사
+		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
+		if(loginEmp == null) {
+			System.out.println("잘못된 접근 : 세션 정보 없음");
+			return "redirect:/employee/loginEmp";
+		}
+		
+		return "teacher/addTeacher";
+	}
+	@PostMapping("/teacher/addTeacher")
+	public String addTeacher(HttpSession session, Model model, Teacher teacher) {
+		
+		// 로그인 유효성 검사
+		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
+		if(loginEmp == null) {
+			System.out.println("잘못된 접근 : 세션 정보 없음");
+			return "redirect:/employee/loginEmp";
+		}
+		
+		// 서비스 호출
+		// 1) id check
+		String idCheck = idService.getIdCheck(teacher.getTeacherId());
+		if(idCheck != null) {
+			System.out.println("강사등록 실패 : 중복된 아이디");
+			model.addAttribute("errMsg", "아이디가 중복되었습니다.");
+			model.addAttribute("userTId", teacher.getTeacherId());
+			model.addAttribute("userTPw", teacher.getTeacherPw());
+			model.addAttribute("userTName", teacher.getTeacherName());
+			return "teacher/addTeacher";
+		}
+		System.out.println("중복된 아이디 없음, 강사등록 진행");
+		
+		// 2) add teacher
+		int row = teacherService.addTeacher(teacher);
+		if(row == 0) {
+			System.out.println("강사 등록 실패");
+			return "redirect:/teacher/addTeacher";
+		} else {
+			System.out.println("강사 등록 성공");
+		}
+		
+		return "redirect:/teacher/teacherList";
+	}
+	
+	// 2) 강사 삭제
+	@GetMapping("/teacher/removeTeacher")
+	public String removeTeacher(HttpSession session, @RequestParam(value="teacherNo") int teacherNo) {
+		
+		// 로그인 유효성 검사
+		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
+		if(loginEmp == null) {
+			System.out.println("잘못된 접근 : 세션 정보 없음");
+			return "redirect:/employee/loginEmp";
+		}
+		
+		// 서비스 호출
+		int row = teacherService.removeTeacher(teacherNo);
+		if(row == 0) {
+			System.out.println("강사 삭제 실패");
+		} else {
+			System.out.println("강사 삭제 성공");
+		}
+		return "teacher/teacherList";
+	}
+	
+	// 3) 강사 목록 출력
+	@GetMapping("/teacher/teacherList")
+	public String getTeacherList(HttpSession session, Model model
+									, @RequestParam(value="currentPage", defaultValue="1") int currentPage
+									, @RequestParam(value="rowPerPage", defaultValue="10") int rowPerPage){
+		// 로그인 유효성 검사
+		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
+		if(loginEmp == null) {
+			System.out.println("잘못된 접근 : 세션 정보 없음");
+			return "redirect:/employee/loginEmp";
+		}
+		
+		// 서비스 호출
+		List<Teacher> list = teacherService.getTeacherList(currentPage, rowPerPage);
+		int cnt = teacherService.getTeacherCnt();
+		int endPage = cnt/rowPerPage;
+		if(cnt%rowPerPage != 0) {
+			endPage++;
+		}
+		
+		// 모델에 정보 저장
+		model.addAttribute("list", list);
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("endPage", endPage);
+		
+		return "teacher/teacherList";
+	}
+	
+	
+	// 학생 관리
+	// 1) 학생 등록
+	@GetMapping("/student/addStudent")
+	public String addStudent(HttpSession session) {
+		
+		// 로그인 유효성 검사
+		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
+		if(loginEmp == null) {
+			System.out.println("잘못된 접근 : 세션 정보 없음");
+			return "redirect:/employee/loginEmp";
+		}
+		
+		return "student/addStudent";
+	}
+	@PostMapping("/student/addStudent")
+	public String addStudent(HttpSession session, Model model, Student student) {
+		
+		// 로그인 유효성 검사
+		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
+		if(loginEmp == null) {
+			System.out.println("잘못된 접근 : 세션 정보 없음");
+			return "redirect:/employee/loginEmp";
+		}
+		
+		// 서비스 호출
+		// 1) id check
+		String idCheck = idService.getIdCheck(student.getStudentId());
+		if(idCheck != null) {
+			System.out.println("학생등록 실패 : 중복된 아이디");
+			model.addAttribute("errMsg", "아이디가 중복되었습니다.");
+			model.addAttribute("userSId", student.getStudentId());
+			model.addAttribute("userSPw", student.getStudentPw());
+			model.addAttribute("userSName", student.getStudentName());
+			return "student/addStudent";
+		} else {
+			System.out.println("중복된 아이디 없음, 학생가입 진행");
+		}
+		
+		// 2) add student 
+		int row = studentService.addStudent(student);
+		if(row == 0) {
+			System.out.println("학생 등록 실패");
+			return "redirect:/student/addStudent";
+		} else {
+			System.out.println("학생 등록 성공");
+		}
+		
+		return "redirect:/student/studentList";
+	}
+	
+	// 2) 학생 삭제
+	@GetMapping("/student/removeStudent")
+	public String removeStudent(HttpSession session, @RequestParam(value="studentNo") int studentNo) {
+		
+		// 로그인 유효성 검사
+		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
+		if(loginEmp == null) {
+			System.out.println("잘못된 접근 : 세션 정보 없음");
+			return "redirect:/employee/loginEmp";
+		}
+		
+		// 서비스 호출
+		int row = studentService.removeStudent(studentNo);
+		if(row == 0) {
+			System.out.println("학생 삭제 실패");
+		} else {
+			System.out.println("학생 삭제 성공");
+		}
+		
+		return "redirect:/student/studentList";
+	}
+	
+	// 3) 학생 목록 출력
+	@GetMapping("/student/studentList")
+	public String studentList(HttpSession session, Model model
+							, @RequestParam(value="currentPage", defaultValue="1") int currentPage
+							, @RequestParam(value="rowPerPage", defaultValue="10") int rowPerPage) {
+							// currentPage와 rowPerPage를 @RequestParam을 사용하여 받아오고, 로그인 정보 확인을 위한 HttpSession
+							// currentPage와 rowPerPage를 넘기기 위해 Model을 받아옴
+		// 로그인 유효성 검사
+		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
+		if(loginEmp == null) {
+			System.out.println("잘못된 접근 : 세션 정보 없음");
+			return "redirect:/employee/loginEmp";
+		}
+		
+		// 서비스 호출
+		List<Student> list = studentService.getStudentList(currentPage, rowPerPage);
+		int cnt = studentService.getStudentCnt();
+		int endPage = cnt/rowPerPage;
+		if(cnt%rowPerPage != 0) {
+			endPage++;
+		}
+		// System.out.println("endPage: "+endPage);
+		
+		// model에 담기
+		model.addAttribute("list", list);
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("endPage", endPage);
+		
+		return "student/studentList";
 	}
 
 	// 사원삭제
@@ -137,7 +348,7 @@ public class EmployeeController {
 		return "employee/addEmp";
 	}
 	@PostMapping("/employee/addEmp")
-	public String addEmp(HttpSession session, Employee employee) { // 매개변수를 받아올 것임 -> 같은 맵핑주소(맵핑방식이 다름)와 같은 메서드(매개변수를 받음) 이름을 써도 된다
+	public String addEmp(HttpSession session, Model model, Employee employee) { // 매개변수를 받아올 것임 -> 같은 맵핑주소(맵핑방식이 다름)와 같은 메서드(매개변수를 받음) 이름을 써도 된다
 		
 		// 로그인 유효성 검사
 		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
@@ -151,7 +362,11 @@ public class EmployeeController {
 		String idCheck = idService.getIdCheck(employee.getEmpId());
 		if(idCheck != null) {
 			System.out.println("사원등록 실패 : 중복된 아이디");
-			return "redirect:/employee/addEmp";
+			model.addAttribute("errMsg", "아이디가 중복되었습니다.");
+			model.addAttribute("userEmpId", employee.getEmpId());
+			model.addAttribute("userEmpPw", employee.getEmpPw());
+			model.addAttribute("userEmpName", employee.getEmpName());
+			return "employee/addEmp";
 		} else {
 			System.out.println("중복된 아이디 없음, 사원등록 진행");
 		}

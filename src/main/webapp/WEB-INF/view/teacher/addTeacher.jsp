@@ -13,24 +13,25 @@
 	</div>
 	
 	<h1>강사 추가</h1>
+	<div>${errMsg}</div>
 	<form action="${pageContext.request.contextPath}/teacher/addTeacher" method="post">
 		<table>
 			<tr>
 				<th>이름</th>
 				<td>
-					<input type="text" name="teacherName">
+					<input type="text" name="teacherName" value="${userTName}">
 				</td>
 			</tr>
 			<tr>
 				<th>아이디</th>
 				<td>
-					<input type="text" name="teacherId">
+					<input type="text" name="teacherId" value="${userTId}">
 				</td>
 			</tr>
 			<tr>
 				<th>비밀번호</th>
 				<td>
-					<input type="password" name="teacherPw">
+					<input type="password" name="teacherPw" value="${userTPw}">
 				</td>
 			</tr>
 			<tr>

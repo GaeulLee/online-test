@@ -13,24 +13,25 @@
 	</div>
 	
 	<h1>사원 추가</h1>
+	<div>${errMsg}</div>
 	<form action="${pageContext.request.contextPath}/employee/addEmp" method="post">
 		<table>
 			<tr>
 				<th>이름</th>
 				<td>
-					<input type="text" name="empName">
+					<input type="text" name="empName" value="${userEmpName}">
 				</td>
 			</tr>
 			<tr>
 				<th>아이디</th>
 				<td>
-					<input type="text" name="empId">
+					<input type="text" name="empId" value="${userEmpId}">
 				</td>
 			</tr>
 			<tr>
 				<th>비밀번호</th>
 				<td>
-					<input type="password" name="empPw">
+					<input type="password" name="empPw" value="${userEmpPw}">
 				</td>
 			</tr>
 			<tr>

@@ -8,6 +8,7 @@
 </head>
 <body>
 	<h1>${loginEmp.empName}님 비밀번호 수정</h1>
+	<div>${errMsg}</div>
 	<form action="${pageContext.request.contextPath}/employee/modifyEmpPw" method="post">
 		<table>
 			<tr>
