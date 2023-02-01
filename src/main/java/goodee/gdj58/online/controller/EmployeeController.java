@@ -43,9 +43,11 @@ public class EmployeeController {
 		if(resultEmp == null) {
 			System.out.println("로그인 실패 : 일치하는 사원 정보 없음");
 			return "redirect:/employee/loginEmp";
+		} else {
+			System.out.println("로그인 성공");
+			session.setAttribute("loginEmp", resultEmp);
 		}
-		System.out.println("로그인 성공");
-		session.setAttribute("loginEmp", resultEmp);
+		
 		return "redirect:/employee/empList";
 	}
 	
@@ -60,6 +62,7 @@ public class EmployeeController {
 		// 로그인 유효성 검사
 		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
 		if(loginEmp == null) {
+			System.out.println("잘못된 접근 : 세션 정보 없음");
 			return "redirect:/employee/loginEmp";
 		}
 		
@@ -106,14 +109,16 @@ public class EmployeeController {
 		// 로그인 유효성 검사
 		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
 		if(loginEmp == null) {
+			System.out.println("잘못된 접근 : 세션 정보 없음");
 			return "redirect:/employee/loginEmp";
 		}
 		
 		int row = employeeService.deleteEmployee(empNo);
 		if(row == 0) {
 			System.out.println("삭제 실패");
+		} else {
+			System.out.println("삭제 성공");
 		}
-		System.out.println("삭제 성공");
 		
 		return "redirect:/employee/empList";
 	}
@@ -125,6 +130,7 @@ public class EmployeeController {
 		// 로그인 유효성 검사
 		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
 		if(loginEmp == null) {
+			System.out.println("잘못된 접근 : 세션 정보 없음");
 			return "redirect:/employee/loginEmp";
 		}		
 		
@@ -136,23 +142,28 @@ public class EmployeeController {
 		// 로그인 유효성 검사
 		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
 		if(loginEmp == null) {
+			System.out.println("잘못된 접근 : 세션 정보 없음");
 			return "redirect:/employee/addEmp";
 		}
 		
-		// id check
+		// 서비스 호출
+		// 1) id check
 		String idCheck = idService.getIdCheck(employee.getEmpId());
 		if(idCheck != null) {
-			System.out.println("사원가입 실패 : 중복된 아이디");
+			System.out.println("사원등록 실패 : 중복된 아이디");
 			return "redirect:/employee/addEmp";
+		} else {
+			System.out.println("중복된 아이디 없음, 사원등록 진행");
 		}
-		System.out.println("중복된 아이디 없음, 사원가입 진행");
 		
-		// add emp
+		// 2) add emp
 		int row = employeeService.addEmployee(employee);
 		if(row == 0) {
-			System.out.println("사원가입 실패");
+			System.out.println("사원등록 실패");
+			return "redirect:/employee/addEmp";
+		} else {
+			System.out.println("사원등록 성공");
 		}
-		System.out.println("사원가입 성공");
 		
 		return "redirect:/employee/empList"; // 리다이렉트 하기 위함 CM -> C
 		// 스프링 내에서 redirect:로 시작하면 리다이렉트 되게끔 되어있음(employee/addEmp는 기존 포워딩 방식)
@@ -167,6 +178,7 @@ public class EmployeeController {
 		// 로그인 유효성 검사
 		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
 		if(loginEmp == null) {
+			System.out.println("잘못된 접근 : 세션 정보 없음");
 			return "redirect:/employee/loginEmp";
 		}
 		

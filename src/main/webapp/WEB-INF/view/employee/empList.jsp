@@ -12,7 +12,7 @@
 		<c:import url="/WEB-INF/view/employee/inc/empMenu.jsp"></c:import>
 	</div>
 	
-	<h1>Employee List</h1>
+	<h1>EMPLOYEE LIST</h1>
 	<a href="${pageContext.request.contextPath}/employee/addEmp">사원등록</a>
 	<table>
 		<tr>
