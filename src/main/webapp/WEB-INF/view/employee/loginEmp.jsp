@@ -9,6 +9,7 @@
 <body>
 	<h1>사원 로그인</h1>
 	<div>${errMsg}</div>
+	<div>${test}</div>
 	<form action="${pageContext.request.contextPath}/employee/loginEmp" method="post">
 		<table>
 			<tr>

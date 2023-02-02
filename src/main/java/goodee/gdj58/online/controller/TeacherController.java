@@ -21,4 +21,103 @@ public class TeacherController {
 	@Autowired TeacherService teacherService;
 	@Autowired IdService idService;
 	
+	
+	//******************************* 관리자 기능
+	// 1) 강사 등록
+	@GetMapping("/teacher/addTeacher")
+	public String addTeacher(HttpSession session) {
+		
+		// 로그인 유효성 검사
+		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
+		if(loginEmp == null) {
+			System.out.println("잘못된 접근 : 세션 정보 없음");
+			return "redirect:/employee/loginEmp";
+		}
+		
+		return "teacher/addTeacher";
+	}
+	@PostMapping("/teacher/addTeacher")
+	public String addTeacher(HttpSession session, Model model, Teacher teacher) {
+		
+		// 로그인 유효성 검사
+		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
+		if(loginEmp == null) {
+			System.out.println("잘못된 접근 : 세션 정보 없음");
+			return "redirect:/employee/loginEmp";
+		}
+		
+		// 서비스 호출
+		// 1) id check
+		String idCheck = idService.getIdCheck(teacher.getTeacherId());
+		if(idCheck != null) {
+			System.out.println("강사등록 실패 : 중복된 아이디");
+			model.addAttribute("errMsg", "아이디가 중복되었습니다.");
+			model.addAttribute("userTId", teacher.getTeacherId());
+			model.addAttribute("userTPw", teacher.getTeacherPw());
+			model.addAttribute("userTName", teacher.getTeacherName());
+			return "teacher/addTeacher";
+		}
+		System.out.println("중복된 아이디 없음, 강사등록 진행");
+		
+		// 2) add teacher
+		int row = teacherService.addTeacher(teacher);
+		if(row == 0) {
+			System.out.println("강사 등록 실패");
+			return "redirect:/teacher/addTeacher";
+		} else {
+			System.out.println("강사 등록 성공");
+		}
+		
+		return "redirect:/teacher/teacherList";
+	}
+	
+	// 2) 강사 삭제
+	@GetMapping("/teacher/removeTeacher")
+	public String removeTeacher(HttpSession session, @RequestParam(value="teacherNo") int teacherNo) {
+		
+		// 로그인 유효성 검사
+		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
+		if(loginEmp == null) {
+			System.out.println("잘못된 접근 : 세션 정보 없음");
+			return "redirect:/employee/loginEmp";
+		}
+		
+		// 서비스 호출
+		int row = teacherService.removeTeacher(teacherNo);
+		if(row == 0) {
+			System.out.println("강사 삭제 실패");
+		} else {
+			System.out.println("강사 삭제 성공");
+		}
+		return "teacher/teacherList";
+	}
+	
+	// 3) 강사 목록 출력
+	@GetMapping("/teacher/teacherList")
+	public String getTeacherList(HttpSession session, Model model
+									, @RequestParam(value="currentPage", defaultValue="1") int currentPage
+									, @RequestParam(value="rowPerPage", defaultValue="10") int rowPerPage){
+		// 로그인 유효성 검사
+		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
+		if(loginEmp == null) {
+			System.out.println("잘못된 접근 : 세션 정보 없음");
+			return "redirect:/employee/loginEmp";
+		}
+		
+		// 서비스 호출
+		List<Teacher> list = teacherService.getTeacherList(currentPage, rowPerPage);
+		int cnt = teacherService.getTeacherCnt();
+		int endPage = cnt/rowPerPage;
+		if(cnt%rowPerPage != 0) {
+			endPage++;
+		}
+		
+		// 모델에 정보 저장
+		model.addAttribute("list", list);
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("endPage", endPage);
+		
+		return "teacher/teacherList";
+	}
+	
 }
