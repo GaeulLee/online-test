@@ -24,27 +24,14 @@ public class TeacherController {
 	
 	//******************************* 관리자 기능
 	// 1) 강사 등록
-	@GetMapping("/teacher/addTeacher")
+	@GetMapping("/employee/teacher/addTeacher")
 	public String addTeacher(HttpSession session) {
-		
-		// 로그인 유효성 검사
-		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
-		if(loginEmp == null) {
-			System.out.println("잘못된 접근 : 세션 정보 없음");
-			return "redirect:/employee/loginEmp";
-		}
-		
 		return "teacher/addTeacher";
 	}
-	@PostMapping("/teacher/addTeacher")
+	@PostMapping("/employee/teacher/addTeacher")
 	public String addTeacher(HttpSession session, Model model, Teacher teacher) {
-		
-		// 로그인 유효성 검사
+
 		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
-		if(loginEmp == null) {
-			System.out.println("잘못된 접근 : 세션 정보 없음");
-			return "redirect:/employee/loginEmp";
-		}
 		
 		// 서비스 호출
 		// 1) id check
@@ -63,24 +50,17 @@ public class TeacherController {
 		int row = teacherService.addTeacher(teacher);
 		if(row == 0) {
 			System.out.println("강사 등록 실패");
-			return "redirect:/teacher/addTeacher";
+			return "redirect:/employee/teacher/addTeacher";
 		} else {
 			System.out.println("강사 등록 성공");
 		}
 		
-		return "redirect:/teacher/teacherList";
+		return "redirect:/employee/teacher/teacherList";
 	}
 	
 	// 2) 강사 삭제
-	@GetMapping("/teacher/removeTeacher")
+	@GetMapping("/employee/teacher/removeTeacher")
 	public String removeTeacher(HttpSession session, @RequestParam(value="teacherNo") int teacherNo) {
-		
-		// 로그인 유효성 검사
-		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
-		if(loginEmp == null) {
-			System.out.println("잘못된 접근 : 세션 정보 없음");
-			return "redirect:/employee/loginEmp";
-		}
 		
 		// 서비스 호출
 		int row = teacherService.removeTeacher(teacherNo);
@@ -93,17 +73,11 @@ public class TeacherController {
 	}
 	
 	// 3) 강사 목록 출력
-	@GetMapping("/teacher/teacherList")
+	@GetMapping("/employee/teacher/teacherList")
 	public String getTeacherList(HttpSession session, Model model
 									, @RequestParam(value="currentPage", defaultValue="1") int currentPage
 									, @RequestParam(value="rowPerPage", defaultValue="10") int rowPerPage){
-		// 로그인 유효성 검사
-		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
-		if(loginEmp == null) {
-			System.out.println("잘못된 접근 : 세션 정보 없음");
-			return "redirect:/employee/loginEmp";
-		}
-		
+
 		// 서비스 호출
 		List<Teacher> list = teacherService.getTeacherList(currentPage, rowPerPage);
 		int cnt = teacherService.getTeacherCnt();

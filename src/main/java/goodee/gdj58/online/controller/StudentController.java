@@ -24,28 +24,15 @@ public class StudentController {
 	
 	// ********************************관리자 기능
 	// 1) 학생 등록
-	@GetMapping("/student/addStudent")
+	@GetMapping("/employee/student/addStudent")
 	public String addStudent(HttpSession session) {
-		
-		// 로그인 유효성 검사
-		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
-		if(loginEmp == null) {
-			System.out.println("잘못된 접근 : 세션 정보 없음");
-			return "redirect:/employee/loginEmp";
-		}
-		
 		return "student/addStudent";
 	}
-	@PostMapping("/student/addStudent")
+	@PostMapping("/employee/student/addStudent")
 	public String addStudent(HttpSession session, Model model, Student student) {
-		
-		// 로그인 유효성 검사
+
 		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
-		if(loginEmp == null) {
-			System.out.println("잘못된 접근 : 세션 정보 없음");
-			return "redirect:/employee/loginEmp";
-		}
-		
+
 		// 서비스 호출
 		// 1) id check
 		String idCheck = idService.getIdCheck(student.getStudentId());
@@ -64,24 +51,17 @@ public class StudentController {
 		int row = studentService.addStudent(student);
 		if(row == 0) {
 			System.out.println("학생 등록 실패");
-			return "redirect:/student/addStudent";
+			return "redirect:/employee/student/addStudent";
 		} else {
 			System.out.println("학생 등록 성공");
 		}
 		
-		return "redirect:/student/studentList";
+		return "redirect:/employee/student/studentList";
 	}
 	
 	// 2) 학생 삭제
-	@GetMapping("/student/removeStudent")
+	@GetMapping("/employee/student/removeStudent")
 	public String removeStudent(HttpSession session, @RequestParam(value="studentNo") int studentNo) {
-		
-		// 로그인 유효성 검사
-		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
-		if(loginEmp == null) {
-			System.out.println("잘못된 접근 : 세션 정보 없음");
-			return "redirect:/employee/loginEmp";
-		}
 		
 		// 서비스 호출
 		int row = studentService.removeStudent(studentNo);
@@ -91,22 +71,16 @@ public class StudentController {
 			System.out.println("학생 삭제 성공");
 		}
 		
-		return "redirect:/student/studentList";
+		return "redirect:/employee/student/studentList";
 	}
 	
 	// 3) 학생 목록 출력
-	@GetMapping("/student/studentList")
+	@GetMapping("/employee/student/studentList")
 	public String studentList(HttpSession session, Model model
 							, @RequestParam(value="currentPage", defaultValue="1") int currentPage
 							, @RequestParam(value="rowPerPage", defaultValue="10") int rowPerPage) {
 							// currentPage와 rowPerPage를 @RequestParam을 사용하여 받아오고, 로그인 정보 확인을 위한 HttpSession
 							// currentPage와 rowPerPage를 넘기기 위해 Model을 받아옴
-		// 로그인 유효성 검사
-		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
-		if(loginEmp == null) {
-			System.out.println("잘못된 접근 : 세션 정보 없음");
-			return "redirect:/employee/loginEmp";
-		}
 		
 		// 서비스 호출
 		List<Student> list = studentService.getStudentList(currentPage, rowPerPage);

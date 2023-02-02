@@ -22,8 +22,6 @@ import goodee.gdj58.online.vo.Teacher;
 @Controller 
 public class EmployeeController {
 	@Autowired EmployeeService employeeService;
-	@Autowired StudentService studentService;
-	@Autowired TeacherService teacherService;
 	@Autowired IdService idService;
 	
 	/*
@@ -31,31 +29,14 @@ public class EmployeeController {
 	 */
 	
 	// 로그인
-	@GetMapping("/employee/loginEmp")
+	@GetMapping("/loginEmp")
 	public String loginEmp(HttpSession session) { // 세션을 사용하는 로직은 서블릿 api를 매개로 받음
-		
-		// 이미 로그인 되어있다면 redirect:/employee/empList
-		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
-		if(loginEmp != null) {
-			return "redirect:/employee/empList";
-		}
-		
 		return "employee/loginEmp";
 	}
-	@PostMapping("/employee/loginEmp")
+	@PostMapping("/loginEmp")
 	public String loginEmp(HttpSession session, Model model, Employee employee) {
-		
 		Employee resultEmp = employeeService.login(employee);
-		if(resultEmp == null) {
-			System.out.println("로그인 실패 : 일치하는 사원 정보 없음");
-			model.addAttribute("errMsg", "로그인에 실패하였습니다.");
-			session.setAttribute("test", "session test");
-			return "employee/loginEmp";
-		} else {
-			System.out.println("로그인 성공");
-			session.setAttribute("loginEmp", resultEmp);
-		}
-		
+		session.setAttribute("loginEmp", resultEmp);
 		return "redirect:/employee/empList";
 	}
 	
@@ -66,14 +47,6 @@ public class EmployeeController {
 	// 관리자(사원) 비밀변호 변경
 	@GetMapping("/employee/modifyEmpPw")
 	public String modifyEmpPw(HttpSession session) {
-		
-		// 로그인 유효성 검사
-		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
-		if(loginEmp == null) {
-			System.out.println("잘못된 접근 : 세션 정보 없음");
-			return "redirect:/employee/loginEmp";
-		}
-		
 		return "employee/modifyEmpPw";
 	}
 	@PostMapping("/employee/modifyEmpPw")
@@ -81,11 +54,7 @@ public class EmployeeController {
 						, @RequestParam(value="oldPw", required=true) String oldPw
 						, @RequestParam(value="newPw", required=true) String newPw) {
 						// required=true -> null이 들어오지 못하게(기본값임) false면 null 가능
-		// 로그인 유효성 검사
 		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
-		if(loginEmp == null) {
-			return "redirect:/employee/loginEmp";
-		}
 		
 		// System.out.println("oldPw: "+oldPw);
 		// System.out.println("newPw: "+newPw);
@@ -109,25 +78,18 @@ public class EmployeeController {
 	public String logout(HttpSession session) {
 		session.invalidate();
 		System.out.println("로그아웃 성공");
-		return "redirect:/employee/loginEmp";
+		return "redirect:/loginEmp";
 	}
 	
 	// 사원삭제
 	@GetMapping("/employee/deleteEmp")
 	public String removeEmp(HttpSession session, @RequestParam(value="empNo") int empNo) {
-		
-		// 로그인 유효성 검사
-		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
-		if(loginEmp == null) {
-			System.out.println("잘못된 접근 : 세션 정보 없음");
-			return "redirect:/employee/loginEmp";
-		}
-		
+	
 		int row = employeeService.deleteEmployee(empNo);
 		if(row == 0) {
 			System.out.println("삭제 실패");
 		} else {
-			System.out.println("삭제 성공");
+			System.out.println("\u001B[35m"+"삭제 성공");
 		}
 		
 		return "redirect:/employee/empList";
@@ -136,26 +98,13 @@ public class EmployeeController {
 	// 사원입력
 	@GetMapping("/employee/addEmp")
 	public String addEmp(HttpSession session) {
-		
-		// 로그인 유효성 검사
-		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
-		if(loginEmp == null) {
-			System.out.println("잘못된 접근 : 세션 정보 없음");
-			return "redirect:/employee/loginEmp";
-		}		
-		
 		return "employee/addEmp";
 	}
 	@PostMapping("/employee/addEmp")
 	public String addEmp(HttpSession session, Model model, Employee employee) { // 매개변수를 받아올 것임 -> 같은 맵핑주소(맵핑방식이 다름)와 같은 메서드(매개변수를 받음) 이름을 써도 된다
 		
-		// 로그인 유효성 검사
 		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
-		if(loginEmp == null) {
-			System.out.println("잘못된 접근 : 세션 정보 없음");
-			return "redirect:/employee/addEmp";
-		}
-		
+
 		// 서비스 호출
 		// 1) id check
 		String idCheck = idService.getIdCheck(employee.getEmpId());
@@ -189,12 +138,6 @@ public class EmployeeController {
 						, @RequestParam(value="currentPage", defaultValue = "1") int currentPage
 						, @RequestParam(value="rowPerPage", defaultValue = "10") int rowPerPage) { // 모델 타입의 모델값을 매개로 받아 모델안에 리스트를 담음
 											// int currentPage = request.getParameter
-		// 로그인 유효성 검사
-		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
-		if(loginEmp == null) {
-			System.out.println("잘못된 접근 : 세션 정보 없음");
-			return "redirect:/employee/loginEmp";
-		}
 		
 		List<Employee> list = employeeService.getEmployeeList(currentPage, rowPerPage);
 		int cnt = employeeService.getEmpCnt();
