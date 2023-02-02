@@ -36,7 +36,7 @@
 	<c:if test="${loginEmp != null}"> <!-- 로그인 상태이면 -->
 		<div>
 			${loginEmp.empName}님 반갑습니다.
-			<a href="${pageContext.request.contextPath}/employee/logout"></a>
+			<a href="${pageContext.request.contextPath}/employee/logout">로그아웃</a>
 		</div>
 	</c:if>
 </body>

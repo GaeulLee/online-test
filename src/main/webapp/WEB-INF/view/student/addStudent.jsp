@@ -14,7 +14,7 @@
 	
 	<h1>학생 추가</h1>
 	<div>${errMsg}</div>
-	<form action="${pageContext.request.contextPath}/student/addStudent" method="post">
+	<form action="${pageContext.request.contextPath}/employee/student/addStudent" method="post">
 		<table>
 			<tr>
 				<th>이름</th>

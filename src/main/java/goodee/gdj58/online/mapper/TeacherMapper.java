@@ -21,7 +21,7 @@ public interface TeacherMapper {
 	int deleteTeacher(int teacherNo);
 	
 	// 전체 강사 수
-	int selectTeacherCnt();
+	int selectTeacherCnt(String searchWord);
 	
 	// 강사 목록 출력
 	List<Teacher> selectTeacherList(Map<String, Object> paramMap);

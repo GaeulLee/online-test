@@ -18,7 +18,9 @@ import goodee.gdj58.online.service.TeacherService;
 import goodee.gdj58.online.vo.Employee;
 import goodee.gdj58.online.vo.Student;
 import goodee.gdj58.online.vo.Teacher;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller 
 public class EmployeeController {
 	@Autowired EmployeeService employeeService;
@@ -136,18 +138,41 @@ public class EmployeeController {
 	@GetMapping("/employee/empList")
 	public String empList(HttpSession session, Model model
 						, @RequestParam(value="currentPage", defaultValue = "1") int currentPage
-						, @RequestParam(value="rowPerPage", defaultValue = "10") int rowPerPage) { // 모델 타입의 모델값을 매개로 받아 모델안에 리스트를 담음
+						, @RequestParam(value="rowPerPage", defaultValue = "10") int rowPerPage
+						, @RequestParam(value="searchWord", defaultValue = "") String searchWord) { // 모델 타입의 모델값을 매개로 받아 모델안에 리스트를 담음
 											// int currentPage = request.getParameter
 		
-		List<Employee> list = employeeService.getEmployeeList(currentPage, rowPerPage);
-		int cnt = employeeService.getEmpCnt();
-		int endPage = cnt/rowPerPage;
-		if(endPage%rowPerPage != 0) {
-			endPage++;
+		log.debug("\u001B[35m"+"searchWord------> "+searchWord);
+		
+		List<Employee> list = employeeService.getEmployeeList(currentPage, rowPerPage, searchWord);
+		int cnt = employeeService.getEmpCnt(searchWord);
+		int lastPage = cnt/rowPerPage;
+		
+		int listPerPage = 10;
+		int startPage = (currentPage-1)/listPerPage*listPerPage+1;
+		int endPage = startPage+listPerPage-1;
+		
+		if(lastPage%rowPerPage != 0) {
+			lastPage++;
 		}
+		if(lastPage == 0) {
+			lastPage = 1;
+		}
+		if(lastPage < endPage) {
+			endPage = lastPage;
+		}
+
+		// log.debug("\u001B[35m"+"cnt------> "+cnt);
+		// log.debug("\u001B[35m"+"lastPage------> "+lastPage);
+		// log.debug("\u001B[35m"+"startPage------> "+startPage);
+		// log.debug("\u001B[35m"+"endPage------> "+endPage);
+		
 		// request.setAttribute("list", list); 대신 아래코드로
 		model.addAttribute("list", list);
 		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("lastPage", lastPage);
+		model.addAttribute("searchWord", searchWord);
+		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
 		// System.out.println(endPage);
 		

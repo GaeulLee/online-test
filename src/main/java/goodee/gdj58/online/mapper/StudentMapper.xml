@@ -28,6 +28,11 @@
 	<select id="selectStudentCnt"
 			resultType="Integer">
 		SELECT COUNT(*) cnt FROM student
+		<where>
+			<if test="searchWord != null || searchWord != ''">
+				student_name LIKE CONCAT('%', #{searchWord}, '%')
+			</if>
+		</where>
 	</select>
 	
 	<!-- 학생 목록 출력 -->
@@ -40,6 +45,11 @@
 			, student_pw studentPw
 			, student_name studentName
 		FROM student
+		<where>
+			<if test="searchWord != null || searchWord != ''">
+				student_name LIKE CONCAT('%', #{searchWord}, '%')
+			</if>
+		</where>
 		ORDER BY student_no DESC
 		LIMIT #{beginRow}, #{rowPerPage}
 	</select>

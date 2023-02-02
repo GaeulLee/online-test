@@ -24,7 +24,7 @@ public interface EmployeeMapper {
 	int insertEmployee(Employee employee);
 	
 	// 전체 사원 수
-	int selectEmpCnt();
+	int selectEmpCnt(String searchWord);
 	
 	// 사원 목록 출력
 	List<Employee> selectEmployeeList(Map<String, Object> paramMap);

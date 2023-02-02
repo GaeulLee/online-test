@@ -78,22 +78,37 @@ public class StudentController {
 	@GetMapping("/employee/student/studentList")
 	public String studentList(HttpSession session, Model model
 							, @RequestParam(value="currentPage", defaultValue="1") int currentPage
-							, @RequestParam(value="rowPerPage", defaultValue="10") int rowPerPage) {
+							, @RequestParam(value="rowPerPage", defaultValue="10") int rowPerPage
+							, @RequestParam(value="searchWord", defaultValue = "") String searchWord) {
 							// currentPage와 rowPerPage를 @RequestParam을 사용하여 받아오고, 로그인 정보 확인을 위한 HttpSession
 							// currentPage와 rowPerPage를 넘기기 위해 Model을 받아옴
 		
 		// 서비스 호출
-		List<Student> list = studentService.getStudentList(currentPage, rowPerPage);
-		int cnt = studentService.getStudentCnt();
-		int endPage = cnt/rowPerPage;
-		if(cnt%rowPerPage != 0) {
-			endPage++;
+		List<Student> list = studentService.getStudentList(currentPage, rowPerPage, searchWord);
+		int cnt = studentService.getStudentCnt(searchWord);
+		int lastPage = cnt/rowPerPage;
+		
+		int listPerPage = 10;
+		int startPage = (currentPage-1)/listPerPage*listPerPage+1;
+		int endPage = startPage+listPerPage-1;
+		
+		if(lastPage%rowPerPage != 0) {
+			lastPage++;
+		}
+		if(lastPage == 0) {
+			lastPage = 1;
+		}
+		if(lastPage < endPage) {
+			endPage = lastPage;
 		}
 		// System.out.println("endPage: "+endPage);
 		
 		// model에 담기
 		model.addAttribute("list", list);
 		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("lastPage", lastPage);
+		model.addAttribute("searchWord", searchWord);
+		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
 		
 		return "student/studentList";

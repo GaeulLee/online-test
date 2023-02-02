@@ -21,7 +21,7 @@ public interface StudentMapper {
 	int deleteStudent(int studentNo);
 	
 	// 전체 학생 수
-	int selectStudentCnt();
+	int selectStudentCnt(String searchWord);
 	
 	// 학생 목록 출력
 	List<Student> selectStudentList(Map<String, Object> paramMap);

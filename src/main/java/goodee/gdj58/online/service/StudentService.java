@@ -27,16 +27,17 @@ public class StudentService {
 	}
 	
 	// 전체 학생 수
-	public int getStudentCnt() {
-		return studentMapper.selectStudentCnt();
+	public int getStudentCnt(String searchWord) {
+		return studentMapper.selectStudentCnt(searchWord);
 	}
 	
 	// 학생 목록 출력
-	public List<Student> getStudentList(int currnetPage, int rowPerPage){
+	public List<Student> getStudentList(int currnetPage, int rowPerPage, String searchWord){
 		int beginRow = (currnetPage-1)*rowPerPage;
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("beginRow", beginRow);
 		paramMap.put("rowPerPage", rowPerPage);
+		paramMap.put("searchWord", searchWord);
 		
 		return studentMapper.selectStudentList(paramMap);
 	}

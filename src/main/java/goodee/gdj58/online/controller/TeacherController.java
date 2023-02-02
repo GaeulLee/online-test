@@ -69,26 +69,41 @@ public class TeacherController {
 		} else {
 			System.out.println("강사 삭제 성공");
 		}
-		return "teacher/teacherList";
+		return "redirect:/employee/teacher/teacherList";
 	}
 	
 	// 3) 강사 목록 출력
 	@GetMapping("/employee/teacher/teacherList")
 	public String getTeacherList(HttpSession session, Model model
 									, @RequestParam(value="currentPage", defaultValue="1") int currentPage
-									, @RequestParam(value="rowPerPage", defaultValue="10") int rowPerPage){
+									, @RequestParam(value="rowPerPage", defaultValue="10") int rowPerPage
+									, @RequestParam(value="searchWord", defaultValue = "") String searchWord){
 
 		// 서비스 호출
-		List<Teacher> list = teacherService.getTeacherList(currentPage, rowPerPage);
-		int cnt = teacherService.getTeacherCnt();
-		int endPage = cnt/rowPerPage;
-		if(cnt%rowPerPage != 0) {
-			endPage++;
+		List<Teacher> list = teacherService.getTeacherList(currentPage, rowPerPage, searchWord);
+		int cnt = teacherService.getTeacherCnt(searchWord);
+		int lastPage = cnt/rowPerPage;
+		
+		int listPerPage = 10;
+		int startPage = (currentPage-1)/listPerPage*listPerPage+1;
+		int endPage = startPage+listPerPage-1;
+		
+		if(lastPage%rowPerPage != 0) {
+			lastPage++;
+		}
+		if(lastPage == 0) {
+			lastPage = 1;
+		}
+		if(lastPage < endPage) {
+			endPage = lastPage;
 		}
 		
 		// 모델에 정보 저장
 		model.addAttribute("list", list);
 		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("lastPage", lastPage);
+		model.addAttribute("searchWord", searchWord);
+		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
 		
 		return "teacher/teacherList";

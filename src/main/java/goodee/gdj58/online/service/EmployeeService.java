@@ -55,18 +55,19 @@ public class EmployeeService {
 	}
 	
 	// 전체사원수
-	public int getEmpCnt() {
+	public int getEmpCnt(String searchWord) {
 		// System.out.println("전체사원수 Service");
-		return employeeMapper.selectEmpCnt();
+		return employeeMapper.selectEmpCnt(searchWord);
 	}
 	
 	// 사원목록출력
-	public List<Employee> getEmployeeList(int currnetPage, int rowPerPage){ // 검색어 있으면 검색어까지
+	public List<Employee> getEmployeeList(int currnetPage, int rowPerPage, String searchWord){ // 검색어 있으면 검색어까지
 		// System.out.println("사원목록출력 Service");
 		int beginRow = (currnetPage-1)*rowPerPage;
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("beginRow", beginRow);
 		paramMap.put("rowPerPage", rowPerPage);
+		paramMap.put("searchWord", searchWord);
 		// paramMap.put("rowPerPage", rowPerPage); 검색어 있으면 검색어까지
 		return employeeMapper.selectEmployeeList(paramMap);
 	}

@@ -14,7 +14,7 @@
 	
 	<h1>강사 추가</h1>
 	<div>${errMsg}</div>
-	<form action="${pageContext.request.contextPath}/teacher/addTeacher" method="post">
+	<form action="${pageContext.request.contextPath}/employee/teacher/addTeacher" method="post">
 		<table>
 			<tr>
 				<th>이름</th>

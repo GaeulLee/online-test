@@ -42,9 +42,16 @@
 	</insert>
 	
 	<!-- 전체 사원 수 -->
-	<select id="selectEmpCnt" resultType="Integer">
+	<select id="selectEmpCnt"
+			resultType="Integer"
+			parameterType="String">
 		<!-- resultType="int" 기본값이기 때문에 적지 않아도 됨 -->
 		SELECT COUNT(*) cnt FROM employee
+		<where>
+			<if test="searchWord != null || searchWord != ''">
+				emp_name LIKE CONCAT('%', #{searchWord}, '%')
+			</if>
+		</where>
 	</select>
 	
 	<!-- 사원 목록 출력 -->
@@ -61,6 +68,11 @@
 			, emp_pw empPw
 			, emp_name empName
 		FROM employee
+		<where>
+			<if test="searchWord != null || searchWord != ''">
+				emp_name LIKE CONCAT('%', #{searchWord}, '%')
+			</if>
+		</where>
 		ORDER BY emp_no DESC
 		LIMIT #{beginRow}, #{rowPerPage}
 		<!-- LIMIT ?, ? -->
