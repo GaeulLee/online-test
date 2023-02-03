@@ -10,6 +10,9 @@ import goodee.gdj58.online.vo.Teacher;
 @Mapper
 public interface TeacherMapper {
 	
+	// 로그인
+	Teacher login(Teacher teacher);
+	
 	/*
 	 *************** 관리자(사원)기능 
 	 */

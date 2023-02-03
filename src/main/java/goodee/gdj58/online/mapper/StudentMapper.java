@@ -10,6 +10,11 @@ import goodee.gdj58.online.vo.Student;
 @Mapper
 public interface StudentMapper {
 	
+	
+	
+	// 로그인
+	Student login(Student student);
+	
 	/*
 	 ******************* 관리자(사원) 기능 
 	 */

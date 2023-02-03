@@ -16,6 +16,13 @@ import goodee.gdj58.online.vo.Student;
 public class StudentService {
 	@Autowired private StudentMapper studentMapper;
 	
+	
+	// 로그인
+	public Student login(Student student) {
+		return studentMapper.login(student);
+	}
+	
+	// **********************************관리자 기능
 	// 학생 등록
 	public int addStudent(Student student) {
 		return studentMapper.insertStudent(student);

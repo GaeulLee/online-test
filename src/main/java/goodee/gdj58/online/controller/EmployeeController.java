@@ -30,21 +30,23 @@ public class EmployeeController {
 	 ************************* 로그인 전에 사용가능 
 	 */
 	
-	// 로그인
-	@GetMapping("/loginEmp")
-	public String loginEmp(HttpSession session) { // 세션을 사용하는 로직은 서블릿 api를 매개로 받음
-		return "employee/loginEmp";
-	}
+
 	@PostMapping("/loginEmp")
 	public String loginEmp(HttpSession session, Model model, Employee employee) {
 		Employee resultEmp = employeeService.login(employee);
 		session.setAttribute("loginEmp", resultEmp);
-		return "redirect:/employee/empList";
+		return "redirect:/employee/empHome";
 	}
 	
 	/*
 	 ***************************** 로그인 후에 사용가능 
 	 */
+	
+	// emp home
+	@GetMapping("/employee/empHome")
+	public String empHome() {
+		return "employee/empHome";
+	}
 	
 	// 관리자(사원) 비밀변호 변경
 	@GetMapping("/employee/modifyEmpPw")
@@ -80,7 +82,7 @@ public class EmployeeController {
 	public String logout(HttpSession session) {
 		session.invalidate();
 		System.out.println("로그아웃 성공");
-		return "redirect:/loginEmp";
+		return "redirect:/Index";
 	}
 	
 	// 사원삭제

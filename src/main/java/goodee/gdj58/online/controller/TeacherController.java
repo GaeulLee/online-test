@@ -21,6 +21,24 @@ public class TeacherController {
 	@Autowired TeacherService teacherService;
 	@Autowired IdService idService;
 	
+	// ********************************로그인 전
+	
+	// 로그인
+	@PostMapping("loginTeacher")
+	public String loginTeacher(HttpSession session, Model model, Teacher teacher) {
+		Teacher resultTeacher = teacherService.login(teacher);
+		session.setAttribute("loginTeacher", resultTeacher);
+		return "redirect:/teacher/teacherHome";
+	}
+
+	// ********************************로그인 후	
+	
+	// teacher home
+	@GetMapping("/teacher/teacherHome")
+	public String teacherHome() {
+		return "teacher/teacherHome";
+	}
+	
 	
 	//******************************* 관리자 기능
 	// 1) 강사 등록

@@ -48,7 +48,12 @@
 		
 		<!-- 현재 페이지, 10개 출력 -->
 		<c:forEach varStatus="a" begin="${startPage}" end="${endPage}" step="1">
-			<a href="${pageContext.request.contextPath}/employee/empList?currentPage=${a.current}&searchWord=${searchWord}">${a.current}</a>
+			<c:if test="${a.current == currentPage}">
+				<span>${a.current}</span>
+			</c:if>
+			<c:if test="${a.current != currentPage}">
+				<a href="${pageContext.request.contextPath}/employee/empList?currentPage=${a.current}&searchWord=${searchWord}">${a.current}</a>
+			</c:if>
 		</c:forEach>
 
 		<!-- 다음, 마지막 -->

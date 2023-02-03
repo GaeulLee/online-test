@@ -21,6 +21,25 @@ public class StudentController {
 	@Autowired StudentService studentService;
 	@Autowired IdService idService;
 
+	// ********************************로그인 전
+	
+
+	@PostMapping("/loginStudent")
+	public String loginStudent(HttpSession session, Model model, Student student) {
+		Student resultStudent = studentService.login(student);
+		session.setAttribute("loginStudent", resultStudent);
+		return "redirect:/student/studentHome";
+	}
+
+	// ********************************로그인 후	
+	
+	// student home
+	@GetMapping("/student/studentHome")
+	public String studentHome() {
+		return "student/studentHome";
+	}
+	
+	
 	
 	// ********************************관리자 기능
 	// 1) 학생 등록

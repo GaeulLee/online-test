@@ -9,12 +9,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import goodee.gdj58.online.mapper.TeacherMapper;
+import goodee.gdj58.online.vo.Student;
 import goodee.gdj58.online.vo.Teacher;
 
 @Service
 @Transactional
 public class TeacherService {
 	@Autowired TeacherMapper teacherMapper;
+	
+	// 로그인
+	public Teacher login(Teacher teacher) {
+		return teacherMapper.login(teacher);
+	}
 	
 	/*
 	 *************** 관리자(사원)기능 
