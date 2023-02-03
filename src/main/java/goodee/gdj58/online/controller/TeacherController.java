@@ -21,8 +21,6 @@ public class TeacherController {
 	@Autowired TeacherService teacherService;
 	@Autowired IdService idService;
 	
-	// ********************************로그인 전
-	
 	// 로그인
 	@PostMapping("loginTeacher")
 	public String loginTeacher(HttpSession session, Model model, Teacher teacher) {

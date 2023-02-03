@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="goodee.gdj58.online.mapper.QuestionMapper">
+	
+	<!-- 시험 문제 삭제 -->
+	
+	<!-- 시험 문제 수정 -->
+	
+	<!-- 시험 문제 추가 -->
+	<insert id="insertQuestion"
+			parameterType="java.util.Map">
+		INSERT INTO question(
+			test_no
+			, question_idx
+			, question_title
+		) VALUES (
+			#{testNo}
+			, #{questionIdx}
+			, {questionTitle}
+		)
+	</insert>
+	
+	<!-- 시험 문제 목록 -->
+	<select id="selectTestList"
+			parameterType="Integer"
+			resultType="goodee.gdj58.online.vo.Question">
+		SELECT
+			test_no testNo
+			, question_no questionNo
+			, question_idx questionIdx
+			, question_title questionTitle
+		FROM question
+		WHERE test_no = #{testNo}
+	</select>
+	
+</mapper>

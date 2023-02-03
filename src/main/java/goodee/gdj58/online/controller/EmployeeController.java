@@ -26,11 +26,6 @@ public class EmployeeController {
 	@Autowired EmployeeService employeeService;
 	@Autowired IdService idService;
 	
-	/*
-	 ************************* 로그인 전에 사용가능 
-	 */
-	
-
 	@PostMapping("/loginEmp")
 	public String loginEmp(HttpSession session, Model model, Employee employee) {
 		Employee resultEmp = employeeService.login(employee);

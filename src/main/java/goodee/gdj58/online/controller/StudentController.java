@@ -21,9 +21,6 @@ public class StudentController {
 	@Autowired StudentService studentService;
 	@Autowired IdService idService;
 
-	// ********************************로그인 전
-	
-
 	@PostMapping("/loginStudent")
 	public String loginStudent(HttpSession session, Model model, Student student) {
 		Student resultStudent = studentService.login(student);
@@ -31,7 +28,7 @@ public class StudentController {
 		return "redirect:/student/studentHome";
 	}
 
-	// ********************************로그인 후	
+	// ************************** 로그인 후	
 	
 	// student home
 	@GetMapping("/student/studentHome")
@@ -41,7 +38,7 @@ public class StudentController {
 	
 	
 	
-	// ********************************관리자 기능
+	// **************************** 관리자 기능
 	// 1) 학생 등록
 	@GetMapping("/employee/student/addStudent")
 	public String addStudent(HttpSession session) {

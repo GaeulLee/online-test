@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import goodee.gdj58.online.mapper.TeacherMapper;
-import goodee.gdj58.online.vo.Student;
+import goodee.gdj58.online.vo.Example;
+import goodee.gdj58.online.vo.Question;
 import goodee.gdj58.online.vo.Teacher;
+import goodee.gdj58.online.vo.Test;
 
 @Service
 @Transactional
@@ -23,7 +25,7 @@ public class TeacherService {
 	}
 	
 	/*
-	 *************** 관리자(사원)기능 
+	 **************** 관리자(사원)기능 
 	 */
 	
 	// 강사 등록
