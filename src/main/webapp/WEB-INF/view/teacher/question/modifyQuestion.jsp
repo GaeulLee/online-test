@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>ADD question</title>
+<title>modify question</title>
 </head>
 <body>
 	<!-- teacherMenu include -->
@@ -12,25 +12,26 @@
 		<c:import url="/WEB-INF/view/teacher/inc/teacherMenu.jsp"></c:import>
 	</div>
 	
-	<h2>시험 문제 추가</h2>
-	<form action="${pageContext.request.contextPath}/teacher/question/addQuestion" method="post">
+	<h2>문제 수정</h2>
+	<form action="${pageContext.request.contextPath}/teacher/question/modifyQuestion" method="post">
 		<input type="hidden" name="testNo" value="${testNo}">
+		<input type="hidden" name="questionNo" value="${oldQuestion.questionNo}">
 		<table>
 			<tr>
 				<th>문제 번호</th>
 				<td>
-					<input type="number" name="questionIdx">
+					<input type="number" name="questionIdx" value="${oldQuestion.questionIdx}">
 				</td>
 			</tr>
 			<tr>
 				<th>문제</th>
 				<td>
-					<textarea name="questionTitle" rows="7" cols="70"></textarea>
+					<textarea name="questionTitle" rows="7" cols="70">${oldQuestion.questionTitle}</textarea>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<button type="submit">추가</button>
+					<button type="submit">수정</button>
 				</td>
 			</tr>
 		</table>

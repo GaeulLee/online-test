@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import goodee.gdj58.online.vo.Example;
 import goodee.gdj58.online.vo.Question;
 
 @Mapper
@@ -18,6 +19,9 @@ public interface QuestionMapper {
 	
 	// 시험 문제 추가
 	int insertQuestion(Map<String, Object> paramMap);
+	
+	// 수정 시 불러올 보기
+	Question selectQuestionOne(int questionNo);
 	
 	// 시험 문제 목록
 	List<Question> selectTestList(int testNo);

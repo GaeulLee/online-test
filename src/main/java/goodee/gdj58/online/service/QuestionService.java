@@ -17,17 +17,29 @@ public class QuestionService {
 	@Autowired QuestionMapper questionMapper;
 	
 	// 시험 문제 삭제
+	public int removeQuestion(int questionNo) {
+		return questionMapper.deleteQuestion(questionNo);
+	}
 	
 	// 시험 문제 수정
+	public int modifyQuestion(Question question) {
+		return questionMapper.updateQuestion(question);
+	}
 	
 	// 시험 문제 추가
 	public int addQuestion(Question question, int testNo) {
 		
 		Map<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("question", question);
+		paramMap.put("questionIdx", question.getQuestionIdx());
+		paramMap.put("questionTitle", question.getQuestionTitle());
 		paramMap.put("testNo", testNo);
 		
 		return questionMapper.insertQuestion(paramMap);
+	}
+	
+	// 수정 시 불러올 시험 문제
+	public Question getQuestionOne(int questionNo) {
+		return questionMapper.selectQuestionOne(questionNo);
 	}
 	
 	// 시험 문제 목록

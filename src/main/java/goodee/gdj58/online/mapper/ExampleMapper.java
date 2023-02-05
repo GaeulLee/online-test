@@ -19,6 +19,9 @@ public interface ExampleMapper {
 	// 문제 보기 추가
 	int insertExample(Map<String, Object> paramMap);
 	
+	// 수정 시 불러올 보기
+	Example selectExampleOne(int exampleNo);
+	
 	// 문제 보기 목록
-	List<Example> selectExampleList();
+	List<Example> selectExampleList(int questionNo);
 }

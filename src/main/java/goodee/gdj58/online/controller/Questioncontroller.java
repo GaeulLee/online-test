@@ -11,40 +11,88 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import goodee.gdj58.online.service.QuestionService;
 import goodee.gdj58.online.vo.Question;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 public class Questioncontroller {
 	@Autowired QuestionService questionService;
 	
 	// 시험 문제 삭제
+	@GetMapping("/teacher/question/removeQuestion")
+	public String removeExample(Model model
+			, @RequestParam(value="testNo") int testNo
+			, @RequestParam(value="questionNo") int questionNo) {
+		
+		int row = questionService.removeQuestion(questionNo);
+		if(row == 0) {
+			log.debug("\u001B[32m"+"문제 삭제 실패");
+		} else {
+			log.debug("\u001B[32m"+"문제 삭제 성공");
+		}
+		
+		return "redirect:/teacher/question/questionList?testNo="+testNo;
+	}
 	
 	// 시험 문제 수정
+	@GetMapping("/teacher/question/modifyQuestion")
+	public String modifyQuestion(Model model
+						, @RequestParam(value="testNo") int testNo
+						, @RequestParam(value="questionNo") int questionNo) {
+		
+		Question oldQuestion = questionService.getQuestionOne(questionNo);
+		
+		model.addAttribute("testNo", testNo);
+		model.addAttribute("oldQuestion", oldQuestion);
+		
+		return "teacher/question/modifyQuestion";
+	}
+	@PostMapping("/teacher/question/modifyQuestion")
+	public String modifyQuestion(Question question, int testNo) {
+		
+		int row = questionService.modifyQuestion(question);
+		if(row == 0) {
+			log.debug("\u001B[32m"+"문제 수정 실패");
+		} else {
+			log.debug("\u001B[32m"+"문제 수정 성공");
+		}
+		return "redirect:/teacher/question/questionList?testNo="+testNo;
+	}
 	
 	// 시험 문제 추가
 	@GetMapping("/teacher/question/addQuestion")
-	public String addQuestion() {
+	public String addQuestion(Model model,
+							@RequestParam(value="testNo") int testNo) {
+		
+		model.addAttribute("testNo", testNo);
+		
 		return "teacher/question/addQuestion";
 	}
 	@PostMapping("/teacher/question/addQuestion")
 	public String addQuestion(Question question, int testNo) {
 		
+		// System.out.println("question: "+question);
+		// System.out.println("testNo: "+testNo);
+		
 		int row = questionService.addQuestion(question, testNo);
 		if(row == 0) {
-			System.out.println(testNo+"번 시험 문제 추가 실패");
+			log.debug("\u001B[32m"+"문제 수정 실패");
 		} else {
-			System.out.println(testNo+"번 시험 문제 추가 성공");
+			log.debug("\u001B[32m"+"문제 수정 성공");
 		}
-		return "redirect:/teacher/question/questionList";
+		return "redirect:/teacher/question/questionList?testNo="+testNo;
 	}
 	
 	// 시험 문제 목록
 	@GetMapping("/teacher/question/questionList")
-	public String questionList(Model model,
-								@RequestParam(value="testNo") int testNo) {
+	public String questionList(Model model
+							, @RequestParam(value="testNo") int testNo) {
 		
 		List<Question> list = questionService.getQuestionList(testNo);
 		
 		model.addAttribute("list", list);
+		model.addAttribute("testNo", testNo);
+		// model.addAttribute("testTitle", testTitle);
 		
 		return "teacher/question/questionList";
 	}

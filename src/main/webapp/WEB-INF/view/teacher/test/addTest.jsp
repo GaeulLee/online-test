@@ -7,6 +7,11 @@
 <title>ADD TEST</title>
 </head>
 <body>
+	<!-- teacherMenu include -->
+	<div>
+		<c:import url="/WEB-INF/view/teacher/inc/teacherMenu.jsp"></c:import>
+	</div>
+	
 	<h1>ADD TEST</h1>
 	<form action="${pageContext.request.contextPath}/teacher/test/addTest" method="post">
 		<table>

@@ -18,6 +18,9 @@ public interface TestMapper {
 	// 시험 회차 추가
 	int insertTest(Test test);
 	
+	// 수정 시 불러올 시험 정보
+	Test selectTestOne(int testNo);
+	
 	// 시험 회차 목록
 	List<Test> selectTestList();
 }
