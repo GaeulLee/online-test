@@ -11,20 +11,72 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import goodee.gdj58.online.service.ExampleService;
 import goodee.gdj58.online.service.IdService;
+import goodee.gdj58.online.service.QuestionService;
 import goodee.gdj58.online.service.TeacherService;
+import goodee.gdj58.online.service.TestService;
 import goodee.gdj58.online.vo.Employee;
+import goodee.gdj58.online.vo.Example;
+import goodee.gdj58.online.vo.Question;
 import goodee.gdj58.online.vo.Teacher;
+import goodee.gdj58.online.vo.Test;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 public class TeacherController {
 	@Autowired TeacherService teacherService;
+	@Autowired TestService testService;
+	@Autowired QuestionService questionService;
+	@Autowired ExampleService exampleService;
 	@Autowired IdService idService;
+	
+	// 로그아웃
+	@GetMapping("/teacher/logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		log.debug("\u001B[32m"+"로그아웃 성공");
+		return "redirect:/Index";
+	}
+	
+	// 비밀번호 수정
+	@GetMapping("/teacher/modifyTeacherPw")
+	public String modifyTeacherPw() {
+		return "teacher/modifyTeacherPw";
+	}
+	@PostMapping("/teacher/modifyTeacherPw")
+	public String modifyTeacherPw(HttpSession session, Model model
+							, String oldPw, String newPw) {
+		
+		Teacher loginTeacher = (Teacher)session.getAttribute("loginTeacher");
+		String teacherId = loginTeacher.getTeacherId();
+		
+		int row = teacherService.modifyTeacherPw(oldPw, newPw, teacherId);
+		if(row == 0) {
+			log.debug("\u001B[32m"+"강사 비밀번호 변경 실패");
+			model.addAttribute("errMsg", "비밀번호 변경에 실패하였습니다.");
+			return "teacher/modifyTeacherPw";
+		} else {
+			log.debug("\u001B[32m"+"강사 비밀번호 수정 성공");
+		}
+		
+		return "redirect:/teacher/teacherHome";
+	}
 	
 	// 로그인
 	@PostMapping("loginTeacher")
 	public String loginTeacher(HttpSession session, Model model, Teacher teacher) {
+		
 		Teacher resultTeacher = teacherService.login(teacher);
+		
+		if(resultTeacher == null) {
+			log.debug("\u001B[32m"+"강사 로그인 실패");
+			model.addAttribute("teacherErrMsg", "로그인에 실패하였습니다.");
+			return "index";
+		}
+		
+		log.debug("\u001B[32m"+"강사 로그인 성공, 세션 정보 저장");
 		session.setAttribute("loginTeacher", resultTeacher);
 		return "redirect:/teacher/teacherHome";
 	}
@@ -33,7 +85,16 @@ public class TeacherController {
 	
 	// teacher home
 	@GetMapping("/teacher/teacherHome")
-	public String teacherHome() {
+	public String teacherHome(Model model) {
+		
+		List<Example> eList = exampleService.getRecentExampleList();
+		List<Question> qList = questionService.getRecentQuestionList();
+		List<Test> tList = testService.getRecentTestList();
+		
+		model.addAttribute("eList", eList);
+		model.addAttribute("qList", qList);
+		model.addAttribute("tList", tList);
+		
 		return "teacher/teacherHome";
 	}
 	
@@ -53,22 +114,22 @@ public class TeacherController {
 		// 1) id check
 		String idCheck = idService.getIdCheck(teacher.getTeacherId());
 		if(idCheck != null) {
-			System.out.println("강사등록 실패 : 중복된 아이디");
+			log.debug("\u001B[32m"+"강사등록 실패 : 중복된 아이디");
 			model.addAttribute("errMsg", "아이디가 중복되었습니다.");
 			model.addAttribute("userTId", teacher.getTeacherId());
 			model.addAttribute("userTPw", teacher.getTeacherPw());
 			model.addAttribute("userTName", teacher.getTeacherName());
 			return "teacher/addTeacher";
 		}
-		System.out.println("중복된 아이디 없음, 강사등록 진행");
+		log.debug("\u001B[32m"+"중복된 아이디 없음, 강사등록 진행");
 		
 		// 2) add teacher
 		int row = teacherService.addTeacher(teacher);
 		if(row == 0) {
-			System.out.println("강사 등록 실패");
+			log.debug("\u001B[32m"+"강사 등록 실패");
 			return "redirect:/employee/teacher/addTeacher";
 		} else {
-			System.out.println("강사 등록 성공");
+			log.debug("\u001B[32m"+"강사 등록 성공");
 		}
 		
 		return "redirect:/employee/teacher/teacherList";
@@ -81,9 +142,9 @@ public class TeacherController {
 		// 서비스 호출
 		int row = teacherService.removeTeacher(teacherNo);
 		if(row == 0) {
-			System.out.println("강사 삭제 실패");
+			log.debug("\u001B[32m"+"강사 삭제 실패");
 		} else {
-			System.out.println("강사 삭제 성공");
+			log.debug("\u001B[32m"+"강사 삭제 성공");
 		}
 		return "redirect:/employee/teacher/teacherList";
 	}
@@ -95,6 +156,8 @@ public class TeacherController {
 									, @RequestParam(value="rowPerPage", defaultValue="10") int rowPerPage
 									, @RequestParam(value="searchWord", defaultValue = "") String searchWord){
 
+		log.debug("\u001B[35m"+"searchWord------> "+searchWord);
+		
 		// 서비스 호출
 		List<Teacher> list = teacherService.getTeacherList(currentPage, rowPerPage, searchWord);
 		int cnt = teacherService.getTeacherCnt(searchWord);

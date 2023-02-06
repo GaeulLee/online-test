@@ -11,6 +11,9 @@ import goodee.gdj58.online.vo.Question;
 @Mapper
 public interface QuestionMapper {
 
+	// 보기 등록시 불러올 문제 목록
+	List<Map<String, Object>> selectQuestionListForAddExample();
+	
 	// 시험 문제 삭제
 	int deleteQuestion(int questionNo);
 	
@@ -23,6 +26,15 @@ public interface QuestionMapper {
 	// 수정 시 불러올 보기
 	Question selectQuestionOne(int questionNo);
 	
+	// 최근 시험 문제
+	List<Question> selectRecentQuestionList();
+	
+	// 전체 문제 개수
+	int selectQuestionCnt(String searchWord);
+	
+	// 전체 시험 문제 목록
+	List<Map<String, Object>> selectQuestionListAll(Map<String, Object> paramMap);
+	
 	// 시험 문제 목록
-	List<Question> selectTestList(int testNo);
+	List<Question> selectQuestionList(int testNo);
 }

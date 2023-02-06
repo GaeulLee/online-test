@@ -1,6 +1,7 @@
 package goodee.gdj58.online.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,7 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import goodee.gdj58.online.mapper.QuestionMapper;
 import goodee.gdj58.online.service.ExampleService;
+import goodee.gdj58.online.service.QuestionService;
 import goodee.gdj58.online.vo.Example;
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class ExampleController {
 	@Autowired ExampleService exampleService;
+	@Autowired QuestionService questionService;
 	
 	// 문제 보기 삭제
 	@GetMapping("/teacher/example/removeExample")
@@ -62,10 +66,11 @@ public class ExampleController {
 	
 	// 문제 보기 추가
 	@GetMapping("/teacher/example/addExample")
-	public String addExample(Model model
-			, @RequestParam(value="questionNo") int questionNo) {
+	public String addExample(Model model) {
 		
-		model.addAttribute("questionNo", questionNo);
+		List<Map<String, Object>> questionList = questionService.getQuestionListForAddExample();
+		
+		model.addAttribute("questionList", questionList);
 		
 		return "teacher/example/addExample";
 	}
@@ -82,6 +87,44 @@ public class ExampleController {
 		return "redirect:/teacher/example/exampleList?questionNo="+questionNo;
 	}
 	
+	// 전체 문제 보기 목록
+	@GetMapping("/teacher/example/exampleListAll")
+	public String exampleListAll(Model model
+						, @RequestParam(value="rowPerPage", defaultValue = "10") int rowPerPage
+						, @RequestParam(value="currentPage", defaultValue = "1") int currentPage
+						, @RequestParam(value="searchWord", defaultValue = "") String searchWord) {
+		
+		log.debug("\u001B[35m"+"searchWord------> "+searchWord);
+		log.debug("\u001B[35m"+"rowPerPage------> "+rowPerPage);
+		log.debug("\u001B[35m"+"currentPage------> "+currentPage);
+		
+		List<Map<String, Object>> list = exampleService.getExampleListAll(rowPerPage, currentPage, searchWord);
+		int cnt = exampleService.getExampleCnt(searchWord);
+		int lastPage = cnt/rowPerPage;
+		
+		int listPerPage = 10;
+		int startPage = (currentPage-1)/listPerPage*listPerPage+1;
+		int endPage = startPage+listPerPage-1;
+		
+		if(lastPage%rowPerPage != 0) {
+			lastPage++;
+		}
+		if(lastPage == 0) {
+			lastPage = 1;
+		}
+		if(lastPage < endPage) {
+			endPage = lastPage;
+		}
+		
+		model.addAttribute("list", list);
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("lastPage", lastPage);
+		model.addAttribute("searchWord", searchWord);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("endPage", endPage);
+		
+		return "teacher/example/exampleListAll";
+	}
 	
 	// 문제 보기 목록
 	@GetMapping("/teacher/example/exampleList")

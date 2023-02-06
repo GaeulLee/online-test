@@ -22,6 +22,15 @@ public interface ExampleMapper {
 	// 수정 시 불러올 보기
 	Example selectExampleOne(int exampleNo);
 	
+	// 최근 등록된 보기
+	List<Example> selectRecentExampleList();
+	
+	// 전체 문제 개수
+	int selectExampleCnt(String searchWord);
+	
+	// 전체 문제 보기 목록
+	List<Map<String, Object>> selectExampleListAll(Map<String, Object> paramMap);
+	
 	// 문제 보기 목록
 	List<Example> selectExampleList(int questionNo);
 }

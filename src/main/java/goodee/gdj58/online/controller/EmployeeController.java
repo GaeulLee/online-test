@@ -28,7 +28,17 @@ public class EmployeeController {
 	
 	@PostMapping("/loginEmp")
 	public String loginEmp(HttpSession session, Model model, Employee employee) {
+		
 		Employee resultEmp = employeeService.login(employee);
+		
+		if(resultEmp == null) {
+			log.debug("\u001B[32m"+"사원 로그인 실패");
+			model.addAttribute("empErrMsg", "로그인에 실패하였습니다.");
+			return "index";
+		}
+		
+		log.debug("\u001B[32m"+"사원 로그인 성공, 세션 정보 저장");
+		
 		session.setAttribute("loginEmp", resultEmp);
 		return "redirect:/employee/empHome";
 	}
@@ -62,11 +72,11 @@ public class EmployeeController {
 		// 서비스 호출
 		int row = employeeService.updateEmployeePw(loginEmp.getEmpNo(), oldPw, newPw);
 		if(row == 0) {
-			System.out.println("비밀변호 변경 실패");
+			log.debug("\u001B[32m"+"비밀변호 변경 실패");
 			model.addAttribute("errMsg", "비밀번호 변경에 실패하였습니다.");
 			return "employee/modifyEmpPw";
 		} else {
-			System.out.println("비밀변호 변경 성공");
+			log.debug("\u001B[32m"+"비밀변호 변경 성공");
 		}
 		
 		return "redirect:/employee/empList";
@@ -76,7 +86,7 @@ public class EmployeeController {
 	@GetMapping("/employee/logout")
 	public String logout(HttpSession session) {
 		session.invalidate();
-		System.out.println("로그아웃 성공");
+		log.debug("\u001B[32m"+"로그아웃 성공");
 		return "redirect:/Index";
 	}
 	
@@ -86,9 +96,9 @@ public class EmployeeController {
 	
 		int row = employeeService.deleteEmployee(empNo);
 		if(row == 0) {
-			System.out.println("삭제 실패");
+			log.debug("\u001B[32m"+"삭제 실패");
 		} else {
-			System.out.println("\u001B[35m"+"삭제 성공");
+			log.debug("\u001B[32m"+"삭제 성공");
 		}
 		
 		return "redirect:/employee/empList";
@@ -108,23 +118,23 @@ public class EmployeeController {
 		// 1) id check
 		String idCheck = idService.getIdCheck(employee.getEmpId());
 		if(idCheck != null) {
-			System.out.println("사원등록 실패 : 중복된 아이디");
+			log.debug("\u001B[32m"+"사원등록 실패 : 중복된 아이디");
 			model.addAttribute("errMsg", "아이디가 중복되었습니다.");
 			model.addAttribute("userEmpId", employee.getEmpId());
 			model.addAttribute("userEmpPw", employee.getEmpPw());
 			model.addAttribute("userEmpName", employee.getEmpName());
 			return "employee/addEmp";
 		} else {
-			System.out.println("중복된 아이디 없음, 사원등록 진행");
+			log.debug("\u001B[32m"+"중복된 아이디 없음, 사원등록 진행");
 		}
 		
 		// 2) add emp
 		int row = employeeService.addEmployee(employee);
 		if(row == 0) {
-			System.out.println("사원등록 실패");
+			log.debug("\u001B[32m"+"사원등록 실패");
 			return "redirect:/employee/addEmp";
 		} else {
-			System.out.println("사원등록 성공");
+			log.debug("\u001B[32m"+"사원등록 성공");
 		}
 		
 		return "redirect:/employee/empList"; // 리다이렉트 하기 위함 CM -> C
@@ -133,15 +143,17 @@ public class EmployeeController {
 	
 	// 사원출력
 	@GetMapping("/employee/empList")
-	public String empList(HttpSession session, Model model
+	public String empList(Model model
 						, @RequestParam(value="currentPage", defaultValue = "1") int currentPage
 						, @RequestParam(value="rowPerPage", defaultValue = "10") int rowPerPage
 						, @RequestParam(value="searchWord", defaultValue = "") String searchWord) { // 모델 타입의 모델값을 매개로 받아 모델안에 리스트를 담음
 											// int currentPage = request.getParameter
 		
 		log.debug("\u001B[35m"+"searchWord------> "+searchWord);
+		log.debug("\u001B[35m"+"rowPerPage------> "+rowPerPage);
+		log.debug("\u001B[35m"+"currentPage------> "+currentPage);
 		
-		List<Employee> list = employeeService.getEmployeeList(currentPage, rowPerPage, searchWord);
+		List<Employee> list = employeeService.getEmployeeList(rowPerPage, currentPage, searchWord);
 		int cnt = employeeService.getEmpCnt(searchWord);
 		int lastPage = cnt/rowPerPage;
 		

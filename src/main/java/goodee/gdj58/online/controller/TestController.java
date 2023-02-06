@@ -57,7 +57,6 @@ public class TestController {
 		return "redirect:/teacher/test/testList";
 	}
 	
-	
 	// 시험 회차 추가
 	@GetMapping("/teacher/test/addTest")
 	public String addTest() {
@@ -79,11 +78,40 @@ public class TestController {
 	
 	// 시험 회차 목록
 	@GetMapping("/teacher/test/testList")
-	public String testList(Model model) {
+	public String testList(Model model
+			, @RequestParam(value="rowPerPage", defaultValue = "10") int rowPerPage
+			, @RequestParam(value="currentPage", defaultValue = "1") int currentPage
+			, @RequestParam(value="searchWord", defaultValue = "") String searchWord) {
 		
-		List<Test> list = testService.getTestList();
+		log.debug("\u001B[35m"+"searchWord------> "+searchWord);
+		log.debug("\u001B[35m"+"rowPerPage------> "+rowPerPage);
+		log.debug("\u001B[35m"+"currentPage------> "+currentPage);
+		
+		List<Test> list = testService.getTestList(rowPerPage, currentPage, searchWord);
+		int cnt = testService.getTestCnt(searchWord);
+		int lastPage = cnt/rowPerPage;
+		
+		int listPerPage = 10;
+		int startPage = (currentPage-1)/listPerPage*listPerPage+1;
+		int endPage = startPage+listPerPage-1;
+		
+		if(lastPage%rowPerPage != 0) {
+			lastPage++;
+		}
+		if(lastPage == 0) {
+			lastPage = 1;
+		}
+		if(lastPage < endPage) {
+			endPage = lastPage;
+		}
 		
 		model.addAttribute("list", list);
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("rowPerPage", rowPerPage);
+		model.addAttribute("lastPage", lastPage);
+		model.addAttribute("searchWord", searchWord);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("endPage", endPage);
 		
 		return "teacher/test/testList";
 	}

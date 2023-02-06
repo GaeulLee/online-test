@@ -44,6 +44,28 @@ public class ExampleService {
 		return exampleMapper.selectExampleOne(exampleNo);
 	}
 	
+	// 최근 등록 문제
+	public List<Example> getRecentExampleList(){
+		return exampleMapper.selectRecentExampleList();
+	}
+	
+	// 전체 보기 갯수
+	public int getExampleCnt(String searchWord) {
+		return exampleMapper.selectExampleCnt(searchWord);
+	}
+	
+	// 전체 문제 보기 목록
+	public List<Map<String, Object>> getExampleListAll(int rowPerPage, int currentPage, String searchWord){
+		
+		int beginRow = (currentPage-1)*rowPerPage;
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("beginRow", beginRow);
+		paramMap.put("rowPerPage", rowPerPage);
+		paramMap.put("searchWord", searchWord);
+		
+		return exampleMapper.selectExampleListAll(paramMap);
+	}
+	
 	// 문제 보기 목록
 	public List<Example> getExampleList(int questionNo){
 		return exampleMapper.selectExampleList(questionNo);

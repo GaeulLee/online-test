@@ -2,6 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="goodee.gdj58.online.mapper.QuestionMapper">
 	
+	<!-- 보기 등록시 불러올 문제 정보 -->
+	<select id="selectQuestionListForAddExample"
+			resultType="java.util.Map">
+		SELECT
+			t.test_title testTitle
+			, q.question_no questionNo
+			, q.question_idx questionIdx
+			, q.question_title questionTitle
+		FROM question q INNER JOIN test t
+			ON q.test_no = t.test_no
+		ORDER BY t.test_no ASC, q.question_idx ASC
+	</select>
+	
 	<!-- 시험 문제 삭제 -->
 	<delete id="deleteQuestion"
 			parameterType="Integer">
@@ -43,8 +56,54 @@
 		WHERE question_no = #{questionNo}
 	</select>
 	
+	<!-- 최근 시험 문제 -->
+	<select id="selectRecentQuestionList"
+			resultType="goodee.gdj58.online.vo.Question">
+		SELECT
+			question_no questionNo
+			, question_idx questionIdx
+			, question_title questionTitle
+		FROM question
+		ORDER BY question_no DESC
+		LIMIT 0, 5
+	</select>
+	
+	<!-- 전체 문제 갯수 -->
+	<select id="selectQuestionCnt"
+			parameterType="String"
+			resultType="Integer">
+		SELECT COUNT(*) cnt FROM question
+		<where>
+			<if test="searchWord != null || searchWord != ''">
+				question_title LIKE CONCAT('%', #{searchWord}, '%')
+			</if>
+		</where>
+	</select>
+	
+	<!-- 전제 시험 문제 목록 -->
+	<select id="selectQuestionListAll"
+			resultType="java.util.Map"
+			parameterType="java.util.Map">
+		SELECT
+			t.test_no testNo
+			, t.test_title testTitle
+			, t.test_date testDate
+			, q.question_no questionNo
+			, q.question_idx questionIdx
+			, q.question_title questionTitle
+		FROM question q RIGHT outer JOIN test t
+			ON q.test_no = t.test_no
+		<where>
+			<if test="searchWord != null || searchWord != ''">
+				question_title LIKE CONCAT('%', #{searchWord}, '%')
+			</if>
+		</where>
+		ORDER BY t.test_no ASC, q.question_idx ASC
+		LIMIT #{beginRow}, #{rowPerPage}
+	</select>
+	
 	<!-- 시험 문제 목록 -->
-	<select id="selectTestList"
+	<select id="selectQuestionList"
 			parameterType="Integer"
 			resultType="goodee.gdj58.online.vo.Question">
 		SELECT
@@ -54,7 +113,7 @@
 			, question_title questionTitle
 		FROM question
 		WHERE test_no = #{testNo}
-		ORDER BY question_idx ASC;
+		ORDER BY question_idx ASC
 	</select>
 	
 </mapper>

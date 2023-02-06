@@ -14,7 +14,7 @@
 	
 	<h2>보기 목록</h2>
 	<div>
-		<a href="${pageContext.request.contextPath}/teacher/example/addExample?questionNo=${questionNo}">보기 추가</a>
+		<a href="${pageContext.request.contextPath}/teacher/example/addExample">보기 추가</a>
 	</div>
 	<table>
 		<tr>

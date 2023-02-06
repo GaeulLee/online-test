@@ -61,9 +61,9 @@ public class EmployeeService {
 	}
 	
 	// 사원목록출력
-	public List<Employee> getEmployeeList(int currnetPage, int rowPerPage, String searchWord){ // 검색어 있으면 검색어까지
+	public List<Employee> getEmployeeList(int currentPage, int rowPerPage, String searchWord){ // 검색어 있으면 검색어까지
 		// System.out.println("사원목록출력 Service");
-		int beginRow = (currnetPage-1)*rowPerPage;
+		int beginRow = (currentPage-1)*rowPerPage;
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("beginRow", beginRow);
 		paramMap.put("rowPerPage", rowPerPage);

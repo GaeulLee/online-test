@@ -1,6 +1,8 @@
 package goodee.gdj58.online.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,11 @@ import goodee.gdj58.online.vo.Test;
 @Transactional
 public class TestService {
 	@Autowired TestMapper testMapper;
+	
+	// 문제 등록시 불러올 시험 정보
+	public List<Test> getTestListForQuestion(){
+		return testMapper.selectTestListForAddQuestion();
+	}
 	
 	// 시험 회차 삭제
 	public int removeTest(int testNo) {
@@ -34,8 +41,25 @@ public class TestService {
 		return testMapper.selectTestOne(testNo);
 	}
 	
+	// 최근 등록 시험
+	public List<Test> getRecentTestList(){
+		return testMapper.selectRecentTestList();
+	}
+	
+	// 전체 시험 갯수
+	public int getTestCnt(String searchWord) {
+		return testMapper.selectTestCnt(searchWord);
+	}
+	
 	// 시험 회차 목록
-	public List<Test> getTestList(){
-		return testMapper.selectTestList();
+	public List<Test> getTestList(int rowPerPage, int currentPage, String searchWord){
+
+		int beginRow = (currentPage-1)*rowPerPage;
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("beginRow", beginRow);
+		paramMap.put("rowPerPage", rowPerPage);
+		paramMap.put("searchWord", searchWord);
+		
+		return testMapper.selectTestList(paramMap);
 	}
 }

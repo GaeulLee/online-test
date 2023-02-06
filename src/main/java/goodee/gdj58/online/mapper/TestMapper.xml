@@ -2,6 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="goodee.gdj58.online.mapper.TestMapper">
 	
+	<!-- 문제 등록 시 불러올 시험 정보 -->
+	<select id="selectTestListForAddQuestion"
+			resultType="goodee.gdj58.online.vo.Test">
+		SELECT
+			test_no testNo
+			, test_title testTitle
+		FROM test
+	</select>
+	
 	<!-- 시험 회차 삭제 -->
 	<delete id="deleteTest"
 			parameterType="Integer">
@@ -39,18 +48,47 @@
 			, test_date testDate
 		FROM test
 		WHERE test_no = #{testNo}
-		
+	</select>
+	
+	<!-- 최근 등록 시험 -->
+	<select id="selectRecentTestList"
+			resultType="goodee.gdj58.online.vo.Test">
+		SELECT
+			test_title testTitle
+			, test_date testDate
+		FROM test
+		ORDER BY test_no DESC
+		LIMIT 0, 5;
+	</select>
+
+	<!-- 전체 시험 갯수 -->
+	<select id="selectTestCnt"
+			parameterType="String"
+			resultType="Integer">
+		SELECT COUNT(*) cnt FROM test
+		<where>
+			<if test="searchWord != null || searchWord != ''">
+				test_title LIKE CONCAT('%', #{searchWord}, '%')
+			</if>
+		</where>
 	</select>
 	
 	<!-- 시험 회차 목록 -->
 	<select id="selectTestList"
-			resultType="goodee.gdj58.online.vo.Test">
+			resultType="goodee.gdj58.online.vo.Test"
+			parameterType="java.util.Map">
 		SELECT
 			test_no testNo
 			, test_title testTitle
 			, test_date testDate
 		FROM test
-		ORDER BY test_date
+		<where>
+			<if test="searchWord != null || searchWord != ''">
+				test_title LIKE CONCAT('%', #{searchWord}, '%')
+			</if>
+		</where>
+		ORDER BY test_date ASC
+		LIMIT #{beginRow}, #{rowPerPage}
 	</select>
 	
 </mapper>

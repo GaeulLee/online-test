@@ -15,7 +15,8 @@ import goodee.gdj58.online.service.IdService;
 import goodee.gdj58.online.service.StudentService;
 import goodee.gdj58.online.vo.Employee;
 import goodee.gdj58.online.vo.Student;
-
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @Controller
 public class StudentController {
 	@Autowired StudentService studentService;
@@ -23,7 +24,16 @@ public class StudentController {
 
 	@PostMapping("/loginStudent")
 	public String loginStudent(HttpSession session, Model model, Student student) {
+		
 		Student resultStudent = studentService.login(student);
+		
+		if(resultStudent == null) {
+			log.debug("\u001B[32m"+"학생 로그인 실패");
+			model.addAttribute("teacherErrMsg", "로그인에 실패하였습니다.");
+			return "index";
+		}
+		
+		log.debug("\u001B[32m"+"학생 로그인 성공, 세션 정보 저장");
 		session.setAttribute("loginStudent", resultStudent);
 		return "redirect:/student/studentHome";
 	}
@@ -35,8 +45,6 @@ public class StudentController {
 	public String studentHome() {
 		return "student/studentHome";
 	}
-	
-	
 	
 	// **************************** 관리자 기능
 	// 1) 학생 등록
@@ -53,23 +61,23 @@ public class StudentController {
 		// 1) id check
 		String idCheck = idService.getIdCheck(student.getStudentId());
 		if(idCheck != null) {
-			System.out.println("학생등록 실패 : 중복된 아이디");
+			log.debug("\u001B[32m"+"학생등록 실패 : 중복된 아이디");
 			model.addAttribute("errMsg", "아이디가 중복되었습니다.");
 			model.addAttribute("userSId", student.getStudentId());
 			model.addAttribute("userSPw", student.getStudentPw());
 			model.addAttribute("userSName", student.getStudentName());
 			return "student/addStudent";
 		} else {
-			System.out.println("중복된 아이디 없음, 학생가입 진행");
+			log.debug("\u001B[32m"+"중복된 아이디 없음, 학생가입 진행");
 		}
 		
 		// 2) add student 
 		int row = studentService.addStudent(student);
 		if(row == 0) {
-			System.out.println("학생 등록 실패");
+			log.debug("\u001B[32m"+"학생 등록 실패");
 			return "redirect:/employee/student/addStudent";
 		} else {
-			System.out.println("학생 등록 성공");
+			log.debug("\u001B[32m"+"학생 등록 성공");
 		}
 		
 		return "redirect:/employee/student/studentList";
@@ -82,9 +90,9 @@ public class StudentController {
 		// 서비스 호출
 		int row = studentService.removeStudent(studentNo);
 		if(row == 0) {
-			System.out.println("학생 삭제 실패");
+			log.debug("\u001B[32m"+"학생 삭제 실패");
 		} else {
-			System.out.println("학생 삭제 성공");
+			log.debug("\u001B[32m"+"학생 삭제 성공");
 		}
 		
 		return "redirect:/employee/student/studentList";

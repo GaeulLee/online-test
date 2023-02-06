@@ -16,6 +16,11 @@ import goodee.gdj58.online.vo.Question;
 public class QuestionService {
 	@Autowired QuestionMapper questionMapper;
 	
+	// 보기 등록시 불러올 문제 정보
+	public List<Map<String, Object>> getQuestionListForAddExample(){
+		return questionMapper.selectQuestionListForAddExample();
+	}
+	
 	// 시험 문제 삭제
 	public int removeQuestion(int questionNo) {
 		return questionMapper.deleteQuestion(questionNo);
@@ -42,8 +47,30 @@ public class QuestionService {
 		return questionMapper.selectQuestionOne(questionNo);
 	}
 	
+	// 최근 시험 문제
+	public List<Question> getRecentQuestionList(){
+		return questionMapper.selectRecentQuestionList();
+	}
+	
+	// 전체 문제 갯수
+	public int getQuestionCnt(String searchWord) {
+		return questionMapper.selectQuestionCnt(searchWord);
+	}
+	
+	// 전체 시험 문제 목록
+	public List<Map<String, Object>> getQuestionListAll(int rowPerPage, int currentPage, String searchWord){
+		
+		int beginRow = (currentPage-1)*rowPerPage;
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("beginRow", beginRow);
+		paramMap.put("rowPerPage", rowPerPage);
+		paramMap.put("searchWord", searchWord);
+		
+		return questionMapper.selectQuestionListAll(paramMap);
+	}
+	
 	// 시험 문제 목록
 	public List<Question> getQuestionList(int testNo){
-		return questionMapper.selectTestList(testNo);
+		return questionMapper.selectQuestionList(testNo);
 	}
 }

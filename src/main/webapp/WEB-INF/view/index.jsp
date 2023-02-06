@@ -9,6 +9,7 @@
 <body>
 	<!-- 사원 로그인 -->
 	<h2>사원 로그인</h2>
+	<div>${empErrMsg}</div>
 	<form action="${pageContext.request.contextPath}/loginEmp" method="post">
 		<table>
 			<tr>
@@ -33,6 +34,7 @@
 	
 	<!-- 강사 로그인 -->
 	<h2>강사 로그인</h2>
+	<div>${teacherErrMsg}</div>
 	<form action="${pageContext.request.contextPath}/loginTeacher" method="post">
 		<table>
 			<tr>
@@ -57,6 +59,7 @@
 	
 	<!-- 학생 로그인 -->
 	<h2>학생 로그인</h2>
+	<div>${studentErrMsg}</div>
 	<form action="${pageContext.request.contextPath}/loginStudent" method="post">
 		<table>
 			<tr>
