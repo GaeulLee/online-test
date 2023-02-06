@@ -1,5 +1,7 @@
 package goodee.gdj58.online.controller;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,30 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class TestController {
 	@Autowired TestService testService;
+	
+	// ****************************** 학생 기능
+	
+	// 시험 목록
+	@GetMapping("/student/studentTestList")
+	public String studentTestList(Model model) {
+		
+		// 서비스 호출
+		List<Test> testList = testService.getTestListForQuestion();
+		
+        // 현재 날짜 구하기
+        LocalDate now = LocalDate.now();
+        
+        log.debug("\u001B[32m"+"formatedNow -------------->"+now);
+		
+		model.addAttribute("testList", testList);
+		model.addAttribute("now", now);
+		
+		return "student/studentTestList";
+	}
+	
+	
+	
+	// ****************************** 강사 기능
 	
 	// 시험 회차 삭제
 	@GetMapping("/teacher/test/removeTest")

@@ -9,7 +9,16 @@ import goodee.gdj58.online.vo.Test;
 
 @Mapper
 public interface TestMapper {
-
+	
+	// 지난 시험
+	List<Test> selectPastTestList();
+	
+	// 오늘 시험
+	List<Test> selectCurrnetTestList();
+	
+	// 예정 시험
+	List<Test> selectFutureTestList();
+	
 	// 문제 등록시 불러올 시험 정보
 	List<Test> selectTestListForAddQuestion();
 	

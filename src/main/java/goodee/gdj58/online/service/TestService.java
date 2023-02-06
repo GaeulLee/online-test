@@ -16,6 +16,21 @@ import goodee.gdj58.online.vo.Test;
 public class TestService {
 	@Autowired TestMapper testMapper;
 	
+	// 지난 시험
+	public List<Test> getPastTestList(){
+		return testMapper.selectPastTestList();
+	}
+	
+	// 오늘 시험
+	public List<Test> getCurrnetTestList(){
+		return testMapper.selectCurrnetTestList();
+	}
+	
+	// 예정 시험
+	public List<Test> getFutureTestList(){
+		return testMapper.selectFutureTestList();
+	}
+	
 	// 문제 등록시 불러올 시험 정보
 	public List<Test> getTestListForQuestion(){
 		return testMapper.selectTestListForAddQuestion();

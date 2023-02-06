@@ -2,6 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="goodee.gdj58.online.mapper.ExampleMapper">
 	
+	<!-- 응시할 시험 보기 출력 -->
+	<select id="selectExampleByTestNo"
+			parameterType="Integer"
+			resultType="java.util.Map">
+		SELECT
+			q.question_no questionNo
+			, e.example_idx exampleIdx
+			, e.example_title exampleTitle
+			, e.example_ox exampleOx
+		FROM
+			example e inner JOIN question q ON e.question_no = q.question_no
+				inner JOIN test t ON q.test_no = t.test_no
+		WHERE t.test_no = #{testNo};
+	</select>
+	
 	<!-- 문제 보기 삭제 -->
 	<delete id="deleteExample"
 			parameterType="Integer">

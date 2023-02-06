@@ -46,8 +46,7 @@ public class TeacherController {
 		return "teacher/modifyTeacherPw";
 	}
 	@PostMapping("/teacher/modifyTeacherPw")
-	public String modifyTeacherPw(HttpSession session, Model model
-							, String oldPw, String newPw) {
+	public String modifyTeacherPw(HttpSession session, Model model, String oldPw, String newPw) {
 		
 		Teacher loginTeacher = (Teacher)session.getAttribute("loginTeacher");
 		String teacherId = loginTeacher.getTeacherId();

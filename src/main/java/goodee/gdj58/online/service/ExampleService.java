@@ -16,6 +16,11 @@ import goodee.gdj58.online.vo.Example;
 public class ExampleService {
 	@Autowired ExampleMapper exampleMapper;
 	
+	// 응시할 시험 보기 출력
+	public List<Map<String, Object>> getExampleByTestNo(int testNo){
+		return exampleMapper.selectExampleByTestNo(testNo);
+	}
+	
 	// 문제 보기 삭제
 	public int removeExample(int exampleNo) {
 		return exampleMapper.deleteExample(exampleNo);

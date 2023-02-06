@@ -2,11 +2,45 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="goodee.gdj58.online.mapper.TestMapper">
 	
+	<!-- 지난 시험 -->
+	<select id="selectPastTestList"
+			resultType="goodee.gdj58.online.vo.Test">
+		SELECT
+			test_no testNo
+			, test_date testDate
+			, test_title testTitle
+		FROM test
+		WHERE test_date <![CDATA[<]]> CURDATE()
+	</select>
+	
+	<!-- 오늘 시험 -->
+	<select id="selectCurrnetTestList"
+			resultType="goodee.gdj58.online.vo.Test">
+		SELECT
+			test_no testNo
+			, test_date testDate
+			, test_title testTitle
+		FROM test
+		WHERE test_date = CURDATE()
+	</select>
+	
+	<!-- 예정 시험 -->
+	<select id="selectFutureTestList"
+			resultType="goodee.gdj58.online.vo.Test">
+		SELECT
+			test_no testNo
+			, test_date testDate
+			, test_title testTitle
+		FROM test
+		WHERE test_date <![CDATA[>]]> CURDATE()
+	</select>
+	
 	<!-- 문제 등록 시 불러올 시험 정보 -->
 	<select id="selectTestListForAddQuestion"
 			resultType="goodee.gdj58.online.vo.Test">
 		SELECT
 			test_no testNo
+			, test_date testDate
 			, test_title testTitle
 		FROM test
 	</select>

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import goodee.gdj58.online.service.QuestionService;
@@ -21,6 +22,12 @@ import lombok.extern.slf4j.Slf4j;
 public class Questioncontroller {
 	@Autowired QuestionService questionService;
 	@Autowired TestService testService;
+
+	// ******************************** 학생 기능
+
+	
+	
+	// ******************************** 강사 기능
 	
 	// 시험 문제 삭제
 	@GetMapping("/teacher/question/removeQuestion")

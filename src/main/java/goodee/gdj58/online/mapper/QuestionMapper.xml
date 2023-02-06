@@ -2,6 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="goodee.gdj58.online.mapper.QuestionMapper">
 	
+	<!-- 응시 시험 문제 출력 -->
+	<select id="selectQuestionByTestNo"
+			parameterType="Integer"
+			resultType="java.util.Map">
+		SELECT
+			t.test_no testNo
+			, t.test_title testTitle
+			, t.test_date testDate
+			, q.question_no questionNo
+			, q.question_idx questionIdx
+			, q.question_title questionTitle
+		FROM test t INNER JOIN question q
+			ON t.test_no = q.test_no
+		WHERE t.test_no = #{testNo}
+	</select>
+	
 	<!-- 보기 등록시 불러올 문제 정보 -->
 	<select id="selectQuestionListForAddExample"
 			resultType="java.util.Map">

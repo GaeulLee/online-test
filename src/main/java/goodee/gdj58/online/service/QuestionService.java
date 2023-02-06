@@ -16,6 +16,11 @@ import goodee.gdj58.online.vo.Question;
 public class QuestionService {
 	@Autowired QuestionMapper questionMapper;
 	
+	// 응시 시험 문제 출력
+	public List<Map<String, Object>> getQuestionByTestNo(int testNo){
+		return questionMapper.selectQuestionByTestNo(testNo);
+	}
+	
 	// 보기 등록시 불러올 문제 정보
 	public List<Map<String, Object>> getQuestionListForAddExample(){
 		return questionMapper.selectQuestionListForAddExample();

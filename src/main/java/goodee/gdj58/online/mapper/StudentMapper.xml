@@ -2,6 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="goodee.gdj58.online.mapper.StudentMapper">
 	
+	<!-- 비밀번호 수정 -->
+	<update id="updateStudentPw"
+			parameterType="java.util.Map">
+		UPDATE student SET
+			student_pw = PASSWORD(#{newPw})
+		WHERE student_id = #{studentId} AND student_pw = PASSWORD(#{oldPw})
+	</update>
 	
 	<!-- 로그인 -->
 	<select id="login"
