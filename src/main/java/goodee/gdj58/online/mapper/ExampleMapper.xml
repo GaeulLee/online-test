@@ -71,7 +71,7 @@
 			, example_ox exampleOx
 		FROM example
 		ORDER BY example_no DESC
-		LIMIT 0, 5
+		LIMIT 10
 	</select>
 	
 	<!-- 전체 보기 갯수 -->

@@ -2,6 +2,29 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="goodee.gdj58.online.mapper.TestMapper">
 	
+	<!-- 응시할 시험 불러오기 -->
+	<select id="selectTestListForPaper"
+			parameterType="Integer"
+			resultType="java.util.Map">
+		SELECT
+			t.test_date testDate
+			, t.test_no testNo
+			, t.test_title testTitle
+			, q.question_no questionNo
+			, q.question_idx questionIdx
+			, q.question_title questionTitle
+			, e.example_no exampleNo
+			, e.example_idx exampleIdx
+			, e.example_title exampleTitle
+			, e.example_ox exampleOx
+		FROM
+			example e INNER JOIN question q
+			ON e.question_no = q.question_no
+				INNER JOIN test t
+				ON q.test_no = t.test_no
+		WHERE t.test_no = #{testNo}
+	</select>
+	
 	<!-- 지난 시험 -->
 	<select id="selectPastTestList"
 			resultType="goodee.gdj58.online.vo.Test">
@@ -11,6 +34,7 @@
 			, test_title testTitle
 		FROM test
 		WHERE test_date <![CDATA[<]]> CURDATE()
+		LIMIT 10
 	</select>
 	
 	<!-- 오늘 시험 -->
@@ -33,6 +57,7 @@
 			, test_title testTitle
 		FROM test
 		WHERE test_date <![CDATA[>]]> CURDATE()
+		LIMIT 10
 	</select>
 	
 	<!-- 문제 등록 시 불러올 시험 정보 -->
@@ -92,7 +117,7 @@
 			, test_date testDate
 		FROM test
 		ORDER BY test_no DESC
-		LIMIT 0, 5;
+		LIMIT 10;
 	</select>
 
 	<!-- 전체 시험 갯수 -->

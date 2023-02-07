@@ -81,7 +81,7 @@
 			, question_title questionTitle
 		FROM question
 		ORDER BY question_no DESC
-		LIMIT 0, 5
+		LIMIT 10
 	</select>
 	
 	<!-- 전체 문제 갯수 -->

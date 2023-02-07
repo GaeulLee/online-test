@@ -19,12 +19,19 @@
 				<th>시험일정</th>
 				<th>시험명</th>
 			</tr>
-			<c:forEach var="pt" items="${pastTList}">
+			<c:if test="${pastTList == null}">
 				<tr>
-					<td>${pt.testDate}</td>
-					<td>${pt.testTitle}</td>
+					<td>지난 시험이 없습니다.</td>
 				</tr>
-			</c:forEach>
+			</c:if>
+			<c:if test="${pastTList != null}">
+				<c:forEach var="pt" items="${pastTList}">
+					<tr>
+						<td>${pt.testDate}</td>
+						<td>${pt.testTitle}</td>
+					</tr>
+				</c:forEach>
+			</c:if>
 		</table>
 	</div>
 	
@@ -35,12 +42,19 @@
 				<th>시험일정</th>
 				<th>시험명</th>
 			</tr>
-			<c:forEach var="ct" items="${currentTList}">
+			<c:if test="${currentTList == null}">
 				<tr>
-					<td>${ct.testDate}</td>
-					<td>${ct.testTitle}</td>
+					<td>오늘 볼 시험이 없습니다.</td>
 				</tr>
-			</c:forEach>
+			</c:if>
+			<c:if test="${currentTList != null}">
+				<c:forEach var="ct" items="${currentTList}">
+					<tr>
+						<td>${ct.testDate}</td>
+						<td>${ct.testTitle}</td>
+					</tr>
+				</c:forEach>
+			</c:if>
 		</table>
 	</div>
 	
@@ -51,12 +65,19 @@
 				<th>시험일정</th>
 				<th>시험명</th>
 			</tr>
-			<c:forEach var="ft" items="${futureTList}">
+			<c:if test="${futureTList == null}">
 				<tr>
-					<td>${ft.testDate}</td>
-					<td>${ft.testTitle}</td>
+					<td>예정된 시험이 없습니다.</td>
 				</tr>
-			</c:forEach>
+			</c:if>
+			<c:if test="${futureTList != null}">
+				<c:forEach var="ft" items="${futureTList}">
+					<tr>
+						<td>${ft.testDate}</td>
+						<td>${ft.testTitle}</td>
+					</tr>
+				</c:forEach>
+			</c:if>
 		</table>
 	</div>
 	

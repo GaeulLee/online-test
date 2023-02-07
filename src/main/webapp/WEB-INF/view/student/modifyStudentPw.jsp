@@ -9,7 +9,7 @@
 <body>
 	<!-- empMenu include -->
 	<div>
-		<c:import url="/WEB-INF/view/employee/inc/empMenu.jsp"></c:import>
+		<c:import url="/WEB-INF/view/student/inc/studentMenu.jsp"></c:import>
 	</div>
 	
 	<h1>${loginStudent.studentName}님 비밀번호 수정</h1>

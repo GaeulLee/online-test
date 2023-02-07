@@ -96,6 +96,7 @@ public class StudentController {
 	}
 	
 	// **************************** 관리자 기능
+	
 	// 1) 학생 등록
 	@GetMapping("/employee/student/addStudent")
 	public String addStudent() {
