@@ -10,39 +10,45 @@
 <c:forEach var="q" items="${qList}" varStatus="i">
 	<script>
 		$(document).ready(function(){
-			
+
 			const index = '<c:out value="${i.index}"/>';
-			const nameForExampleInput = 'input[name=answer'+index+']:radio';
-			const answerCheckResult = 'input[name=answer'+index+']:radio:checked';
-			const classChecked = '.answer'+index+':checked';
-			const idGetAnswer = '#getAnswer'+index;
+			const inputNameAnswerRadio = 'input[name=answer'+index+']:radio';
+			const answerChecked = '.answer'+index+':checked';
+			const getAnswer = '#getAnswer'+index;
+			
+			//const answerVal = 'input[name=answer'+index+']:radio:checked';
+			
+			var valueCntCk = Number(1);
 			
 			// console.log('index '+index);
-			// console.log('nameForExampleInput '+nameForExampleInput);
-			// console.log('classChecked '+classChecked);
-			// console.log('idGetAnswer '+idGetAnswer);
+			console.log('inputNameAnswerRadio '+inputNameAnswerRadio);
 			
-			$(nameForExampleInput).change(function(){
-				$(idGetAnswer).attr("value", $(classChecked).val());
-				// var test = $(classChecked).val();
-				// console.log(test);
+			// 보기의 값이 바뀌면 보기 인풋(name=answer+index)의 값을 히든으로 넘길 인풋(name=answer)에 넣음
+			$(inputNameAnswerRadio).change(function(){
+				$(getAnswer).attr("value", $(this).val());
 			});
-			
-			$('#addPaperBtn').click(function(){
-				
-				if($(answerCheckResult).length == 0){
-					$('#msg').text('모든 문제에 답을 해주세요.');
-					console.log('msg');
-				} else {
-					$('#addPaperForm').submit();
-				}
-				
-			});
-			
+
 		});
 	</script>
-	
 </c:forEach>
+<script>
+	$(document).ready(function(){
+		
+		const listSize = '<c:out value="${fn:length(qList)}"/>';
+		
+		$('#addPaperBtn').click(function(){
+					
+			if($('.answerClass:checked').length < listSize){
+				console.log('length 진입');
+				$('#msg').text('모든 문제에 답을 해주세요.');
+				console.log('msg');
+			} else if($('.answerClass:checked').length = listSize) {
+				$('#addPaperForm').submit();
+			}
+
+		});
+	});
+</script>
 </head>
 <body>
 	<!-- studentMenu include -->
@@ -69,7 +75,7 @@
 							<c:if test="${q.questionNo == e.questionNo}">
 								<div>
 									<label>
-										<input type="radio" name="answer${i.index}" class="answer${i.index}" id="putAnswer${i.index}" value="${e.exampleIdx}">
+										<input type="radio" name="answer${i.index}" class="answerClass" value="${e.exampleIdx}">
 										 A${e.exampleIdx}. ${e.exampleTitle}
 									</label>
 								</div>
