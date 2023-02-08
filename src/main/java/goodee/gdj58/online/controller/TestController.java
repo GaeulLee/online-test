@@ -1,8 +1,8 @@
 package goodee.gdj58.online.controller;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import goodee.gdj58.online.service.TestService;
+import goodee.gdj58.online.vo.Student;
 import goodee.gdj58.online.vo.Test;
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,20 +23,17 @@ public class TestController {
 	
 	// ****************************** 학생 기능
 	
-	// 시험 목록
+	// 응시한 시험 목록
 	@GetMapping("/student/studentTestList")
-	public String studentTestList(Model model) {
+	public String studentTestList(Model model, HttpSession session) {
+		
+		Student loginStudent = (Student)session.getAttribute("loginStudent");
+		int studentNo = loginStudent.getStudentNo();
 		
 		// 서비스 호출
-		List<Test> testList = testService.getTestListForQuestion();
+		List<Test> list = testService.getStudentTestList(studentNo);
 		
-        // 현재 날짜 구하기
-        LocalDate now = LocalDate.now();
-        
-        log.debug("\u001B[32m"+"formatedNow -------------->"+now);
-		
-		model.addAttribute("testList", testList);
-		model.addAttribute("now", now);
+		model.addAttribute("list", list);
 		
 		return "student/studentTestList";
 	}

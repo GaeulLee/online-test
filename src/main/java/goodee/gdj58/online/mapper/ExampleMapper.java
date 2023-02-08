@@ -10,6 +10,9 @@ import goodee.gdj58.online.vo.Example;
 @Mapper
 public interface ExampleMapper {
 	
+	// 오답인 문제 보기 출력
+	List<Example> selectWrongExampleList(Map<String, Object> paramMap);
+	
 	// 응시할 시험 보기 출력
 	List<Map<String, Object>> selectExampleByTestNo(int testNo);
 	

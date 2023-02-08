@@ -16,6 +16,16 @@ import goodee.gdj58.online.vo.Example;
 public class ExampleService {
 	@Autowired ExampleMapper exampleMapper;
 	
+	// 오답인 문제 보기 출력
+	public List<Example> getWrongExampleList(int testNo, int studentNo){
+		
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("testNo", testNo);
+		paramMap.put("studentNo", studentNo);
+		
+		return exampleMapper.selectWrongExampleList(paramMap);
+	}
+	
 	// 응시할 시험 보기 출력
 	public List<Map<String, Object>> getExampleByTestNo(int testNo){
 		return exampleMapper.selectExampleByTestNo(testNo);

@@ -17,6 +17,7 @@ import goodee.gdj58.online.service.ExampleService;
 import goodee.gdj58.online.service.PaperService;
 import goodee.gdj58.online.service.QuestionService;
 import goodee.gdj58.online.service.TestService;
+import goodee.gdj58.online.vo.Example;
 import goodee.gdj58.online.vo.Paper;
 import goodee.gdj58.online.vo.Student;
 import goodee.gdj58.online.vo.Test;
@@ -30,11 +31,62 @@ public class PaperController {
 	@Autowired ExampleService exampleService;
 	@Autowired PaperService paperService;
 	
-	// 응시할 시험 불러오기(답안 등록)
-	@GetMapping("/student/addPaper")
-	public String addPaper(Model model
+	// 응시한 시험 상세보기
+	@GetMapping("/student/paperOne")
+	public String paperOne(Model model, HttpSession session
 						, @RequestParam(value="testNo") int testNo) {
 		
+		// 세션에서 학생 no 받기
+		Student student = (Student)session.getAttribute("loginStudent");
+		int studentNo = student.getStudentNo();
+		
+		// 서비스 호출
+		Test test = testService.getTestOne(testNo); // 시험 정보를 위한 서비스
+		List<Map<String, Object>> list = paperService.getPaperByTestNoAndStudentNo(testNo, studentNo); // 문제와 정답인 보기
+		List<Example> wrongList = exampleService.getWrongExampleList(testNo, studentNo);
+		
+		// 정답과 학생의 답 비교하여 점수계산
+		int[] exampleIdx = new int[list.size()];
+		int[] answer = new int[list.size()];
+		int scorePerQuestion = 20;
+		int totalScore = 0;
+		for(int i = 0; i<list.size(); i++) {
+			// 1) list에 담긴 exampleIdx와 answer를 각각의 배열에 담기
+			exampleIdx[i] = Integer.parseInt(list.get(i).get("exampleIdx").toString());
+			answer[i] = Integer.parseInt(list.get(i).get("answer").toString());
+			
+			// 2) 두 배열 비교
+			if(exampleIdx[i] == answer[i]) {
+				totalScore = totalScore + scorePerQuestion;
+			}
+		}
+		
+		// 모델에 담아 뷰로 넘기기
+		model.addAttribute("testTitle", test.getTestTitle());
+		model.addAttribute("testDate", test.getTestDate());
+		model.addAttribute("list", list);
+		model.addAttribute("wrongList", wrongList);
+		model.addAttribute("totalScore", totalScore);
+		
+		return "student/paperOne";
+	}
+	
+	// 응시할 시험 불러오기(답안 등록)
+	@GetMapping("/student/addPaper")
+	public String addPaper(Model model, HttpSession session
+						, @RequestParam(value="testNo") int testNo) {
+		
+		 // 시험 응시 여부 확인
+		Student student = (Student)session.getAttribute("loginStudent");
+		List<Map<String, Object>> list = paperService.getPaperByTestNoAndStudentNo(testNo, student.getStudentNo());
+		if(!list.isEmpty()) {
+			log.debug("\u001B[32m"+"잘못된 접근 : 시험 답안 데이터 있음");
+			model.addAttribute("err", "이미 응시한 시험입니다.");
+			
+			return "redirect:/student/studentTestList";
+		}
+		
+		// 서비스 호출
 		Test test = testService.getTestOne(testNo);
 		List<Map<String, Object>> eList = exampleService.getExampleByTestNo(testNo);
 		List<Map<String, Object>> qList = questionService.getQuestionByTestNo(testNo);

@@ -76,7 +76,7 @@
 								<div>
 									<label>
 										<input type="radio" name="answer${i.index}" class="answerClass" value="${e.exampleIdx}">
-										 A${e.exampleIdx}. ${e.exampleTitle}
+										 ${e.exampleIdx}번 ${e.exampleTitle}
 									</label>
 								</div>
 							</c:if>

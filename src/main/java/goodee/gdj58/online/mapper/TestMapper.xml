@@ -2,6 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="goodee.gdj58.online.mapper.TestMapper">
 	
+	<!-- 응시한 시험 목록 -->
+	<select id="selectStudentTestList"
+			parameterType="Integer"
+			resultType="goodee.gdj58.online.vo.Test">
+		SELECT
+			t.test_title testTitle
+			, t.test_date testDate
+			, t.test_no testNo
+		FROM paper p
+			INNER JOIN question q
+			ON q.question_no = p.question_no
+				INNER JOIN test t
+				ON t.test_no = q.test_no
+		WHERE p.student_no = #{studentNo}
+		GROUP BY t.test_no
+	</select>
+	
 	<!-- 응시할 시험 불러오기 -->
 	<select id="selectTestListForPaper"
 			parameterType="Integer"
@@ -41,11 +58,18 @@
 	<select id="selectCurrnetTestList"
 			resultType="goodee.gdj58.online.vo.Test">
 		SELECT
-			test_no testNo
-			, test_date testDate
-			, test_title testTitle
-		FROM test
-		WHERE test_date = CURDATE()
+			t.test_no testNo
+			, t.test_date testDate
+			, t.test_title testTitle
+			, q.question_idx
+			, e.example_idx
+		FROM test t
+			LEFT OUTER JOIN question q
+			ON t.test_no = q.test_no
+				LEFT OUTER JOIN example e
+				ON q.question_no = e.question_no
+		WHERE t.test_date = CURDATE() AND q.question_idx IS NOT NULL AND e.example_no IS NOT NULL
+		GROUP BY t.test_no
 	</select>
 	
 	<!-- 예정 시험 -->

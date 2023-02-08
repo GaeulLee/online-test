@@ -2,6 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="goodee.gdj58.online.mapper.ExampleMapper">
 	
+	<!-- 오답인 문제 보기 출력 -->
+	<select id="selectWrongExampleList"
+			parameterType="java.util.Map"
+			resultType="goodee.gdj58.online.vo.Example">
+		SELECT
+			q.question_no questionNo
+			, e.example_idx exampleIdx
+			, e.example_title exampleTitle
+		FROM example e 
+			INNER JOIN question q
+			ON e.question_no = q.question_no
+				INNER JOIN paper p
+				ON p.question_no = q.question_no
+		WHERE q.test_no = #{testNo} AND e.example_ox = '오답' AND p.student_no = #{studentNo}
+		ORDER BY q.question_idx, e.example_idx;
+	</select>
+	
 	<!-- 응시할 시험 보기 출력 -->
 	<select id="selectExampleByTestNo"
 			parameterType="Integer"
@@ -14,7 +31,8 @@
 		FROM
 			example e inner JOIN question q ON e.question_no = q.question_no
 				inner JOIN test t ON q.test_no = t.test_no
-		WHERE t.test_no = #{testNo};
+		WHERE t.test_no = #{testNo}
+		ORDER BY e.example_idx
 	</select>
 	
 	<!-- 문제 보기 삭제 -->

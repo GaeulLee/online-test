@@ -12,37 +12,23 @@
 		<c:import url="/WEB-INF/view/student/inc/studentMenu.jsp"></c:import>
 	</div>
 	
-	<h2>test list</h2>
+	<h2>내가 본 시험 목록</h2>
 	<table>
 		<tr>
-			<th>시험일정</th>
-			<th>시험명</th>
-			<th>응시가능여부</th>
+			<th>시험날짜</th>
+			<th colspan="2">시험명</th>
 		</tr>
-		<c:forEach var="t" items="${testList}">
-			<c:if test="${t.testDate < now}">
-				<tr>
-					<td>${t.testDate}</td>
-					<td>${t.testTitle}</td>
-					<td>내 점수</td>
-				</tr>
-			</c:if>
-			<c:if test="${t.testDate == now}">
-				<tr>
-					<td>${t.testDate}</td>
-					<td>${t.testTitle}</td>
-					<td>
-						<a href="${pageContext.request.contextPath}/student/addPaper?testNo=${t.testNo}">응시하기</a>
-					</td>
-				</tr>
-			</c:if>
-			<c:if test="${t.testDate > now}">
-				<tr>
-					<td>${t.testDate}</td>
-					<td>${t.testTitle}</td>
-					<td>응시 불가</td>
-				</tr>
-			</c:if>
+		<c:forEach var="t" items="${list}">
+			<tr>
+				<td>${t.testDate}</td>
+				<td>${t.testTitle}</td>
+				<td>
+					<button type="button"
+							onclick="location.href='${pageContext.request.contextPath}/student/paperOne?testNo=${t.testNo}'">
+						점수확인
+					</button>
+				</td>
+			</tr>
 		</c:forEach>
 	</table>
 </body>

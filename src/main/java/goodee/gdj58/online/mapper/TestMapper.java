@@ -10,6 +10,11 @@ import goodee.gdj58.online.vo.Test;
 @Mapper
 public interface TestMapper {
 	
+	// *********************** 학생
+	
+	// 응시한 시험 목록
+	List<Test> selectStudentTestList(int studentNo);
+	
 	// 응시할 시험 불러오기
 	List<Map<String, Object>> selectTestListForPaper(int testNo);
 	
@@ -24,6 +29,9 @@ public interface TestMapper {
 	
 	// 문제 등록시 불러올 시험 정보
 	List<Test> selectTestListForAddQuestion();
+	
+	
+	// ************************ 강사
 	
 	// 시험 회차 삭제
 	int deleteTest(int testNo);

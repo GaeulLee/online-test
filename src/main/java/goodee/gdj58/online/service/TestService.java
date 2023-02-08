@@ -16,6 +16,13 @@ import goodee.gdj58.online.vo.Test;
 public class TestService {
 	@Autowired TestMapper testMapper;
 	
+	// ******************************* 학생
+	
+	// 응시한 시험 목록
+	public List<Test> getStudentTestList(int studentNo) {
+		return testMapper.selectStudentTestList(studentNo);
+	}
+	
 	// 응시할 시험 불러오기
 	public List<Map<String, Object>> getTestListForPaper(int testNo){
 		return testMapper.selectTestListForPaper(testNo);
@@ -35,6 +42,9 @@ public class TestService {
 	public List<Test> getFutureTestList(){
 		return testMapper.selectFutureTestList();
 	}
+	
+	
+	// ******************************* 강사
 	
 	// 문제 등록시 불러올 시험 정보
 	public List<Test> getTestListForQuestion(){

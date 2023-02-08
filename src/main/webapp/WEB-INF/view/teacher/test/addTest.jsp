@@ -27,41 +27,8 @@
 				</td>
 			</tr>
 			
-			<!-- 문제 -->
 			<tr>
-				<th colspan="1">문제 번호</th>
-				<td colspan="3">
-					<input type="number" name="questionIdx" value="1" disabled>
-				</td>
-			</tr>
-			<tr>
-				<th colspan="1">문제</th>
-				<td colspan="3">
-					<textarea name="questionTitle" rows="7" cols="50"></textarea>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="4"><button type="button" >문제 추가</button></td>
-			</tr>
-			
-			<!-- 보기 -->
-			<tr>
-				<th colspan="1">보기 번호</th>
-				<td colspan="3">
-					<input type="number" name="exampleIdx" value="1" disabled>
-				</td>
-			</tr>
-			<tr>
-				<th colspan="1">보기</th>
-				<td colspan="3">
-					<textarea name="exampleTitle" rows="7" cols="50"></textarea>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="4"><button type="button" >보기 추가</button></td>
-			</tr>
-			<tr>
-				<td>
+				<td colspan="2">
 					<button type="submit">추가</button>
 				</td>
 			</tr>

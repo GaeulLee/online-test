@@ -16,6 +16,7 @@
 		FROM test t INNER JOIN question q
 			ON t.test_no = q.test_no
 		WHERE t.test_no = #{testNo}
+		ORDER BY q.question_idx
 	</select>
 	
 	<!-- 보기 등록시 불러올 문제 정보 -->
