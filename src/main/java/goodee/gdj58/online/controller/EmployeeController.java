@@ -153,7 +153,7 @@ public class EmployeeController {
 		log.debug("\u001B[35m"+"rowPerPage------> "+rowPerPage);
 		log.debug("\u001B[35m"+"currentPage------> "+currentPage);
 		
-		List<Employee> list = employeeService.getEmployeeList(rowPerPage, currentPage, searchWord);
+		List<Employee> list = employeeService.getEmployeeList(currentPage, rowPerPage, searchWord);
 		int cnt = employeeService.getEmpCnt(searchWord);
 		int lastPage = cnt/rowPerPage;
 		
