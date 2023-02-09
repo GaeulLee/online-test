@@ -59,11 +59,6 @@ public class ExampleService {
 		return exampleMapper.selectExampleOne(exampleNo);
 	}
 	
-	// 최근 등록 문제
-	public List<Example> getRecentExampleList(){
-		return exampleMapper.selectRecentExampleList();
-	}
-	
 	// 전체 보기 갯수
 	public int getExampleCnt(String searchWord) {
 		return exampleMapper.selectExampleCnt(searchWord);

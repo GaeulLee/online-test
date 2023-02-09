@@ -35,22 +35,7 @@
 			</tr>
 			<c:forEach var="q" items="${qList}">
 				<tr>
-					<td>Q${q.questionIdx}. ${q.questionTitle}</td>
-				</tr>
-			</c:forEach>
-		</table>
-	</div>
-	<div>
-		<h2>최근 등록된 보기</h2>
-		<table>
-			<tr>
-				<th>보기</th>
-				<th>정답유무</th>
-			</tr>
-			<c:forEach var="e" items="${eList}">
-				<tr>
-					<td>A${e.exampleIdx}. ${e.exampleTitle}</td>
-					<td>${e.exampleOx}</td>
+					<td>${q.questionIdx}번 ${q.questionTitle}</td>
 				</tr>
 			</c:forEach>
 		</table>

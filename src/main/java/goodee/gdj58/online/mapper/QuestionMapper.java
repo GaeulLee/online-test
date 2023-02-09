@@ -31,13 +31,4 @@ public interface QuestionMapper {
 	
 	// 최근 시험 문제
 	List<Question> selectRecentQuestionList();
-	
-	// 전체 문제 개수
-	int selectQuestionCnt(String searchWord);
-	
-	// 전체 시험 문제 목록
-	List<Map<String, Object>> selectQuestionListAll(Map<String, Object> paramMap);
-	
-	// 시험 문제 목록
-	List<Question> selectQuestionList(int testNo);
 }

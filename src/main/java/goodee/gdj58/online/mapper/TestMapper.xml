@@ -2,6 +2,37 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="goodee.gdj58.online.mapper.TestMapper">
 	
+	<!-- 문제번호 최댓값 -->
+	<select id="selectMaxQueIdx"
+			parameterType="Integer"
+			resultType="Integer">
+		SELECT MAX(q.question_idx)+1 maxQueIdx
+		FROM question q
+			INNER JOIN test t
+			ON q.test_no = t.test_no
+		WHERE t.test_no = #{testNo}
+	</select>
+	
+	<!-- 문제 추가(보기 포함) -->
+	<insert id="insertQNE"
+			parameterType="java.util.Map">
+		INSERT INTO 
+	</insert>
+	
+	<!-- 시험 문제 목록 -->
+	<select id="selectQuestionList"
+			parameterType="Integer"
+			resultType="goodee.gdj58.online.vo.Question">
+		SELECT
+			test_no testNo
+			, question_no questionNo
+			, question_idx questionIdx
+			, question_title questionTitle
+		FROM question
+		WHERE test_no = #{testNo}
+		ORDER BY question_idx ASC
+	</select>
+	
 	<!-- 응시한 시험 목록 -->
 	<select id="selectStudentTestList"
 			parameterType="Integer"

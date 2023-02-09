@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import goodee.gdj58.online.vo.Question;
 import goodee.gdj58.online.vo.Test;
 
 @Mapper
@@ -32,6 +33,24 @@ public interface TestMapper {
 	
 	
 	// ************************ 강사
+	
+	// ****** 문제 및 보기 CRUD
+	
+	// 문제 삭제(보기 포함)
+	
+	// 문제 수정(보기 포함)
+	
+	// 문제 번호 최댓값(문제 추가 시 필요)
+	int selectMaxQueIdx(int testNo);
+	
+	// 문제 추가(보기 포함)
+	int insertQNE(Map<String, Object> paramMap);
+	
+	// 문제 목록
+	List<Question> selectQuestionList(int testNo);
+	
+	
+	// ****** 시험 CRUD
 	
 	// 시험 회차 삭제
 	int deleteTest(int testNo);

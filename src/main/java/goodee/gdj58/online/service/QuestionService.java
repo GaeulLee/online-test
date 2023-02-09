@@ -56,26 +56,4 @@ public class QuestionService {
 	public List<Question> getRecentQuestionList(){
 		return questionMapper.selectRecentQuestionList();
 	}
-	
-	// 전체 문제 갯수
-	public int getQuestionCnt(String searchWord) {
-		return questionMapper.selectQuestionCnt(searchWord);
-	}
-	
-	// 전체 시험 문제 목록
-	public List<Map<String, Object>> getQuestionListAll(int rowPerPage, int currentPage, String searchWord){
-		
-		int beginRow = (currentPage-1)*rowPerPage;
-		Map<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("beginRow", beginRow);
-		paramMap.put("rowPerPage", rowPerPage);
-		paramMap.put("searchWord", searchWord);
-		
-		return questionMapper.selectQuestionListAll(paramMap);
-	}
-	
-	// 시험 문제 목록
-	public List<Question> getQuestionList(int testNo){
-		return questionMapper.selectQuestionList(testNo);
-	}
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import goodee.gdj58.online.mapper.TestMapper;
+import goodee.gdj58.online.vo.Question;
 import goodee.gdj58.online.vo.Test;
 
 @Service
@@ -50,6 +51,26 @@ public class TestService {
 	public List<Test> getTestListForQuestion(){
 		return testMapper.selectTestListForAddQuestion();
 	}
+	
+	
+	// ******** 문제 및 보기 CRUD
+	
+	// 문제 삭제
+	
+	// 문제 수정
+	
+	// 문제 번호 최댓값
+	public int getMaxQueIdx(int testNo) {
+		return testMapper.selectMaxQueIdx(testNo);
+	}
+	
+	// 문제 목록
+	public List<Question> getQuestionList(int testNo){
+		return testMapper.selectQuestionList(testNo);
+	}
+	
+	
+	// ******** 시험 CRUD
 	
 	// 시험 회차 삭제
 	public int removeTest(int testNo) {

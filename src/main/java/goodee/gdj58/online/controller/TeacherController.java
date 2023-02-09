@@ -86,11 +86,9 @@ public class TeacherController {
 	@GetMapping("/teacher/teacherHome")
 	public String teacherHome(Model model) {
 		
-		List<Example> eList = exampleService.getRecentExampleList();
 		List<Question> qList = questionService.getRecentQuestionList();
 		List<Test> tList = testService.getRecentTestList();
 		
-		model.addAttribute("eList", eList);
 		model.addAttribute("qList", qList);
 		model.addAttribute("tList", tList);
 		

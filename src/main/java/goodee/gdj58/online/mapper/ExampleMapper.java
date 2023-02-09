@@ -28,9 +28,6 @@ public interface ExampleMapper {
 	// 수정 시 불러올 보기
 	Example selectExampleOne(int exampleNo);
 	
-	// 최근 등록된 보기
-	List<Example> selectRecentExampleList();
-	
 	// 전체 문제 개수
 	int selectExampleCnt(String searchWord);
 	

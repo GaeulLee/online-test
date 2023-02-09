@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>testList</title>
+<title>testListForAdd</title>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 </head>
 <body>
@@ -13,14 +13,11 @@
 		<c:import url="/WEB-INF/view/teacher/inc/teacherMenu.jsp"></c:import>
 	</div>
 	
-	<h2>전체 시험 목록</h2>
-	<div>
-		<a href="${pageContext.request.contextPath}/teacher/test/addTest">시험 추가</a>
-	</div>
+	<h2>문제등록</h2>
 	
 	<!-- 시험 검색 폼 -->
 	<div>
-		<form action="${pageContext.request.contextPath}/teacher/test/testList" method="get">
+		<form action="${pageContext.request.contextPath}/teacher/test/qne/testListForAdd" method="get">
 			<input type="text" name="searchWord" placeholder="시험명 검색">
 			<button type="submit">검색</button>	
 		</form>
@@ -30,16 +27,15 @@
 	<table>
 		<tr>
 			<th>시험 날짜</th>
-			<th>시험 제목</th>
-			<th>편집</th>
+			<th colspan="2">시험 제목</th>
 		</tr>
 		<c:forEach var="t" items="${list}">
 			<tr>
 				<td>${t.testDate}</td>
 				<td>${t.testTitle}</td>
 				<td>
-					<a href="${pageContext.request.contextPath}/teacher/test/modifyTest?testNo=${t.testNo}">수정</a>
-					<a href="${pageContext.request.contextPath}/teacher/test/removeTest?testNo=${t.testNo}">삭제</a>
+					<button type="button"
+							onclick="location.href='${pageContext.request.contextPath}/teacher/test/qne/qneList?testNo=${t.testNo}'">문제등록</button>
 				</td>
 			</tr>		
 		</c:forEach>
@@ -48,12 +44,12 @@
 	<!-- paging -->
 	<div>
 		<!-- 처음, 이전 -->
-		<a href="${pageContext.request.contextPath}/teacher/test/testList?currentPage=1&searchWord=${searchWord}">처음</a>
+		<a href="${pageContext.request.contextPath}/teacher/test/qne/testListForAdd?currentPage=1&searchWord=${searchWord}">처음</a>
 		<c:if test="${currentPage == 1}">
 			<span>이전</span>
 		</c:if>
 		<c:if test="${currentPage > 1}">
-			<a href="${pageContext.request.contextPath}/teacher/test/testList?currentPage=${currentPage-1}&searchWord=${searchWord}">이전</a>
+			<a href="${pageContext.request.contextPath}/teacher/test/qne/testListForAdd?currentPage=${currentPage-1}&searchWord=${searchWord}">이전</a>
 		</c:if>
 		
 		<!-- 현재 페이지, 10개 출력 -->
@@ -62,7 +58,7 @@
 				<span>${a.current}</span>
 			</c:if>
 			<c:if test="${a.current != currentPage}">
-				<a href="${pageContext.request.contextPath}/teacher/test/testList?currentPage=${a.current}&searchWord=${searchWord}">${a.current}</a>
+				<a href="${pageContext.request.contextPath}/teacher/test/qne/testListForAdd?currentPage=${a.current}&searchWord=${searchWord}">${a.current}</a>
 			</c:if>
 		</c:forEach>
 		
@@ -71,9 +67,9 @@
 			<span>다음</span>
 		</c:if>
 		<c:if test="${currentPage < lastPage}">
-			<a href="${pageContext.request.contextPath}/teacher/test/testList?currentPage=${currentPage+1}&searchWord=${searchWord}">다음</a>
+			<a href="${pageContext.request.contextPath}/teacher/test/qne/testListForAdd?currentPage=${currentPage+1}&searchWord=${searchWord}">다음</a>
 		</c:if>
-		<a href="${pageContext.request.contextPath}/teacher/test/testList?currentPage=${lastPage}&searchWord=${searchWord}">마지막</a>
+		<a href="${pageContext.request.contextPath}/teacher/test/qne/testListForAdd?currentPage=${lastPage}&searchWord=${searchWord}">마지막</a>
 	</div>
 	
 </body>
