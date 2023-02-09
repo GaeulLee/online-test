@@ -64,11 +64,6 @@ public class TestService {
 		return testMapper.selectMaxQueIdx(testNo);
 	}
 	
-	// 문제 목록
-	public List<Question> getQuestionList(int testNo){
-		return testMapper.selectQuestionList(testNo);
-	}
-	
 	
 	// ******** 시험 CRUD
 	

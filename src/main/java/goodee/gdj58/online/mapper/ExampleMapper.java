@@ -16,23 +16,11 @@ public interface ExampleMapper {
 	// 응시할 시험 보기 출력
 	List<Map<String, Object>> selectExampleByTestNo(int testNo);
 	
-	// 문제 보기 삭제
-	int deleteExample(int exampleNo);
-	
 	// 문제 보기 수정
 	int updateExample(Example example);
 	
 	// 문제 보기 추가
-	int insertExample(Map<String, Object> paramMap);
-	
-	// 수정 시 불러올 보기
-	Example selectExampleOne(int exampleNo);
-	
-	// 전체 문제 개수
-	int selectExampleCnt(String searchWord);
-	
-	// 전체 문제 보기 목록
-	List<Map<String, Object>> selectExampleListAll(Map<String, Object> paramMap);
+	int insertExample(Example example);
 	
 	// 문제 보기 목록
 	List<Example> selectExampleList(int questionNo);

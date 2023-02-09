@@ -1,6 +1,5 @@
 package goodee.gdj58.online.service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,14 +36,8 @@ public class QuestionService {
 	}
 	
 	// 시험 문제 추가
-	public int addQuestion(Question question, int testNo) {
-		
-		Map<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("questionIdx", question.getQuestionIdx());
-		paramMap.put("questionTitle", question.getQuestionTitle());
-		paramMap.put("testNo", testNo);
-		
-		return questionMapper.insertQuestion(paramMap);
+	public int addQuestion(Question question) {	
+		return questionMapper.insertQuestion(question);
 	}
 	
 	// 수정 시 불러올 시험 문제
@@ -55,5 +48,10 @@ public class QuestionService {
 	// 최근 시험 문제
 	public List<Question> getRecentQuestionList(){
 		return questionMapper.selectRecentQuestionList();
+	}
+	
+	// 문제 목록
+	public List<Question> getQuestionList(int testNo){
+		return questionMapper.selectQuestionList(testNo);
 	}
 }

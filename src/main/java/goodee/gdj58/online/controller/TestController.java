@@ -53,15 +53,75 @@ public class TestController {
 	// 문제 삭제(보기 포함)
 	@GetMapping("/teacher/test/qne/removeQne")
 	public String removeQne(Model model
-							, @RequestParam(value="testNo") int testNo) {
-		return "";
+							, @RequestParam(value="testNo") int testNo
+							, @RequestParam(value="questionNo") int questionNo) {
+		
+		
+		return "redirect:/teacher/test/qne/qneList?testNo="+testNo;
 	}
 	
 	// 문제 수정(보기 포함)
 	@GetMapping("/teacher/test/qne/modifyQne")
 	public String modifyQne(Model model
-							, @RequestParam(value="testNo") int testNo) {
-		return "";
+							, @RequestParam(value="testNo") int testNo
+							, @RequestParam(value="questionNo") int questionNo) {
+		
+		Test test = testService.getTestOne(testNo); // 시험 정보 출력용
+		Question question = questionService.getQuestionOne(questionNo);
+		List<Example> eList = exampleService.getExampleList(questionNo);
+		
+		model.addAttribute("test", test);
+		model.addAttribute("question", question);
+		model.addAttribute("eList", eList);
+		
+		return "teacher/test/qne/modifyQne";
+	}
+	@PostMapping("/teacher/test/qne/modifyQne")
+	public String modifyQne(Model model
+				, @RequestParam(value="testNo") int testNo
+				, @RequestParam(value="questionNo") int questionNo
+				, @RequestParam(value="questionIdx") int questionIdx
+				, @RequestParam(value="questionTitle") String questionTitle
+				, @RequestParam(value="exampleTitle") String[] exampleTitle
+				, @RequestParam(value="exampleOx") String[] exampleOx) {
+		
+		log.debug("\u001B[32m"+"questionNo------>"+questionNo);
+		log.debug("\u001B[32m"+"questionTitle------>"+questionTitle);
+		log.debug("\u001B[32m"+"exampleOx------>"+exampleOx.length);
+		log.debug("\u001B[32m"+"exampleOx------>"+exampleOx[0]);
+		
+		// 1) 문제 수정
+		Question que = new Question();
+		que.setTestNo(testNo);
+		que.setQuestionIdx(questionIdx);
+		que.setQuestionNo(questionNo);
+		que.setQuestionTitle(questionTitle);
+		
+		int queRow = questionService.modifyQuestion(que);
+		if(queRow == 0) {
+			log.debug("\u001B[32m"+"문제 수정 실패");
+			return "redirect:/teacher/test/qne/qneList?testNo="+testNo;
+		}
+		log.debug("\u001B[32m"+"문제 수정 성공, 보기 수정 진행");
+		
+				
+		// 2) 보기 수정
+		for(int i=0; i<4; i++) { // 보기의 갯수 만큼 insert 진행
+			Example e = new Example();
+			e.setQuestionNo(questionNo);
+			e.setExampleIdx(i+1);
+			e.setExampleTitle(exampleTitle[i]);
+			e.setExampleOx(exampleOx[i]);
+			
+			int examRow = exampleService.modifyExample(e);
+			if(examRow == 0) {
+				log.debug("\u001B[32m"+(i+1)+"번째 보기 수정 실패");
+				return "redirect:/teacher/test/qne/qneList?testNo="+testNo;
+			}
+		}
+		log.debug("\u001B[32m"+"모든 보기 수정 성공");
+		
+	return "redirect:/teacher/test/qne/qneList?testNo="+testNo;
 	}
 	
 	// 문제 추가(보기 포함)
@@ -70,7 +130,7 @@ public class TestController {
 							, @RequestParam(value="testNo") int testNo) {
 		
 		Test test = testService.getTestOne(testNo); // 시험 정보 출력용
-		List<Question> list = testService.getQuestionList(testNo); // 등록된 문제 존재 유무 확인용
+		List<Question> list = questionService.getQuestionList(testNo); // 등록된 문제 존재 유무 확인용
 		
 		// 문제 번호 순차적으로 입력 하기위함
 		int maxQueIdx = 0;
@@ -97,7 +157,6 @@ public class TestController {
 					, @RequestParam(value="exampleTitle") String[] exampleTitle
 					, @RequestParam(value="exampleOx") String[] exampleOx) {
 		
-		// questionIdx, questionTitle, exampleIdx[1,2,3,4], exampleTitle[], exampleOx[]
 		log.debug("\u001B[32m"+"questionIdx------>"+questionIdx);
 		log.debug("\u001B[32m"+"questionTitle------>"+questionTitle);
 		log.debug("\u001B[32m"+"exampleOx------>"+exampleOx.length);
@@ -105,10 +164,11 @@ public class TestController {
 		
 		// 1) 문제 입력
 		Question que = new Question();
+		que.setTestNo(testNo);
 		que.setQuestionIdx(questionIdx);
 		que.setQuestionTitle(questionTitle);
 		
-		int queRow = questionService.addQuestion(que, testNo);
+		int queRow = questionService.addQuestion(que);
 		if(queRow == 0) {
 			log.debug("\u001B[32m"+"문제 입력 실패");
 			return "redirect:/teacher/test/qne/qneList?testNo="+testNo;
@@ -121,11 +181,12 @@ public class TestController {
 		// 2) 보기 입력
 		for(int i=0; i<4; i++) { // 보기의 갯수 만큼 insert 진행
 			Example e = new Example();
+			e.setQuestionNo(questionNo);
 			e.setExampleIdx(i+1);
 			e.setExampleTitle(exampleTitle[i]);
 			e.setExampleOx(exampleOx[i]);
 			
-			int examRow = exampleService.addExample(e, questionNo);
+			int examRow = exampleService.addExample(e);
 			if(examRow == 0) {
 				log.debug("\u001B[32m"+(i+1)+"번째 보기 입력 실패");
 				return "redirect:/teacher/test/qne/qneList?testNo="+testNo;
@@ -141,7 +202,7 @@ public class TestController {
 	public String questionList(Model model
 							, @RequestParam(value="testNo") int testNo) {
 		
-		List<Question> list = testService.getQuestionList(testNo);
+		List<Question> list = questionService.getQuestionList(testNo);
 		Test test = testService.getTestOne(testNo);
 		
 		model.addAttribute("list", list);

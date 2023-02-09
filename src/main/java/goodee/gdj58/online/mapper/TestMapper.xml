@@ -13,26 +13,6 @@
 		WHERE t.test_no = #{testNo}
 	</select>
 	
-	<!-- 문제 추가(보기 포함) -->
-	<insert id="insertQNE"
-			parameterType="java.util.Map">
-		INSERT INTO 
-	</insert>
-	
-	<!-- 시험 문제 목록 -->
-	<select id="selectQuestionList"
-			parameterType="Integer"
-			resultType="goodee.gdj58.online.vo.Question">
-		SELECT
-			test_no testNo
-			, question_no questionNo
-			, question_idx questionIdx
-			, question_title questionTitle
-		FROM question
-		WHERE test_no = #{testNo}
-		ORDER BY question_idx ASC
-	</select>
-	
 	<!-- 응시한 시험 목록 -->
 	<select id="selectStudentTestList"
 			parameterType="Integer"

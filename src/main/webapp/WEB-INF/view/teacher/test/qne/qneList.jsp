@@ -21,15 +21,20 @@
 			<th>문제</th>
 			<th>편집</th>
 		</tr>
+		<c:if test="${empty list}">
+			<tr>
+				<td colspan="3">등록된 문제가 없습니다. 문제를 등록해 주세요.</td>
+			</tr>
+		</c:if>
 		<c:forEach var="q" items="${list}">
 			<tr>
 				<td>${q.questionIdx}번</td>
 				<td>${q.questionTitle}</td>
 				<td>
-					<a href="${pageContext.request.contextPath}/teacher/test/qneOne/modifyQne?questionNo=${q.questionNo}&testNo=${testNo}">
+					<a href="${pageContext.request.contextPath}/teacher/test/qne/modifyQne?questionNo=${q.questionNo}&testNo=${test.testNo}">
 						수정
 					</a>
-					<a href="${pageContext.request.contextPath}/teacher/test/qneOne/removeQne?questionNo=${q.questionNo}&testNo=${testNo}">
+					<a href="${pageContext.request.contextPath}/teacher/test/qne/removeQne?questionNo=${q.questionNo}&testNo=${test.testNo}">
 						삭제
 					</a>
 				</td>

@@ -49,7 +49,7 @@
 	
 	<!-- 시험 문제 추가 -->
 	<insert id="insertQuestion"
-			parameterType="java.util.Map">
+			parameterType="goodee.gdj58.online.vo.Question">
 		INSERT INTO question(
 			test_no
 			, question_idx
@@ -83,6 +83,20 @@
 		FROM question
 		ORDER BY question_no DESC
 		LIMIT 10
+	</select>
+	
+	<!-- 시험 문제 목록 -->
+	<select id="selectQuestionList"
+			parameterType="Integer"
+			resultType="goodee.gdj58.online.vo.Question">
+		SELECT
+			test_no testNo
+			, question_no questionNo
+			, question_idx questionIdx
+			, question_title questionTitle
+		FROM question
+		WHERE test_no = #{testNo}
+		ORDER BY question_idx ASC
 	</select>
 	
 </mapper>

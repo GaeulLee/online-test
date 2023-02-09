@@ -43,12 +43,6 @@ public interface TestMapper {
 	// 문제 번호 최댓값(문제 추가 시 필요)
 	int selectMaxQueIdx(int testNo);
 	
-	// 문제 추가(보기 포함)
-	int insertQNE(Map<String, Object> paramMap);
-	
-	// 문제 목록
-	List<Question> selectQuestionList(int testNo);
-	
 	
 	// ****** 시험 CRUD
 	
