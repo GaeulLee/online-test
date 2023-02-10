@@ -5,7 +5,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Add Teacher</title>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<link href="${pageContext.request.contextPath}/Resources/css/style.css" type="text/css" rel="stylesheet">
+<!-- Favicon icon -->
+<link rel="icon" type="image/png" sizes="16x16" href="./images/favicon.png">
+<link href="${pageContext.request.contextPath}/Resources/vendor/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/Resources/vendor/chartist/css/chartist.min.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/Resources/css/style.css" rel="stylesheet">
 </head>
 <body>
 	<!-- empMenu include -->
@@ -48,6 +53,23 @@
 			</tr>
 		</table>
 	</form>
+	
+<!--**********************************
+    Scripts
+***********************************-->
+<!-- Required vendors -->
+<script src="${pageContext.request.contextPath}/Resources/vendor/global/global.min.js"></script>
+<script src="${pageContext.request.contextPath}/Resources/js/quixnav-init.js"></script>
+<script src="${pageContext.request.contextPath}/Resources/js/custom.min.js"></script>
+
+<script src="${pageContext.request.contextPath}/Resources/vendor/chartist/js/chartist.min.js"></script>
+
+<script src="${pageContext.request.contextPath}/Resources/vendor/moment/moment.min.js"></script>
+<script src="${pageContext.request.contextPath}/Resources/vendor/pg-calendar/js/pignose.calendar.min.js"></script>
+
+
+<script src="${pageContext.request.contextPath}/Resources/js/dashboard/dashboard-2.js"></script>
+<!-- Circle progress -->
 </body>
 <script>
 	$('#ckBtn').click(function(){
