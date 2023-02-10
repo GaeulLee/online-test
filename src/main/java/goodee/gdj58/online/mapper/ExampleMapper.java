@@ -16,6 +16,9 @@ public interface ExampleMapper {
 	// 응시할 시험 보기 출력
 	List<Map<String, Object>> selectExampleByTestNo(int testNo);
 	
+	// 문제 보기 삭제
+	int deleteExample(int questionNo);
+	
 	// 문제 보기 수정
 	int updateExample(Example example);
 	

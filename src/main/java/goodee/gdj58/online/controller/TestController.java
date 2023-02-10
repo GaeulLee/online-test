@@ -56,6 +56,19 @@ public class TestController {
 							, @RequestParam(value="testNo") int testNo
 							, @RequestParam(value="questionNo") int questionNo) {
 		
+		// 1) 보기 삭제 먼저
+		int examRow = exampleService.removeExample(questionNo);
+		if(examRow < 4) {
+			log.debug("\u001B[32m"+"examRow------> "+examRow+" 보기 삭제 실패");
+			return "redirect:/teacher/test/qne/qneList?testNo="+testNo;
+		}
+		log.debug("\u001B[32m"+"보기 삭제 성공, 문제 삭제 진행");
+		int queRow = questionService.removeQuestion(questionNo);
+		if(queRow == 0) {
+			log.debug("\u001B[32m"+"문제 삭제 실패");
+			return "redirect:/teacher/test/qne/qneList?testNo="+testNo;
+		}
+		log.debug("\u001B[32m"+"문제, 모든 보기 삭제 성공");
 		
 		return "redirect:/teacher/test/qne/qneList?testNo="+testNo;
 	}

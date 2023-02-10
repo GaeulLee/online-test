@@ -35,6 +35,12 @@
 		ORDER BY e.example_idx
 	</select>
 	
+	<!-- 문제 보기 삭제 -->
+	<delete id="deleteExample"
+			parameterType="Integer">
+		DELETE FROM example WHERE question_no = #{questionNo}
+	</delete>
+	
 	<!-- 문제 보기 수정 -->
 	<update id="updateExample"
 			parameterType="goodee.gdj58.online.vo.Example">

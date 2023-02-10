@@ -31,6 +31,11 @@ public class ExampleService {
 		return exampleMapper.selectExampleByTestNo(testNo);
 	}
 	
+	// 문제 보기 삭제
+	public int removeExample(int questionNo) {
+		return exampleMapper.deleteExample(questionNo);
+	}
+	
 	// 문제 보기 수정
 	public int modifyExample(Example example) {
 		return exampleMapper.updateExample(example);
