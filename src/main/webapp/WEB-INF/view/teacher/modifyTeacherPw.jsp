@@ -20,35 +20,67 @@
 </style>
 </head>
 <body style="font-family:'Pretendard-SemiBold';">
-	<!-- teacherMenu include -->
-	<div>
-		<c:import url="/WEB-INF/view/teacher/inc/teacherMenu.jsp"></c:import>
+	<!-- preloader -->
+	<div id="preloader">
+	    <div class="sk-three-bounce">
+	        <div class="sk-child sk-bounce1"></div>
+	        <div class="sk-child sk-bounce2"></div>
+	        <div class="sk-child sk-bounce3"></div>
+	    </div>
 	</div>
-	
-	<h1>${loginTeacher.teacherName}님 비밀번호 수정</h1>
-	<div>${errMsg}</div>
-	<form action="${pageContext.request.contextPath}/teacher/modifyTeacherPw" method="post">
-		<table>
-			<tr>
-				<th>현재 PW</th>
-				<td>
-					<input type="password" name="oldPw">
-				</td>
-			</tr>
-			<tr>
-				<th>바꿀 PW</th>
-				<td>
-					<input type="password" name="newPw">
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2">
-					<button type="submit">수정</button>
-				</td>
-			</tr>
-		</table>
-	</form>
-	
+
+	<div id="main-wrapper">
+		<!-- teacherMenu include -->
+		<div>
+			<c:import url="/WEB-INF/view/teacher/inc/teacherMenu.jsp"></c:import>
+		</div>
+		
+		<!-- body -->
+		<div class="content-body">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="card">
+							<div class="card-body">
+								<h2 class="text-center mt-3 mb-4"><strong>${loginTeacher.teacherName}님 비밀번호 수정</strong></h2>
+								<h5 class="text-center mt-3 mb-4">${errMsg}</h5>
+								<form action="${pageContext.request.contextPath}/teacher/modifyTeacherPw" method="post">
+									<table class="table table-borderless w-25 mx-auto mt-5" style="color: #3d4465; font-size: 17px;">
+										<tr>
+											<th>현재 PW</th>
+											<td>
+												<input type="password" name="oldPw" class="form-control">
+											</td>
+										</tr>
+										<tr>
+											<th>바꿀 PW</th>
+											<td>
+												<input type="password" name="newPw" class="form-control">
+											</td>
+										</tr>
+										<tr>
+											<td colspan="2" class="text-right mb-3">
+												<button type="submit" class="btn btn-primary">수정</button>
+											</td>
+										</tr>
+									</table>
+								</form>
+							</div><!-- card-body end -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div><!-- body-content end -->
+		
+		<!-- footer -->
+		<div class="footer">
+		    <div class="copyright">
+		        <p>Copyright © Designed &amp; Developed by <a href="#" target="_blank">Quixkit</a> 2019</p>
+		        <p>Distributed by <a href="https://themewagon.com/" target="_blank">Themewagon</a></p>
+		    </div>
+		</div>
+		
+	</div><!-- main-wrapper -->
 <!--**********************************
     Scripts
 ***********************************-->

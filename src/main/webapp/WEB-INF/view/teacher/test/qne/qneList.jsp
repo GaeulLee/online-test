@@ -45,7 +45,7 @@
                         <div class="card">
                             <div class="card-body">
 								<h2 class="text-center mt-3">${test.testTitle}</h2>
-								<div class="mx-3 mt-3 mb-3" style="font-size:17px;">
+								<div class="mx-3 mt-3 mb-4" style="font-size:17px;">
 									<a href="${pageContext.request.contextPath}/teacher/test/qne/addQne?testNo=${test.testNo}">
 										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="40" height="40" fill="currentColor">
 											<path d="M17,13H13V17H11V13H7V11H11V7H13V11H17M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
@@ -72,9 +72,29 @@
 												<a href="${pageContext.request.contextPath}/teacher/test/qne/modifyQne?questionNo=${q.questionNo}&testNo=${test.testNo}">
 													수정
 												</a>
-												<a href="${pageContext.request.contextPath}/teacher/test/qne/removeQne?questionNo=${q.questionNo}&testNo=${test.testNo}">
-													삭제
-												</a>
+												<!-- remove Modal btn -->
+												<a data-toggle="modal" href="#remove">삭제</a>
+												
+												<!-- 삭제 Modal content -->
+			                                    <div class="modal fade" id="remove">
+			                                        <div class="modal-dialog modal-dialog-centered" role="document">
+			                                            <div class="modal-content">
+			                                                <div class="modal-header">
+			                                                    <h5 class="modal-title">문제 삭제</h5>
+			                                                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+			                                                    </button>
+			                                                </div>
+			                                                <div class="modal-body">
+																정말 등록된 문제를 삭제하시겠습니까?
+			                                                </div>
+			                                                <div class="modal-footer">
+			                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+			                                                    <button type="submit" class="btn btn-primary"
+			                                                    		onclick="location.href='${pageContext.request.contextPath}/teacher/test/qne/removeQne?questionNo=${q.questionNo}&testNo=${test.testNo}'">삭제</button>
+			                                                </div>
+			                                            </div>
+			                                        </div>
+			                                    </div>
 											</td>
 										</tr>		
 									</c:forEach>

@@ -44,6 +44,9 @@
                         <div class="card">
                             <div class="card-body">
 								empHome
+								<h2 class="text-center mt-3 mb-4"><strong>${test.testTitle} 문제 수정</strong></h2>
+								<table class="table" style="color: #3d4465; font-size: 17px;">
+								</table>
 							</div><!-- card-body end -->
 						</div>
 					</div>

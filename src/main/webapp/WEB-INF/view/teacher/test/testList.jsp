@@ -59,14 +59,14 @@
 </c:forEach>
 <style>
 	@font-face {
-		font-family: 'Pretendard-Regular';
-		src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+		font-family: 'Pretendard-SemiBold';
+		src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-SemiBold.woff') format('woff');
 		font-weight: 400;
 		font-style: normal;
 	}
 </style>
 </head>
-<body style="font-family:'Pretendard-Regular';">
+<body style="font-family:'Pretendard-SemiBold';">
 	<!-- preloader -->
 	<div id="preloader">
 	    <div class="sk-three-bounce">
@@ -101,7 +101,7 @@
 								</div>
 								
 								<!-- 시험 검색 폼 -->	
-								<div class="text-right mb-3">
+								<div class="text-right mb-4">
 									<form action="${pageContext.request.contextPath}/teacher/test/testList" method="get">
 										<input type="text" name="searchWord" placeholder="시험명 검색" class="form-control input-rounded w-20" style="display: inline;">
 										<button type="submit" class="btn btn-rounded btn-primary">검색</button>	
@@ -144,7 +144,7 @@
 								</div>
 								
 								<!-- 본문 -->
-								<table class="table table-borderless" style="color: #3d4465; font-size: 17px;">
+								<table class="table" style="color: #3d4465; font-size: 17px;">
 									<tr>
 										<th class="text-center w-25">시험 날짜</th>
 										<th class="text-center">시험 제목</th>
@@ -171,7 +171,7 @@
 															<div class="modal-body">
 																<form action="${pageContext.request.contextPath}/teacher/test/modifyTest" method="post" id="modiForm${i.index}">
 																	<input type="hidden" name="testNo" value="${t.testNo}">
-																	<table>
+																	<table class="table table-borderless" style="color: #3d4465; font-size: 17px;">
 																		<tr>
 																			<th>시험 제목</th>
 																			<td>

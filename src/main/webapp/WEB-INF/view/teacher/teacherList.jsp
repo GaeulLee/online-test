@@ -44,7 +44,7 @@
                             <div class="card-body">
                             
                             	<!-- 강사 추가 버튼 -->
-								<div class="mx-3">
+								<div class="mx-4" style="font-size: 17px;">
 									<a data-toggle="modal" href="#add"><!-- 강사등록 모달버튼 -->
 										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="40" height="40" fill="currentColor">
 											<path d="M17,13H13V17H11V13H7V11H11V7H13V11H17M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />

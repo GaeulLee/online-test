@@ -20,14 +20,14 @@
 </script>
 <style>
 	@font-face {
-		font-family: 'Pretendard-Regular';
-		src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+		font-family: 'Pretendard-SemiBold';
+		src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-SemiBold.woff') format('woff');
 		font-weight: 400;
 		font-style: normal;
 	}
 </style>
 </head>
-<body style="font-family:'Pretendard-Regular';">
+<body style="font-family:'Pretendard-SemiBold';">
 	<!-- preloader -->
 	<div id="preloader">
 	    <div class="sk-three-bounce">
@@ -50,16 +50,15 @@
 					<div class="col-lg-12">
 						<div class="card">
 							<div class="card-body">
-	
-								<h2 class="text-center mt-3 mb-4"><strong>${test.testTitle}</strong></h2>
-								
+								<h2 class="text-center mt-3 mb-4"><strong>${test.testTitle} 문제 등록</strong></h2>
 								<form action="${pageContext.request.contextPath}/teacher/test/qne/addQne" method="post" id="addForm">
 									<input type="hidden" name="testNo" value="${test.testNo}">
+									
 									<!-- 문제 입력 -->
-									<table class="table table-borderless text-center" style="color: #3d4465; font-size: 17px;">
+									<table class="table text-center" style="color: #3d4465; font-size: 17px;">
 										<tr>
 											<th>문제번호</th> <!-- db에서 testNo로 해당 시험의 questionIdx max값+1, 리스트가 비어있으면 1 -->
-											<td><input type="number" name="questionIdx" id="questionIdx" value="${maxQueIdx}" readonly="readonly" class="form-control"></td>
+											<td><input type="number" name="questionIdx" id="questionIdx" value="${maxQueIdx}" readonly="readonly" class="form-control w-25"></td>
 										</tr>
 										<tr>
 											<th class="align-middle">문제</th>
@@ -69,7 +68,7 @@
 									
 									<!-- 보기 입력 -->
 									<!-- 정답 오답 : 정답의 갯수는 1개, 오답이 4개이면 안됨 -->
-									<table class="table table-borderless text-center" style="color: #3d4465; font-size: 17px;">
+									<table class="table text-center" style="color: #3d4465; font-size: 17px;">
 										<tr>
 											<th>보기번호</th>
 											<th>보기</th>
@@ -77,7 +76,7 @@
 										</tr>
 										<tr>
 											<td>1번</td>
-											<td><input type="text" name="exampleTitle" class="exampleTitle" class="form-control"></td>
+											<td><input type="text" name="exampleTitle" class="form-control"></td>
 											<td>
 												<select name="exampleOx" class="form-control">
 													<option value="오답">오답</option>
@@ -87,7 +86,7 @@
 										</tr>
 										<tr>
 											<td>2번</td>
-											<td><input type="text" name="exampleTitle" class="exampleTitle" class="form-control"></td>
+											<td><input type="text" name="exampleTitle" class="form-control"></td>
 											<td>
 												<select name="exampleOx" class="form-control">
 													<option value="오답">오답</option>
@@ -97,7 +96,7 @@
 										</tr>
 										<tr>
 											<td>3번</td>
-											<td><input type="text" name="exampleTitle" class="exampleTitle" class="form-control"></td>
+											<td><input type="text" name="exampleTitle" class="form-control"></td>
 											<td>
 												<select name="exampleOx" class="form-control">
 													<option value="오답">오답</option>
@@ -107,7 +106,7 @@
 										</tr>
 										<tr>
 											<td>4번</td>
-											<td><input type="text" name="exampleTitle" class="exampleTitle" class="form-control"></td>
+											<td><input type="text" name="exampleTitle" class="form-control"></td>
 											<td>
 												<select name="exampleOx" class="form-control">
 													<option value="오답">오답</option>

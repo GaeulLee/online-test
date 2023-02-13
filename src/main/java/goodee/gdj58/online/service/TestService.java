@@ -101,6 +101,7 @@ public class TestService {
 	public List<Test> getTestList(int rowPerPage, int currentPage, String searchWord){
 
 		int beginRow = (currentPage-1)*rowPerPage;
+		System.out.println("beginRow-------->"+beginRow);
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("beginRow", beginRow);
 		paramMap.put("rowPerPage", rowPerPage);

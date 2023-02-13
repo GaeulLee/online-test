@@ -46,7 +46,7 @@
                             <div class="card-body">
 		
 								<!-- 시험 검색 폼 -->
-								<div class="text-right mt-3 mb-5">
+								<div class="text-right mt-3 mb-4">
 									<form action="${pageContext.request.contextPath}/teacher/test/qne/testListForAdd" method="get">
 										<input type="text" name="searchWord" placeholder="시험명 검색" class="form-control input-rounded w-20" style="display: inline;">
 										<button type="submit" class="btn btn-rounded btn-primary">검색</button>	
