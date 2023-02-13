@@ -8,8 +8,16 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Index</title>
 <link href="${pageContext.request.contextPath}/Resources/css/style.css" type="text/css" rel="stylesheet">
+<style>
+	@font-face {
+		font-family: 'Pretendard-SemiBold';
+		src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-SemiBold.woff') format('woff');
+		font-weight: 400;
+		font-style: normal;
+	}
+</style>
 </head>
-<body>
+<body style="font-family:'Pretendard-SemiBold';">
 <body class="h-100">
     <div class="authincation h-100">
         <div class="container-fluid h-100">

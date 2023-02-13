@@ -98,10 +98,6 @@ public class TeacherController {
 	
 	//******************************* 관리자 기능
 	// 1) 강사 등록
-	@GetMapping("/employee/teacher/addTeacher")
-	public String addTeacher(HttpSession session) {
-		return "teacher/addTeacher";
-	}
 	@PostMapping("/employee/teacher/addTeacher")
 	public String addTeacher(HttpSession session, Model model, Teacher teacher) {
 
@@ -110,13 +106,13 @@ public class TeacherController {
 		// 서비스 호출
 		// 1) id check
 		String idCheck = idService.getIdCheck(teacher.getTeacherId());
-		if(idCheck != null) {
+		if(idCheck.equals("no")) {
 			log.debug("\u001B[32m"+"강사등록 실패 : 중복된 아이디");
 			model.addAttribute("errMsg", "아이디가 중복되었습니다.");
 			model.addAttribute("userTId", teacher.getTeacherId());
 			model.addAttribute("userTPw", teacher.getTeacherPw());
 			model.addAttribute("userTName", teacher.getTeacherName());
-			return "teacher/addTeacher";
+			return "redirect:/employee/teacher/teacherList";
 		}
 		log.debug("\u001B[32m"+"중복된 아이디 없음, 강사등록 진행");
 		
@@ -124,7 +120,6 @@ public class TeacherController {
 		int row = teacherService.addTeacher(teacher);
 		if(row == 0) {
 			log.debug("\u001B[32m"+"강사 등록 실패");
-			return "redirect:/employee/teacher/addTeacher";
 		} else {
 			log.debug("\u001B[32m"+"강사 등록 성공");
 		}

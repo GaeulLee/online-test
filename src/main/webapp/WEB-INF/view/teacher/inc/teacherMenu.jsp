@@ -108,7 +108,7 @@
             <li>
             	<a class="has-arrow" href="javascript:void()" aria-expanded="false">
             		<i class="icon icon-single-04"></i>
-            		<span class="nav-text">My page</span>
+            		<span class="nav-text">마이페이지</span>
             	</a>
                 <ul aria-expanded="false">
                     <li><a href="${pageContext.request.contextPath}/teacher/modifyTeacherPw">비밀번호 변경</a></li>

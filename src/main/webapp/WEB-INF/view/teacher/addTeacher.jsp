@@ -11,48 +11,89 @@
 <link href="${pageContext.request.contextPath}/Resources/vendor/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/Resources/vendor/chartist/css/chartist.min.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/Resources/css/style.css" rel="stylesheet">
+<style>
+	@font-face {
+		font-family: 'Pretendard-SemiBold';
+		src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-SemiBold.woff') format('woff');
+		font-weight: 400;
+		font-style: normal;
+	}
+</style>
 </head>
-<body>
-	<!-- empMenu include -->
-	<div>
-		<c:import url="/WEB-INF/view/employee/inc/empMenu.jsp"></c:import>
+<body style="font-family:'Pretendard-SemiBold';">
+	<!-- preloader -->
+	<div id="preloader">
+	    <div class="sk-three-bounce">
+	        <div class="sk-child sk-bounce1"></div>
+	        <div class="sk-child sk-bounce2"></div>
+	        <div class="sk-child sk-bounce3"></div>
+	    </div>
 	</div>
-
-	<h1>강사 추가</h1>
-	<div>${errMsg}</div>
-	<form action="${pageContext.request.contextPath}/employee/teacher/addTeacher" method="post" id="addForm">
-		<table>
-			<tr>
-				<td colspan="2">
-					<input type="text" id="idForCk" placeholder="사용할 아이디 입력">
-					<button type="button" id="ckBtn">중복검사</button>
-				</td>
-			</tr>
-			<tr>
-				<th>이름</th>
-				<td>
-					<input type="text" name="teacherName" id="name" value="${userTName}">
-				</td>
-			</tr>
-			<tr>
-				<th>아이디</th>
-				<td>
-					<input type="text" name="teacherId" id="id" value="${userTId}" readonly="readonly">
-				</td>
-			</tr>
-			<tr>
-				<th>비밀번호</th>
-				<td>
-					<input type="password" name="teacherPw" id="pw" value="${userTPw}">
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2">
-					<button type="button" id="addBtn">등록</button>
-				</td>
-			</tr>
-		</table>
-	</form>
+	
+	<div id="main-wrapper">
+	
+		<!-- empMenu include -->
+		<div>
+			<c:import url="/WEB-INF/view/employee/inc/empMenu.jsp"></c:import>
+		</div>
+		
+		<div class="content-body">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+								<h1>강사 추가</h1>
+								<div>${errMsg}</div>
+								<form action="${pageContext.request.contextPath}/employee/teacher/addTeacher" method="post" id="addForm">
+									<table>
+										<tr>
+											<td colspan="2">
+												<input type="text" id="idForCk" placeholder="사용할 아이디 입력">
+												<button type="button" id="ckBtn">중복검사</button>
+											</td>
+										</tr>
+										<tr>
+											<th>이름</th>
+											<td>
+												<input type="text" name="teacherName" id="name" value="${userTName}">
+											</td>
+										</tr>
+										<tr>
+											<th>아이디</th>
+											<td>
+												<input type="text" name="teacherId" id="id" value="${userTId}" readonly="readonly">
+											</td>
+										</tr>
+										<tr>
+											<th>비밀번호</th>
+											<td>
+												<input type="password" name="teacherPw" id="pw" value="${userTPw}">
+											</td>
+										</tr>
+										<tr>
+											<td colspan="2">
+												<button type="button" id="addBtn">등록</button>
+											</td>
+										</tr>
+									</table>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+		<!-- footer -->
+		<div class="footer">
+		    <div class="copyright">
+		        <p>Copyright © Designed &amp; Developed by <a href="#" target="_blank">Quixkit</a> 2019</p>
+		        <p>Distributed by <a href="https://themewagon.com/" target="_blank">Themewagon</a></p>
+		    </div>
+		</div>
+		
+	</div><!-- main-wrapper -->
 	
 <!--**********************************
     Scripts

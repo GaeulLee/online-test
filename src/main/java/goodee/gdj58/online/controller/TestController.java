@@ -243,16 +243,6 @@ public class TestController {
 	}
 	
 	// 시험 회차 수정
-	@GetMapping("/teacher/test/modifyTest")
-	public String modifyTest(Model model
-				, @RequestParam(value="testNo") int testNo) {
-		
-		Test oldTest = testService.getTestOne(testNo);
-		
-		model.addAttribute("oldTest", oldTest);
-		
-		return "teacher/test/modifyTest";
-	}
 	@PostMapping("/teacher/test/modifyTest")
 	public String modifyTest(Test test) {
 		
@@ -267,10 +257,6 @@ public class TestController {
 	}
 	
 	// 시험 회차 추가
-	@GetMapping("/teacher/test/addTest")
-	public String addTest() {
-		return "teacher/test/addTest";
-	}
 	@PostMapping("/teacher/test/addTest")
 	public String addTest(Test test) {
 		

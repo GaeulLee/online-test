@@ -10,8 +10,16 @@
 <link href="${pageContext.request.contextPath}/Resources/vendor/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/Resources/vendor/chartist/css/chartist.min.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/Resources/css/style.css" rel="stylesheet">
+<style>
+	@font-face {
+		font-family: 'Pretendard-SemiBold';
+		src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-SemiBold.woff') format('woff');
+		font-weight: 400;
+		font-style: normal;
+	}
+</style>
 </head>
-<body>
+<body style="font-family:'Pretendard-SemiBold';">
 	<!-- teacherMenu include -->
 	<div>
 		<c:import url="/WEB-INF/view/teacher/inc/teacherMenu.jsp"></c:import>
