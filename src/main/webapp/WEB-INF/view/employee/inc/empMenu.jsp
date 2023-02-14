@@ -120,7 +120,7 @@
             		<span class="nav-text">마이페이지</span>
             	</a>
                 <ul aria-expanded="false">
-                    <li><a href="${pageContext.request.contextPath}/employee/modifyEmployeePw">비밀번호 변경</a></li>
+                    <li><a href="${pageContext.request.contextPath}/employee/modifyEmpPw">비밀번호 변경</a></li>
                     <li><a href="${pageContext.request.contextPath}/employee/logout">로그아웃</a></li>
                 </ul>
             </li>

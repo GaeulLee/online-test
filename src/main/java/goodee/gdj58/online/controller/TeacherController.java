@@ -108,7 +108,6 @@ public class TeacherController {
 		String idCheck = idService.getIdCheck(teacher.getTeacherId());
 		if(idCheck.equals("no")) {
 			log.debug("\u001B[32m"+"강사등록 실패 : 중복된 아이디");
-			model.addAttribute("errMsg", "아이디가 중복되었습니다.");
 			model.addAttribute("userTId", teacher.getTeacherId());
 			model.addAttribute("userTPw", teacher.getTeacherPw());
 			model.addAttribute("userTName", teacher.getTeacherName());

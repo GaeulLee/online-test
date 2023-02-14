@@ -104,11 +104,6 @@ public class EmployeeController {
 		return "redirect:/employee/empList";
 	}
 	
-	// 사원입력
-	@GetMapping("/employee/addEmp")
-	public String addEmp(HttpSession session) {
-		return "employee/addEmp";
-	}
 	@PostMapping("/employee/addEmp")
 	public String addEmp(HttpSession session, Model model, Employee employee) { // 매개변수를 받아올 것임 -> 같은 맵핑주소(맵핑방식이 다름)와 같은 메서드(매개변수를 받음) 이름을 써도 된다
 		
@@ -117,13 +112,12 @@ public class EmployeeController {
 		// 서비스 호출
 		// 1) id check
 		String idCheck = idService.getIdCheck(employee.getEmpId());
-		if(idCheck != null) {
+		if(idCheck.equals("no")) {
 			log.debug("\u001B[32m"+"사원등록 실패 : 중복된 아이디");
-			model.addAttribute("errMsg", "아이디가 중복되었습니다.");
 			model.addAttribute("userEmpId", employee.getEmpId());
 			model.addAttribute("userEmpPw", employee.getEmpPw());
 			model.addAttribute("userEmpName", employee.getEmpName());
-			return "employee/addEmp";
+			return "redirect:/employee/empList";
 		} else {
 			log.debug("\u001B[32m"+"중복된 아이디 없음, 사원등록 진행");
 		}
@@ -132,7 +126,7 @@ public class EmployeeController {
 		int row = employeeService.addEmployee(employee);
 		if(row == 0) {
 			log.debug("\u001B[32m"+"사원등록 실패");
-			return "redirect:/employee/addEmp";
+			return "redirect:/employee/empList";
 		} else {
 			log.debug("\u001B[32m"+"사원등록 성공");
 		}

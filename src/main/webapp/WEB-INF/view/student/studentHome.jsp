@@ -54,11 +54,11 @@
 				<!-- 시험 목록 -->
 				<div class="row">
 					<!-- 지난 시험 -->
-					<div class="col-lg-3">
+					<div class="col-lg-4">
                         <div class="card">
                             <div class="card-body">
-								<h3 class="text-center mt-3 mb-4"><strong>지난 시험</strong></h3>
-								<table class="table" style="color: #3d4465; font-size: 17px;">
+								<h4 class="text-center mt-3 mb-4" style="color: #7b7f94;"><strong>지난 시험</strong></h4>
+								<table class="table" style="color: #7b7f94; font-size: 15px;">
 									<tr>
 										<th class="text-center">시험일정</th>
 										<th colspan="2" class="text-center">시험명</th>
@@ -81,7 +81,7 @@
 						</div>
 					</div>
 					<!-- 오늘 시험 -->
-					<div class="col-lg-6">
+					<div class="col-lg-4">
                         <div class="card">
                             <div class="card-body">
                             	<h3 class="text-center mt-3 mb-4"><strong>오늘 볼 시험</strong></h3>
@@ -101,7 +101,11 @@
 												<td class="text-center">${ct.testDate}</td>
 												<td>${ct.testTitle}</td>
 												<td>
-													<a href="${pageContext.request.contextPath}/student/addPaper?testNo=${ct.testNo}">응시하기</a>
+													<button type="button"
+														onclick="location.href='${pageContext.request.contextPath}/student/addPaper?testNo=${ct.testNo}'"
+														class="btn btn-primary btn-lg">
+														시험보기
+													</button>
 												</td>
 											</tr>
 										</c:forEach>
@@ -111,11 +115,11 @@
                         </div>
                     </div>
                     <!-- 예정 시험 -->
-                    <div class="col-lg-3">
+                    <div class="col-lg-4">
                         <div class="card">
                             <div class="card-body">
-                            	<h3 class="text-center mt-3 mb-4"><strong>예정 시험</strong></h3>
-								<table class="table" style="color: #3d4465; font-size: 17px;">
+                            	<h4 class="text-center mt-3 mb-4" style="color: #7b7f94;"><strong>예정 시험</strong></h4>
+								<table class="table" style="color: #7b7f94; font-size: 15px;">
 									<tr>
 										<th class="text-center">시험일정</th>
 										<th colspan="2" class="text-center">시험명</th>

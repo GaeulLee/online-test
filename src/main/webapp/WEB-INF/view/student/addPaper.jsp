@@ -86,7 +86,7 @@
 				<div class="row">
 					<div class="col-lg-12">
                         <div class="card">
-                            <div class="card-body">
+                            <div class="card-body w-75 mx-auto">
 								<h2 class="text-center mt-3 mb-4"><strong>(${testDate}) ${testTitle} 시험지</strong></h2>
 								
 								<form action="${pageContext.request.contextPath}/student/addPaper" method="post" id="addPaperForm">

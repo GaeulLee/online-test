@@ -43,20 +43,17 @@
 				<div class="row">
 					<div class="col-lg-12">
                         <div class="card">
-                            <div class="card-body">
+                            <div class="card-body w-75 mx-auto">
 								<h2 class="text-center mt-3 mb-4"><strong>(${testDate}) ${testTitle} 점수 확인</strong></h2>
 								<h3 class="text-right mt-3 mb-4 mr-5"><strong>총점: ${totalScore}점</strong></h3>
-								<table class="table w-75 mx-auto" style="color: #3d4465; font-size: 17px;">
-									<tr>
-										<th class="text-center">문제지</th>
-									</tr>
+								<table class="table" style="color: #3d4465; font-size: 17px;">
 									<c:forEach var="p" items="${list}">
 										<tr>
 											<th>Q${p.questionIdx}. ${p.questionTitle}</th>
 										</tr>
 										<tr>
 											<td>
-												<div>정답 : ${p.exampleIdx}. ${p.exampleTitle}</div>
+												<div style="color:green;">정답 : ${p.exampleIdx}. ${p.exampleTitle}</div>
 												<br>
 												<c:forEach var="w" items="${wrongList}">
 													<c:if test="${p.questionNo == w.questionNo}">
@@ -64,7 +61,7 @@
 													</c:if>
 												</c:forEach>
 												<br>
-												<div>내 답 : ${p.answer}번</div>
+												<div style="color:pink;">내 답 : ${p.answer}번</div>
 											</td>
 										</tr>
 									</c:forEach>

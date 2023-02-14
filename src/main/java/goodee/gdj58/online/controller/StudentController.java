@@ -98,10 +98,6 @@ public class StudentController {
 	// **************************** 관리자 기능
 	
 	// 1) 학생 등록
-	@GetMapping("/employee/student/addStudent")
-	public String addStudent() {
-		return "student/addStudent";
-	}
 	@PostMapping("/employee/student/addStudent")
 	public String addStudent(HttpSession session, Model model, Student student) {
 
@@ -110,13 +106,12 @@ public class StudentController {
 		// 서비스 호출
 		// 1) id check
 		String idCheck = idService.getIdCheck(student.getStudentId());
-		if(idCheck != null) {
+		if(idCheck.equals("no")) {
 			log.debug("\u001B[32m"+"학생등록 실패 : 중복된 아이디");
-			model.addAttribute("errMsg", "아이디가 중복되었습니다.");
 			model.addAttribute("userSId", student.getStudentId());
 			model.addAttribute("userSPw", student.getStudentPw());
 			model.addAttribute("userSName", student.getStudentName());
-			return "student/addStudent";
+			return "redirect:/employee/student/studentList";
 		} else {
 			log.debug("\u001B[32m"+"중복된 아이디 없음, 학생가입 진행");
 		}
@@ -125,7 +120,7 @@ public class StudentController {
 		int row = studentService.addStudent(student);
 		if(row == 0) {
 			log.debug("\u001B[32m"+"학생 등록 실패");
-			return "redirect:/employee/student/addStudent";
+			return "redirect:/employee/student/studentList";
 		} else {
 			log.debug("\u001B[32m"+"학생 등록 성공");
 		}

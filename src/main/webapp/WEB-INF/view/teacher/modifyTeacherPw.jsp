@@ -49,13 +49,13 @@
 										<tr>
 											<th>현재 PW</th>
 											<td>
-												<input type="password" name="oldPw" class="form-control">
+												<input type="password" name="oldPw" class="form-control" placeholder="현재 비밀번호 입력">
 											</td>
 										</tr>
 										<tr>
 											<th>바꿀 PW</th>
 											<td>
-												<input type="password" name="newPw" class="form-control">
+												<input type="password" name="newPw" class="form-control" placeholder="바꿀 비밀번호 입력">
 											</td>
 										</tr>
 										<tr>
