@@ -9,10 +9,10 @@
 <!--Nav header start-->
 <div class="nav-header">
 	<!-- 홈 링크 및 로고-->
-    <a href="index.html" class="brand-logo">
-        <img class="logo-abbr" src="./images/logo.png" alt="">
-        <img class="logo-compact" src="./images/logo-text.png" alt="">
-        <img class="brand-title" src="./images/logo-text.png" alt="">
+    <a class="brand-logo">
+        <img class="logo-abbr" src="${pageContext.request.contextPath}/Resources/images/logo.png" alt="">
+        <img class="logo-compact" src="${pageContext.request.contextPath}/Resources/images/logo-text.png" alt="">
+        <span class="brand-title" style="color:white; font-weight:bold; font-size:25px;">ONLINE</span>
     </a>
 	<!-- 사이드 바 접고말고 -->
     <div class="nav-control">

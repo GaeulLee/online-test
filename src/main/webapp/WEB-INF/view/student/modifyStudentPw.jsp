@@ -10,6 +10,22 @@
 <link href="${pageContext.request.contextPath}/Resources/vendor/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/Resources/vendor/chartist/css/chartist.min.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/Resources/css/style.css" rel="stylesheet">
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script>
+	$(document).ready(function(){
+		$('#modiBtn').click(function(){
+			if($('#oldPw').val() == ''){
+				alert('현재 비밀번호를 입력하세요.');
+				return;
+			}
+			if($('#newPw').val() == ''){
+				alert('바꿀 비밀번호를 입력하세요.');
+				return;
+			}
+			$('#modiForm').submit();
+		});
+	});
+</script>
 <style>
 	@font-face {
 		font-family: 'Pretendard-SemiBold';
@@ -45,23 +61,23 @@
                             <div class="card-body">
 								<h2 class="text-center mt-3 mb-4"><strong>${loginStudent.studentName}님 비밀번호 수정</strong></h2>
 								<h5 class="text-center mt-3 mb-4">${errMsg}</h5>
-								<form action="${pageContext.request.contextPath}/student/modifyStudentPw" method="post">
+								<form action="${pageContext.request.contextPath}/student/modifyStudentPw" method="post" id="modiForm">
 									<table class="table table-borderless w-25 mx-auto mt-5" style="color: #3d4465; font-size: 17px;">
 										<tr>
 											<th>현재 PW</th>
 											<td>
-												<input type="password" name="oldPw" class="form-control" placeholder="현재 비밀번호 입력">
+												<input type="password" name="oldPw" id="oldPw" class="form-control" placeholder="현재 비밀번호 입력">
 											</td>
 										</tr>
 										<tr>
 											<th>바꿀 PW</th>
 											<td>
-												<input type="password" name="newPw" class="form-control" placeholder="바꿀 비밀번호 입력">
+												<input type="password" name="newPw" id="newPw" class="form-control" placeholder="바꿀 비밀번호 입력">
 											</td>
 										</tr>
 										<tr>
 											<td colspan="2" class="text-right mb-3">
-												<button type="submit" class="btn btn-primary">수정</button>
+												<button type="button" id="modiBtn" class="btn btn-primary">수정</button>
 											</td>
 										</tr>
 									</table>

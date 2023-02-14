@@ -13,7 +13,51 @@
 <link href="${pageContext.request.contextPath}/Resources/css/style.css" rel="stylesheet">
 <script>
 	$(document).ready(function(){
+	
 		$('#addBtn').click(function(){
+			
+			// 1) 문제 유효성
+			if($('#questionTitle').val() == ''){
+				alert('문제를 입력하세요.');
+				return;
+			}
+			
+			// 2) 보기 유효성
+			// 2-1) input text
+			if($('#eT1').val() == '' || $('#eT2').val() == '' || $('#eT3').val() == '' || $('#eT4').val() == ''){
+				alert('보기를 입력하세요.');
+				return;
+			}
+			
+			// 2-2) input select
+			// 전체가 오답이면 안됨
+			if($('#eO1').val() == '오답' && $('#eO2').val() == '오답' && $('#eO3').val() == '오답' && $('#eO4').val() == '오답'){
+				alert('하나의 정답을 선택하세요.');
+				return;
+			}
+			
+			// 정답은 하나여야만 됨
+			var cnt = 0;
+			var ox = [];
+			ox[0] = $('#eO1 option:selected').val();
+			ox[1] = $('#eO2 option:selected').val();
+			ox[2] = $('#eO3 option:selected').val();
+			ox[3] = $('#eO4 option:selected').val();
+			console.log(ox[0]);
+			
+			for(let i=0; i<4; i++){
+				if(ox[i] == '정답'){
+					cnt++;
+				}
+			}
+			console.log('cnt---->'+cnt);
+			
+			if(cnt > 1){
+				alert('정답은 하나만 선택가능합니다.');
+				return;
+			}
+			
+			// 폼 전송
 			$('#addForm').submit();
 		});
 	});
@@ -76,9 +120,9 @@
 										</tr>
 										<tr>
 											<td>1번</td>
-											<td><input type="text" name="exampleTitle" class="form-control"></td>
+											<td><input type="text" name="exampleTitle" id="eT1" class="form-control"></td>
 											<td>
-												<select name="exampleOx" class="form-control">
+												<select name="exampleOx" id="eO1" class="form-control">
 													<option value="오답">오답</option>
 													<option value="정답">정답</option>
 												</select>
@@ -86,9 +130,9 @@
 										</tr>
 										<tr>
 											<td>2번</td>
-											<td><input type="text" name="exampleTitle" class="form-control"></td>
+											<td><input type="text" name="exampleTitle" id="eT2" class="form-control"></td>
 											<td>
-												<select name="exampleOx" class="form-control">
+												<select name="exampleOx" id="eO2" class="form-control">
 													<option value="오답">오답</option>
 													<option value="정답">정답</option>
 												</select>
@@ -96,9 +140,9 @@
 										</tr>
 										<tr>
 											<td>3번</td>
-											<td><input type="text" name="exampleTitle" class="form-control"></td>
+											<td><input type="text" name="exampleTitle" id="eT3" class="form-control"></td>
 											<td>
-												<select name="exampleOx" class="form-control">
+												<select name="exampleOx" id="eO3" class="form-control">
 													<option value="오답">오답</option>
 													<option value="정답">정답</option>
 												</select>
@@ -106,9 +150,9 @@
 										</tr>
 										<tr>
 											<td>4번</td>
-											<td><input type="text" name="exampleTitle" class="form-control"></td>
+											<td><input type="text" name="exampleTitle" id="eT4" class="form-control"></td>
 											<td>
-												<select name="exampleOx" class="form-control">
+												<select name="exampleOx" id="eO4" class="form-control">ㄴ
 													<option value="오답">오답</option>
 													<option value="정답">정답</option>
 												</select>

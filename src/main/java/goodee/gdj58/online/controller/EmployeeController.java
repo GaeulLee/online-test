@@ -40,18 +40,12 @@ public class EmployeeController {
 		log.debug("\u001B[32m"+"사원 로그인 성공, 세션 정보 저장");
 		
 		session.setAttribute("loginEmp", resultEmp);
-		return "redirect:/employee/empHome";
+		return "redirect:/employee/empList";
 	}
 	
 	/*
 	 ***************************** 로그인 후에 사용가능 
 	 */
-	
-	// emp home
-	@GetMapping("/employee/empHome")
-	public String empHome() {
-		return "employee/empHome";
-	}
 	
 	// 관리자(사원) 비밀변호 변경
 	@GetMapping("/employee/modifyEmpPw")

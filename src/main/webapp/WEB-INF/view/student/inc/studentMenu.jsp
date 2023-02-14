@@ -11,10 +11,10 @@
 <!--Nav header start-->
 <div class="nav-header">
 	<!-- 홈 링크 및 로고-->
-    <a href="index.html" class="brand-logo">
-        <img class="logo-abbr" src="./images/logo.png" alt="">
-        <img class="logo-compact" src="./images/logo-text.png" alt="">
-        <img class="brand-title" src="./images/logo-text.png" alt="">
+    <a class="brand-logo">
+        <img class="logo-abbr" src="${pageContext.request.contextPath}/Resources/images/logo.png" alt="">
+        <img class="logo-compact" src="${pageContext.request.contextPath}/Resources/images/logo-text.png" alt="">
+        <span class="brand-title" style="color:white; font-weight:bold; font-size:25px;">ONLINE</span>
     </a>
 	<!-- 사이드 바 접고말고 -->
     <div class="nav-control">
@@ -84,10 +84,9 @@
             	<a href="${pageContext.request.contextPath}/student/studentTestList" aria-expanded="false">
             		<i>
             			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-            				<path width="18" height="18" d="M18.13 12L19.39 10.74C19.83 10.3 20.39 10.06 21 10V9L15 3H5C3.89 3 3 3.89 3 5V19C3 20.1 3.89 21 5 21H11V19.13L11.13 19H5V5H12V12H18.13M14 4.5L19.5 10H14V4.5M19.13 13.83L21.17 15.87L15.04 22H13V19.96L19.13 13.83M22.85 14.19L21.87 15.17L19.83 13.13L20.81 12.15C21 11.95 21.33 11.95 21.53 12.15L22.85 13.47C23.05 13.67 23.05 14 22.85 14.19Z" />
+            				<path d="M17,21L14.25,18L15.41,16.84L17,18.43L20.59,14.84L21.75,16.25M12.8,21H5C3.89,21 3,20.11 3,19V5C3,3.89 3.89,3 5,3H19C20.11,3 21,3.89 21,5V12.8C20.39,12.45 19.72,12.2 19,12.08V5H5V19H12.08C12.2,19.72 12.45,20.39 12.8,21M12,17H7V15H12M14.68,13H7V11H17V12.08C16.15,12.22 15.37,12.54 14.68,13M17,9H7V7H17" />
             			</svg>
             		</i>
-            		<span class="mdi mdi-note-edit-outline"></span>
             		<span class="nav-text">점수확인</span>
             	</a>
             </li>

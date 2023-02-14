@@ -8,6 +8,50 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Index</title>
 <link href="${pageContext.request.contextPath}/Resources/css/style.css" type="text/css" rel="stylesheet">
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script>
+	$(document).ready(function(){
+		
+		// 선생 로그인 유효성 검사
+		$('#tB').click(function(){
+			if($('#tId').val() == ''){
+				alert('아이디를 입력하세요.');
+				return;
+			}
+			if($('#tPw').val() == ''){
+				alert('비밀번호를 입력하세요.');
+				return;
+			}
+			$('#tF').submit();
+		});
+		
+		// 학생 로그인 유효성 검사
+		$('#sB').click(function(){
+			if($('#sId').val() == ''){
+				alert('아이디를 입력하세요.');
+				return;
+			}
+			if($('#sPw').val() == ''){
+				alert('비밀번호를 입력하세요.');
+				return;
+			}
+			$('#sF').submit();
+		});
+		
+		// 강사 로그인 유효성 검사
+		$('#eB').click(function(){
+			if($('#eId').val() == ''){
+				alert('아이디를 입력하세요.');
+				return;
+			}
+			if($('#ePw').val() == ''){
+				alert('비밀번호를 입력하세요.');
+				return;
+			}
+			$('#eF').submit();
+		});
+	});
+</script>
 <style>
 	@font-face {
 		font-family: 'Pretendard-SemiBold';
@@ -54,17 +98,17 @@
 						                <div id="navpills-1" class="tab-pane">
 						                    <div class="auth-form pt-2">
 						                        <!-- 강사 로그인 -->
-												<form action="${pageContext.request.contextPath}/loginTeacher" method="post">
+												<form action="${pageContext.request.contextPath}/loginTeacher" method="post" id="tF">
 													<div class="form-group">
 														<label><strong>TEACHER ID</strong></label>
-														<input type="text" name="teacherId" class="form-control" value="teacher">
+														<input type="text" name="teacherId" id="tId" class="form-control" value="teacher">
 													</div>
 													<div class="form-group">
 														<label><strong>PASSWORD</strong></label>
-														<input type="password" name="teacherPw" class="form-control" value="1234">
+														<input type="password" name="teacherPw" id="tPw" class="form-control" value="1234">
 													</div>
 													<div class="text-center pt-2">
-														<button type="submit" class="btn btn-primary btn-block">LOGIN</button>
+														<button type="button" id="tB" class="btn btn-primary btn-block">LOGIN</button>
 													</div>
 												</form>
 						                    </div>
@@ -74,17 +118,17 @@
 						                <div id="navpills-2" class="tab-pane active">
 						                    <div class="auth-form pt-2">
 						                    	<!-- 학생 로그인 -->
-												<form action="${pageContext.request.contextPath}/loginStudent" method="post">
+												<form action="${pageContext.request.contextPath}/loginStudent" method="post" id="sF">
 													<div class="form-group">
 														<label><strong>STUDENT ID</strong></label>
-														<input type="text" name="studentId" class="form-control" value="student">
+														<input type="text" name="studentId" id="sId" class="form-control" value="student">
 													</div>
 													<div class="form-group">
 														<label><strong>PASSWORD</strong></label>
-														<input type="password" name="studentPw" class="form-control" value="1234">
+														<input type="password" name="studentPw" id="sPw" class="form-control" value="1234">
 													</div>
 													<div class="text-center pt-2">
-														<button type="submit" class="btn btn-primary btn-block">LOGIN</button>
+														<button type="button" id="sB" class="btn btn-primary btn-block">LOGIN</button>
 													</div>
 												</form>
 						                    </div>
@@ -94,17 +138,17 @@
 						                <div id="navpills-3" class="tab-pane">
 						                    <div class="auth-form pt-2">
 						                        <!-- 사원 로그인 -->
-												<form action="${pageContext.request.contextPath}/loginEmp" method="post">
+												<form action="${pageContext.request.contextPath}/loginEmp" method="post" id="eF">
 													<div class="form-group">
 														<label><strong>EMPLOYEE ID</strong></label>
-														<input type="text" name="empId" class="form-control" value="admin">
+														<input type="text" name="empId" id="eId" class="form-control" value="admin">
 													</div>
 													<div class="form-group">
 														<label><strong>PASSWORD</strong></label>
-														<input type="password" name="empPw" class="form-control" value="1234">
+														<input type="password" name="empPw" id="ePw" class="form-control" value="1234">
 													</div>
 													<div class="text-center pt-2">
-														<button type="submit" class="btn btn-primary btn-block">LOGIN</button>
+														<button type="button" id="eB" class="btn btn-primary btn-block">LOGIN</button>
 													</div>
 												</form>
 						                    </div>
