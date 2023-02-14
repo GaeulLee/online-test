@@ -46,10 +46,20 @@ public class PaperController {
 		List<Example> wrongList = exampleService.getWrongExampleList(testNo, studentNo);
 		
 		// 정답과 학생의 답 비교하여 점수계산
+		// 1) 학생의 답과 정답을 int 타입 배열에 담음
 		int[] exampleIdx = new int[list.size()];
 		int[] answer = new int[list.size()];
-		int scorePerQuestion = 20;
+		
+		// 2) 문제 당 점수 구하기 
+		int scorePerQuestion = 100 / list.size();
+		int nam = 100 % list.size();
+		if(nam != 0){
+            scorePerQuestion = scorePerQuestion + nam;
+        }
+		
+		// 3) 두 배열을 비교하여 값이 일치하면 점수가 증가
 		int totalScore = 0;
+		int correctCnt = 0;
 		for(int i = 0; i<list.size(); i++) {
 			// 1) list에 담긴 exampleIdx와 answer를 각각의 배열에 담기
 			exampleIdx[i] = Integer.parseInt(list.get(i).get("exampleIdx").toString());
@@ -58,8 +68,14 @@ public class PaperController {
 			// 2) 두 배열 비교
 			if(exampleIdx[i] == answer[i]) {
 				totalScore = totalScore + scorePerQuestion;
+				correctCnt++;
 			}
 		}
+		
+		// 모든 문제를 맞았지만 점수가 100점 이상일 때 점수는 100점
+		if(totalScore > 100 && correctCnt == list.size()){
+			totalScore = 100;
+        }
 		
 		// 모델에 담아 뷰로 넘기기
 		model.addAttribute("testTitle", test.getTestTitle());
