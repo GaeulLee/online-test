@@ -14,7 +14,6 @@
 <link href="${pageContext.request.contextPath}/Resources/css/style.css" rel="stylesheet">
 <script>
 	$(document).ready(function(){
-		
 		// 추가 폼 유효성
 		$('#addBtn').click(function(){
 			

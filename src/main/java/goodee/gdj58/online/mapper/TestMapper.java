@@ -34,12 +34,6 @@ public interface TestMapper {
 	
 	// ************************ 강사
 	
-	// ****** 문제 및 보기 CRUD
-	
-	// 문제 삭제(보기 포함)
-	
-	// 문제 수정(보기 포함)
-	
 	// 문제 번호 최댓값(문제 추가 시 필요)
 	int selectMaxQueIdx(int testNo);
 	

@@ -54,11 +54,7 @@ public class TestService {
 	
 	
 	// ******** 문제 및 보기 CRUD
-	
-	// 문제 삭제
-	
-	// 문제 수정
-	
+
 	// 문제 번호 최댓값
 	public int getMaxQueIdx(int testNo) {
 		return testMapper.selectMaxQueIdx(testNo);

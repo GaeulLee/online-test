@@ -64,7 +64,7 @@
 											<td colspan="3">등록된 문제가 없습니다. 문제를 등록해 주세요.</td>
 										</tr>
 									</c:if>
-									<c:forEach var="q" items="${list}">
+									<c:forEach var="q" items="${list}" varStatus="i">
 										<tr>
 											<td>${q.questionIdx}번</td>
 											<td class="text-left">${q.questionTitle}</td>
@@ -73,10 +73,10 @@
 													수정
 												</a>
 												<!-- remove Modal btn -->
-												<a data-toggle="modal" href="#remove">삭제</a>
+												<a data-toggle="modal" href="#remove${i.index}">삭제</a>
 												
 												<!-- 삭제 Modal content -->
-			                                    <div class="modal fade" id="remove">
+			                                    <div class="modal fade" id="remove${i.index}">
 			                                        <div class="modal-dialog modal-dialog-centered" role="document">
 			                                            <div class="modal-content">
 			                                                <div class="modal-header">
@@ -90,7 +90,7 @@
 			                                                <div class="modal-footer">
 			                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
 			                                                    <button type="submit" class="btn btn-primary"
-			                                                    		onclick="location.href='${pageContext.request.contextPath}/teacher/test/qne/removeQne?questionNo=${q.questionNo}&testNo=${test.testNo}'">삭제</button>
+			                                                    		onclick="location.href='${pageContext.request.contextPath}/teacher/test/qne/removeQne?testNo=${test.testNo}&questionNo=${q.questionNo}'">삭제</button>
 			                                                </div>
 			                                            </div>
 			                                        </div>

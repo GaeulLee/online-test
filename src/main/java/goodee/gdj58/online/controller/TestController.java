@@ -1,9 +1,11 @@
 package goodee.gdj58.online.controller;
 
+import java.net.URLEncoder;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.tomcat.util.buf.Utf8Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -55,6 +57,8 @@ public class TestController {
 	public String removeQne(Model model
 							, @RequestParam(value="testNo") int testNo
 							, @RequestParam(value="questionNo") int questionNo) {
+		
+		log.debug("\u001B[32m"+"questionNo------> "+questionNo);
 		
 		// 1) 보기 삭제 먼저
 		int examRow = exampleService.removeExample(questionNo);
@@ -181,13 +185,15 @@ public class TestController {
 		que.setQuestionIdx(questionIdx);
 		que.setQuestionTitle(questionTitle);
 		
-		int queRow = questionService.addQuestion(que);
-		if(queRow == 0) {
+		questionService.addQuestion(que);
+		
+		int questionNo = que.getQuestionNo();
+		if(questionNo == 0) {
 			log.debug("\u001B[32m"+"문제 입력 실패");
 			return "redirect:/teacher/test/qne/qneList?testNo="+testNo;
 		}
-		List<Question> list = questionService.getRecentQuestionList(); // 최근 등록된 questionNo가 담긴 리스트
-		int questionNo = list.get(0).getQuestionNo();
+		// List<Question> list = questionService.getRecentQuestionList(); // 최근 등록된 questionNo가 담긴 리스트
+		// int questionNo = list.get(0).getQuestionNo();
 		log.debug("\u001B[32m"+"문제 입력 성공, 보기 입력 진행");
 		log.debug("\u001B[32m"+"questionNo----->"+questionNo);
 				
@@ -232,7 +238,18 @@ public class TestController {
 	public String removeExample(Model model
 			, @RequestParam(value="testNo") int testNo) {
 		
+		// 1) 시험 문제 등록 여부 확인
+		List<Question> list = questionService.getQuestionList(testNo);
+		
+		if(list.size() > 0) {
+			log.debug("\u001B[32m"+"시험 삭제 불가 : 등록된 문제 있음");
+			return "redirect:/teacher/test/testList";
+		}
+		log.debug("\u001B[32m"+"등록된 문제 없음, 시험 삭제 진행");
+		
+		// 2) 시험 삭제
 		int row = testService.removeTest(testNo);
+		
 		if(row == 0) {
 			log.debug("\u001B[32m"+"시험 삭제 실패");
 		} else {
@@ -269,7 +286,7 @@ public class TestController {
 		
 		return "redirect:/teacher/test/testList";
 	}
-	// 시험 회차 목록
+	// 시험 회차 추가
 	@GetMapping("/teacher/test/qne/testListForAdd")
 	public String testListForAdd(Model model
 			, @RequestParam(value="rowPerPage", defaultValue = "10") int rowPerPage
@@ -288,7 +305,7 @@ public class TestController {
 		int startPage = (currentPage-1)/listPerPage*listPerPage+1;
 		int endPage = startPage+listPerPage-1;
 		
-		if(lastPage%rowPerPage != 0) {
+		if(cnt%rowPerPage != 0) {
 			lastPage++;
 		}
 		if(lastPage == 0) {
@@ -319,7 +336,7 @@ public class TestController {
 		log.debug("\u001B[35m"+"searchWord------> "+searchWord);
 		log.debug("\u001B[35m"+"rowPerPage------> "+rowPerPage);
 		log.debug("\u001B[35m"+"currentPage------> "+currentPage);
-		
+
 		List<Test> list = testService.getTestList(rowPerPage, currentPage, searchWord);
 		int cnt = testService.getTestCnt(searchWord);
 		int lastPage = cnt/rowPerPage;
@@ -328,7 +345,7 @@ public class TestController {
 		int startPage = (currentPage-1)/listPerPage*listPerPage+1;
 		int endPage = startPage+listPerPage-1;
 		
-		if(lastPage%rowPerPage != 0) {
+		if(cnt%rowPerPage != 0) {
 			lastPage++;
 		}
 		if(lastPage == 0) {
